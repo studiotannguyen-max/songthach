@@ -1,0 +1,185 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@300..700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Oswald:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-geist: 'Geist', sans-serif;
+  --font-inter: var(--font-geist);
+  --font-playfair: 'Playfair Display', serif;
+  --font-oswald: 'Oswald', sans-serif;
+  --font-sans: var(--font-geist);
+  --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* ── Light Minimal design tokens (white / warm gold / charcoal) ── */
+  --background: #f6f5f2;
+  --foreground: #292723;
+  --card: #ffffff;
+  --card-foreground: #292723;
+  --popover: #ffffff;
+  --popover-foreground: #292723;
+  --primary: #c1922f;
+  --primary-foreground: #ffffff;
+  --secondary: #2c2a26;
+  --secondary-foreground: #ffffff;
+  --muted: #efece6;
+  --muted-foreground: #8b8579;
+  --accent: #d8b257;
+  --accent-foreground: #2c2a26;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #eae7e0;
+  --input: #eae7e0;
+  --ring: #c1922f;
+  --radius: 1.25rem;
+  --chart-1: #c1922f;
+  --chart-2: #d8b257;
+  --chart-3: #e3c88a;
+  --chart-4: #2c2a26;
+  --chart-5: #8b8579;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #292723;
+  --sidebar-primary: #c1922f;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #efece6;
+  --sidebar-accent-foreground: #292723;
+  --sidebar-border: #eae7e0;
+  --sidebar-ring: #c1922f;
+}
+
+@layer base {
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-geist); color: var(--foreground); background: var(--background); }
+
+  ::selection { background: #c9a96e; color: #fff; }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #f1f1f1; }
+  ::-webkit-scrollbar-thumb { background: #c9a96e; border-radius: 3px; }
+}
+
+@layer components {
+  /* ── Sports zone ─────────────────────────── */
+  .sports-hero-text {
+    font-family: var(--font-oswald);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .sports-card {
+    @apply bg-card rounded-2xl shadow-sm hover:shadow-md transition-all duration-300;
+    border: 1px solid var(--border);
+  }
+
+  .sports-btn {
+    @apply bg-sports-primary text-white font-semibold px-6 py-3 rounded-xl
+           hover:bg-opacity-90 transition-all duration-200 active:scale-95;
+    font-family: var(--font-oswald);
+    letter-spacing: 0.05em;
+  }
+
+  .sports-btn-accent {
+    @apply bg-sports-accent text-white font-semibold px-6 py-3 rounded-xl
+           hover:bg-opacity-90 transition-all duration-200 active:scale-95;
+    font-family: var(--font-oswald);
+  }
+
+  .time-slot {
+    @apply border-2 rounded-lg px-3 py-2 text-sm font-medium cursor-pointer
+           transition-all duration-150 select-none;
+  }
+  .time-slot-available {
+    @apply border-sports-primary/30 text-sports-primary hover:border-sports-primary hover:bg-sports-light;
+  }
+  .time-slot-selected {
+    @apply border-sports-primary bg-sports-primary text-white;
+  }
+  .time-slot-booked {
+    @apply border-gray-300 bg-gray-300 text-gray-500 cursor-not-allowed line-through decoration-gray-400;
+  }
+
+  /* ── Wedding zone ────────────────────────── */
+  .wedding-serif { font-family: var(--font-playfair); }
+
+  .wedding-btn {
+    @apply bg-wedding-accent text-white font-semibold px-8 py-4 rounded-none
+           hover:bg-wedding-primary transition-all duration-300 tracking-widest text-sm uppercase;
+    font-family: var(--font-playfair);
+    letter-spacing: 0.15em;
+  }
+
+  .wedding-input {
+    @apply w-full border-b border-wedding-accent/40 bg-transparent py-3 px-0
+           text-wedding-dark placeholder-wedding-primary/40 focus:outline-none
+           focus:border-wedding-accent transition-colors duration-200;
+    font-family: var(--font-playfair);
+  }
+
+  .gold-divider {
+    @apply flex items-center gap-4 my-8;
+  }
+  .gold-divider::before,
+  .gold-divider::after {
+    content: '';
+    @apply flex-1 border-t border-wedding-accent/40;
+  }
+
+  /* ── Cafe zone ───────────────────────────── */
+  .cafe-tag {
+    @apply inline-block px-3 py-1 text-xs font-medium tracking-widest uppercase
+           bg-cafe-primary/10 text-cafe-primary rounded-full;
+  }
+
+  /* ── Admin ───────────────────────────────── */
+  .admin-card {
+    @apply bg-white rounded-2xl shadow-sm border border-gray-100 p-6;
+  }
+
+  .status-badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+  .status-pending      { @apply bg-yellow-100 text-yellow-800; }
+  .status-deposit_paid { @apply bg-blue-100 text-blue-800; }
+  .status-completed    { @apply bg-green-100 text-green-800; }
+  .status-cancelled    { @apply bg-red-100 text-red-800; }
+  .status-new          { @apply bg-purple-100 text-purple-800; }
+  .status-contacted    { @apply bg-blue-100 text-blue-800; }
+  .status-quoted       { @apply bg-orange-100 text-orange-800; }
+  .status-booked       { @apply bg-green-100 text-green-800; }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .animate-delay-100 { animation-delay: 100ms; }
+  .animate-delay-200 { animation-delay: 200ms; }
+  .animate-delay-300 { animation-delay: 300ms; }
+  .animate-delay-400 { animation-delay: 400ms; }
+
+  .gradient-sports {
+    background: linear-gradient(135deg, #292723 0%, #a9781f 55%, #d8b257 100%);
+  }
+  .gradient-wedding {
+    background: linear-gradient(135deg, #1a0f0a 0%, #7c5c3a 60%, #c9a96e 100%);
+  }
+  .gradient-overlay {
+    background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.7) 100%);
+  }
+
+  /* ── Editorial imagery treatment — ties disparate stock photos
+         together under one warm, sunlit mood ── */
+  .img-editorial {
+    filter: saturate(1.05) sepia(6%) contrast(1.02);
+  }
+  .img-editorial-overlay {
+    background: linear-gradient(180deg, rgba(43,36,32,0.05) 0%, rgba(43,36,32,0.35) 100%);
+  }
+  /* Fade an image into the wine-colored hero panel it sits inside */
+  .img-fade-into-primary {
+    background: linear-gradient(90deg, var(--primary) 0%, rgba(110,36,64,0.15) 35%, transparent 60%);
+  }
+
+  .eyebrow {
+    @apply text-primary text-xs font-semibold tracking-[0.3em] uppercase;
+  }
+}

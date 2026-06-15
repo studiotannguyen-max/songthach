@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(npx tsc *)",
+      "Bash(npx next *)",
+      "Bash(npm uninstall *)",
+      "Bash(awk -F= '{print $1\"=\"substr\\($2,1,15\\)\"... \\(len=\"length\\($2\\)\"\\)\"}')",
+      "Bash(npm audit *)",
+      "Bash(curl -s https://api.github.com/advisories/GHSA-9g9p-9gw9-jx7f)",
+      "Bash(curl -s \"https://api.github.com/advisories/GHSA-9g9p-9gw9-jx7f\")",
+      "Bash(npm ls *)",
+      "Bash(powershell -c \"Get-ChildItem d:\\\\songthach\")",
+      "Bash(grep -n \"000đ\\\\|VNĐ\\\\|đ/\\\\|giá\\\\|Giá\" \"d:/songthach/src/app/\\(public\\)/sports/badminton/page.tsx\" \"d:/songthach/src/app/\\(public\\)/sports/football/page.tsx\")"
+    ]
+  }
+}
