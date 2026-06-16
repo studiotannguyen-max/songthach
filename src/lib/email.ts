@@ -5,15 +5,17 @@ function createTransporter() {
   return nodemailer.createTransport({
     host:   process.env.SMTP_HOST ?? 'localhost',
     port:   Number(process.env.SMTP_PORT ?? 465),
-    secure: process.env.SMTP_SECURE !== 'false', // true cho port 465, false cho 587
+    secure: process.env.SMTP_SECURE !== 'false',
     auth: {
       user: process.env.SMTP_USER ?? '',
       pass: process.env.SMTP_PASS ?? '',
     },
+    tls: { rejectUnauthorized: false }, // cert của shared server không match hostname
   });
 }
 
-const FROM = process.env.SMTP_FROM ?? 'Song Thạch <noreply@songthach.vn>';
+// Axigen (Longvan) không nhận display name có ký tự non-ASCII trong MAIL FROM
+const FROM = process.env.SMTP_USER ?? 'booking@songthach.com';
 
 function formatCurrency(amount: number) {
   return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
