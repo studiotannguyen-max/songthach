@@ -122,8 +122,15 @@ export default async function BadmintonPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
 
-            {/* Left: info */}
-            <div className="lg:col-span-2 space-y-8">
+            {/* Right: booking widget — first in HTML = first on mobile */}
+            <div className="lg:col-start-3 lg:col-span-3">
+              <div className="sticky top-24">
+                <BookingWidget courts={COURTS} venueName="Sân Cầu lông" />
+              </div>
+            </div>
+
+            {/* Left: info — explicit col placement keeps it left on desktop */}
+            <div className="lg:col-start-1 lg:row-start-1 lg:col-span-2 space-y-8">
               {/* Court cards — Tên sân ưu tiên hiển thị lớn nhất */}
               <div>
                 <h2 className="sports-hero-text text-xl font-bold text-sports-dark mb-4">Danh sách sân</h2>
@@ -188,12 +195,6 @@ export default async function BadmintonPage() {
               </div>
             </div>
 
-            {/* Right: booking widget */}
-            <div className="lg:col-span-3">
-              <div className="sticky top-24">
-                <BookingWidget courts={COURTS} venueName="Sân Cầu lông" />
-              </div>
-            </div>
           </div>
         </div>
       </section>

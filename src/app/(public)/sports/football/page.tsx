@@ -79,8 +79,22 @@ export default async function FootballPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
 
-            {/* Info */}
-            <div className="lg:col-span-2 space-y-8">
+            {/* Booking widget — first in HTML = first on mobile */}
+            <div className="lg:col-start-3 lg:col-span-3">
+              <div className="sticky top-24 space-y-4">
+                <div className="flex gap-2">
+                  {['Sân 5 người', 'Sân 7 người'].map((tab, i) => (
+                    <button key={tab} className={`flex-1 py-2.5 rounded-xl text-sm font-semibold transition-all ${i === 0 ? 'bg-sports-primary text-white' : 'bg-card border border-border text-foreground/70 hover:border-sports-primary'}`}>
+                      {tab}
+                    </button>
+                  ))}
+                </div>
+                <BookingWidget courts={COURTS_5} venueName="Sân Bóng đá 5 người" />
+              </div>
+            </div>
+
+            {/* Info — explicit col placement keeps it left on desktop */}
+            <div className="lg:col-start-1 lg:row-start-1 lg:col-span-2 space-y-8">
               {/* Sân 5 */}
               <div>
                 <h2 className="sports-hero-text text-xl font-bold text-sports-dark mb-3 flex items-center gap-2">
@@ -161,19 +175,6 @@ export default async function FootballPage() {
               </div>
             </div>
 
-            {/* Booking widget */}
-            <div className="lg:col-span-3">
-              <div className="sticky top-24 space-y-4">
-                <div className="flex gap-2">
-                  {['Sân 5 người', 'Sân 7 người'].map((tab, i) => (
-                    <button key={tab} className={`flex-1 py-2.5 rounded-xl text-sm font-semibold transition-all ${i === 0 ? 'bg-sports-primary text-white' : 'bg-card border border-border text-foreground/70 hover:border-sports-primary'}`}>
-                      {tab}
-                    </button>
-                  ))}
-                </div>
-                <BookingWidget courts={COURTS_5} venueName="Sân Bóng đá 5 người" />
-              </div>
-            </div>
           </div>
         </div>
       </section>

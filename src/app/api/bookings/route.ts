@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { sendBookingConfirmation } from '@/lib/email';
+import { sendTelegramNotification } from '@/lib/telegram';
 import { getPriceRules } from '@/lib/pricing';
 import { rateLimit, getClientIp } from '@/lib/rate-limit';
 
@@ -215,6 +216,20 @@ export async function POST(req: NextRequest) {
       total_price,
       payment_method,
     }).catch(err => console.error('[Email] Gửi thất bại:', err));
+
+    sendTelegramNotification({
+      booking_id:     bookingId,
+      court_name,
+      venue_label:    venue_type === 'badminton' ? 'Sân Cầu lông' : 'Sân Bóng đá',
+      booking_date,
+      start_time,
+      end_time,
+      duration,
+      user_name:      user_name || null,
+      user_phone,
+      total_price,
+      payment_method,
+    }).catch(err => console.error('[Telegram] Gửi thất bại:', err));
 
     return NextResponse.json({ success: true, booking_id: bookingId, id: booking.id, total_price }, { status: 201 });
   } catch (err) {
