@@ -173,14 +173,22 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Sân đang bảo trì trong khung giờ này, vui lòng chọn sân hoặc khung giờ khác.' }, { status: 409 });
     }
 
-    // Lấy user_id nếu đang đăng nhập (tuỳ chọn)
-    const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    // Lấy user_id nếu đang đăng nhập (tuỳ chọn, không block booking nếu lỗi auth)
+    let userId: string | null = null;
+    try {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user?.id) {
+        // Chỉ dùng user_id nếu tồn tại trong public.users (tránh FK violation khi bảng rỗng)
+        const { data: publicUser } = await admin.from('users').select('id').eq('id', user.id).maybeSingle();
+        if (publicUser) userId = user.id;
+      }
+    } catch { /* guest booking — bỏ qua lỗi auth */ }
 
     const { data: booking, error } = await admin
       .from('bookings')
       .insert({
-        user_id:        user?.id ?? null,
+        user_id:        userId,
         user_email,
         user_name:      user_name || null,
         user_phone,
@@ -233,7 +241,9 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ success: true, booking_id: bookingId, id: booking.id, total_price }, { status: 201 });
   } catch (err) {
-    console.error(err);
-    return NextResponse.json({ error: 'Lỗi server, vui lòng thử lại' }, { status: 500 });
+    console.error('[POST /api/bookings]', err);
+    const isDev = process.env.NODE_ENV === 'development';
+    const msg   = isDev && err instanceof Error ? err.message : 'Lỗi server, vui lòng thử lại';
+    return NextResponse.json({ error: msg }, { status: 500 });
   }
 }
