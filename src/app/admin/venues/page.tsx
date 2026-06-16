@@ -6,9 +6,13 @@ import { Lock, Unlock, Plus, RefreshCw, AlertTriangle, Loader2 } from 'lucide-re
 import { cn } from '@/lib/utils';
 
 const COURTS = [
-  { id: 'court-1', name: 'Sân 1', venue_type: 'badminton' },
-  { id: 'court-2', name: 'Sân 2', venue_type: 'badminton' },
-  { id: 'court-3', name: 'Sân 3', venue_type: 'badminton' },
+  { id: 'court-1', name: 'Sân 1 (Cầu lông)',    venue_type: 'badminton'  },
+  { id: 'court-2', name: 'Sân 2 (Cầu lông)',    venue_type: 'badminton'  },
+  { id: 'court-3', name: 'Sân 3 (Cầu lông)',    venue_type: 'badminton'  },
+  { id: 'fb5-1',   name: 'Sân 5A (Bóng đá)',    venue_type: 'football_5' },
+  { id: 'fb5-2',   name: 'Sân 5B (Bóng đá)',    venue_type: 'football_5' },
+  { id: 'fb5-3',   name: 'Sân 5C (Bóng đá)',    venue_type: 'football_5' },
+  { id: 'fb7-1',   name: 'Sân 7A (Bóng đá)',    venue_type: 'football_7' },
 ];
 
 interface CourtBlock {
