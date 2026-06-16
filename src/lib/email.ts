@@ -1,8 +1,19 @@
-import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Tạo transporter một lần — tái sử dụng connection pool
+function createTransporter() {
+  return nodemailer.createTransport({
+    host:   process.env.SMTP_HOST ?? 'localhost',
+    port:   Number(process.env.SMTP_PORT ?? 465),
+    secure: process.env.SMTP_SECURE !== 'false', // true cho port 465, false cho 587
+    auth: {
+      user: process.env.SMTP_USER ?? '',
+      pass: process.env.SMTP_PASS ?? '',
+    },
+  });
+}
 
-const FROM = process.env.RESEND_FROM_EMAIL ?? 'Song Thạch <onboarding@resend.dev>';
+const FROM = process.env.SMTP_FROM ?? 'Song Thạch <noreply@songthach.vn>';
 
 function formatCurrency(amount: number) {
   return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
@@ -129,9 +140,10 @@ export async function sendBookingConfirmation(data: BookingEmailData) {
 </body>
 </html>`;
 
-  return resend.emails.send({
+  const transporter = createTransporter();
+  return transporter.sendMail({
     from:    FROM,
-    to:      [to],
+    to,
     subject: `[Song Thạch] Xác nhận đặt sân ${booking_id} — ${court_name} ngày ${formatDate(booking_date)}`,
     html,
   });
@@ -145,7 +157,6 @@ interface VoucherEmailData {
   expires_at:  string; // ISO
 }
 
-// Gửi mã voucher tặng kèm sau khi booking được xác nhận cọc
 export async function sendVoucherEmail(data: VoucherEmailData) {
   const { to, user_name, code, reward_note, expires_at } = data;
   const greeting = user_name ? `Xin chào <strong>${user_name}</strong>,` : 'Xin chào,';
@@ -200,9 +211,10 @@ export async function sendVoucherEmail(data: VoucherEmailData) {
 </body>
 </html>`;
 
-  return resend.emails.send({
+  const transporter = createTransporter();
+  return transporter.sendMail({
     from:    FROM,
-    to:      [to],
+    to,
     subject: `[Song Thạch] 🎁 Voucher ${code} — ${reward_note}`,
     html,
   });
