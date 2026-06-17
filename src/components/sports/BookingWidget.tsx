@@ -364,19 +364,19 @@ export default function BookingWidget({ courts, venueName }: Props) {
         <p className="text-white/70 text-sm mt-0.5">Chọn sân · Chọn ngày · Chọn giờ</p>
       </div>
 
-      <div className="p-6 space-y-6">
+      <div className="p-4 sm:p-6 space-y-5 sm:space-y-6">
         {/* Bước 1: Sân */}
         <div>
           <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
             Bước 1 — Chọn sân
           </label>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+          <div className="grid grid-cols-3 gap-2">
             {courts.map((c) => (
               <button
                 key={c.id}
                 onClick={() => { setSelectedCourt(c); setSelectedSlot(null); setDuration(1); }}
                 className={cn(
-                  'py-3 px-4 rounded-xl border-2 text-sm font-bold transition-all',
+                  'py-3 px-2 rounded-xl border-2 text-xs sm:text-sm font-bold transition-all active:scale-[0.97]',
                   selectedCourt.id === c.id
                     ? 'border-sports-primary bg-sports-primary text-white'
                     : 'border-gray-200 text-gray-700 hover:border-sports-primary/50',

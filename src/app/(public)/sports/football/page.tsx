@@ -51,7 +51,7 @@ export default async function FootballPage() {
       <Navbar />
 
       {/* Hero */}
-      <section id="main-content" className="relative h-[55vh] min-h-[400px] flex items-end">
+      <section id="main-content" className="relative h-[42vh] sm:h-[55vh] min-h-[320px] flex items-end">
         <Image
           src={heroSrc}
           alt="Sân bóng đá cỏ nhân tạo thế hệ 3 tại Song Thạch, đèn LED chuẩn thi đấu"
@@ -75,8 +75,8 @@ export default async function FootballPage() {
       </section>
 
       {/* Main */}
-      <section className="bg-background py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="bg-background py-6 sm:py-12">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
 
             {/* Booking widget — first in HTML = first on mobile */}

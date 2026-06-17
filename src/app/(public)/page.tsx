@@ -31,12 +31,12 @@ export default function HomePage() {
       <HeroCarousel />
 
       {/* ── Zone grid ───────────────────────────── */}
-      <section className="bg-background py-16 md:py-24">
-        <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
-          <div className="flex items-end justify-between gap-4 mb-10 md:mb-14">
+      <section className="bg-background py-10 md:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
+          <div className="flex items-end justify-between gap-4 mb-6 md:mb-14">
             <div>
               <span className="eyebrow">Dịch vụ</span>
-              <h2 className="mt-2 text-foreground text-3xl md:text-4xl font-bold tracking-tight">
+              <h2 className="mt-1.5 text-foreground text-2xl md:text-4xl font-bold tracking-tight">
                 Một địa điểm, bốn không gian
               </h2>
             </div>
