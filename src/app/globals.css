@@ -86,8 +86,8 @@
   }
 
   .time-slot {
-    @apply border-2 rounded-lg px-3 py-2 text-sm font-medium cursor-pointer
-           transition-all duration-150 select-none;
+    @apply border-2 rounded-lg px-1.5 py-2.5 sm:px-3 sm:py-2 text-xs sm:text-sm font-medium cursor-pointer
+           transition-all duration-150 select-none min-h-[44px] flex flex-col items-center justify-center;
   }
   .time-slot-available {
     @apply border-sports-primary/30 text-sports-primary hover:border-sports-primary hover:bg-sports-light;

@@ -224,7 +224,7 @@ export default function BookingWidget({ courts, venueName }: Props) {
           <p className="text-white/70 text-sm mt-0.5">Điền thông tin để nhận xác nhận</p>
         </div>
 
-        <div className="p-6 space-y-5">
+        <div className="p-4 sm:p-6 space-y-4 sm:space-y-5">
           {/* Booking summary */}
           <div className="bg-sports-light rounded-2xl p-4 space-y-2">
             {[
@@ -253,22 +253,24 @@ export default function BookingWidget({ courts, venueName }: Props) {
                 <Phone size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
                 <input
                   type="tel"
+                  inputMode="tel"
                   value={guestPhone}
                   onChange={e => setGuestPhone(e.target.value)}
                   placeholder="Số điện thoại *"
                   required
-                  className="w-full pl-9 pr-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sports-primary/30 focus:border-sports-primary transition-all"
+                  className="w-full pl-9 pr-4 py-4 border border-gray-200 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-sports-primary/30 focus:border-sports-primary transition-all"
                 />
               </div>
               <div className="relative">
                 <Mail size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
                 <input
                   type="email"
+                  inputMode="email"
                   value={guestEmail}
                   onChange={e => setGuestEmail(e.target.value)}
                   placeholder="Email nhận xác nhận *"
                   required
-                  className="w-full pl-9 pr-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sports-primary/30 focus:border-sports-primary transition-all"
+                  className="w-full pl-9 pr-4 py-4 border border-gray-200 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-sports-primary/30 focus:border-sports-primary transition-all"
                 />
               </div>
               <div className="relative">
@@ -278,7 +280,7 @@ export default function BookingWidget({ courts, venueName }: Props) {
                   value={guestName}
                   onChange={e => setGuestName(e.target.value)}
                   placeholder="Họ và tên (tuỳ chọn)"
-                  className="w-full pl-9 pr-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sports-primary/30 focus:border-sports-primary transition-all"
+                  className="w-full pl-9 pr-4 py-4 border border-gray-200 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-sports-primary/30 focus:border-sports-primary transition-all"
                 />
               </div>
             </div>
@@ -293,7 +295,7 @@ export default function BookingWidget({ courts, venueName }: Props) {
               <button
                 onClick={() => setPaymentMethod('bank_transfer')}
                 className={cn(
-                  'border-2 rounded-2xl p-4 text-left transition-all',
+                  'border-2 rounded-2xl p-4 text-left transition-all active:scale-[0.97]',
                   paymentMethod === 'bank_transfer'
                     ? 'border-sports-primary bg-sports-light'
                     : 'border-gray-200 hover:border-sports-primary/40',
@@ -306,7 +308,7 @@ export default function BookingWidget({ courts, venueName }: Props) {
               <button
                 onClick={() => setPaymentMethod('pay_at_venue')}
                 className={cn(
-                  'border-2 rounded-2xl p-4 text-left transition-all',
+                  'border-2 rounded-2xl p-4 text-left transition-all active:scale-[0.97]',
                   paymentMethod === 'pay_at_venue'
                     ? 'border-sports-primary bg-sports-light'
                     : 'border-gray-200 hover:border-sports-primary/40',
@@ -324,30 +326,31 @@ export default function BookingWidget({ courts, venueName }: Props) {
               <Info size={15} className="shrink-0" /> {error}
             </div>
           )}
+        </div>
 
-          <div className="flex gap-3 pt-1">
-            <button
-              onClick={() => { setStep('form'); setPaymentMethod(null); setError(''); }}
-              className="flex items-center gap-1.5 px-4 py-3.5 border border-gray-200 rounded-2xl text-sm text-gray-600 hover:bg-gray-50 transition-colors"
-            >
-              <ArrowLeft size={15} /> Quay lại
-            </button>
-            <button
-              onClick={handleSubmit}
-              disabled={submitting}
-              className={cn(
-                'flex-1 py-3.5 rounded-2xl font-bold text-base transition-all flex items-center justify-center gap-2',
-                !submitting
-                  ? 'gradient-sports text-white hover:opacity-90 sports-hero-text'
-                  : 'bg-gray-100 text-gray-400 cursor-not-allowed',
-              )}
-            >
-              {submitting
-                ? <><Loader2 size={18} className="animate-spin" /> Đang xử lý...</>
-                : 'Xác nhận đặt sân'
-              }
-            </button>
-          </div>
+        {/* Action buttons — sticky bottom on mobile */}
+        <div className="sticky bottom-0 bg-white border-t border-gray-100 px-4 sm:px-6 py-3 sm:py-4 flex gap-3">
+          <button
+            onClick={() => { setStep('form'); setPaymentMethod(null); setError(''); }}
+            className="flex items-center gap-1.5 px-4 py-4 border border-gray-200 rounded-2xl text-sm text-gray-600 hover:bg-gray-50 active:scale-[0.97] transition-all"
+          >
+            <ArrowLeft size={15} /> Quay lại
+          </button>
+          <button
+            onClick={handleSubmit}
+            disabled={submitting}
+            className={cn(
+              'flex-1 py-4 rounded-2xl font-bold text-base transition-all flex items-center justify-center gap-2',
+              !submitting
+                ? 'gradient-sports text-white hover:opacity-90 active:scale-[0.98] sports-hero-text'
+                : 'bg-gray-100 text-gray-400 cursor-not-allowed',
+            )}
+          >
+            {submitting
+              ? <><Loader2 size={18} className="animate-spin" /> Đang xử lý...</>
+              : 'XÁC NHẬN ĐẶT SÂN'
+            }
+          </button>
         </div>
       </div>
     );

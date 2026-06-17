@@ -45,10 +45,70 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+          {/* ── Mobile: 1 big + 3 small ── */}
+          <div className="sm:hidden space-y-3">
+            {/* Big card — Bóng đá */}
+            {(() => {
+              const z = ZONES[0];
+              const Icon = z.icon;
+              const Art  = z.Art;
+              return (
+                <Link
+                  href={z.href}
+                  className="group flex overflow-hidden rounded-2xl bg-card border border-border h-36 active:scale-[0.98] transition-transform"
+                >
+                  <div className="relative w-40 shrink-0 overflow-hidden">
+                    <Art className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                  </div>
+                  <div className="flex flex-col justify-between p-4 flex-1 min-w-0">
+                    <div>
+                      <span className="inline-flex items-center gap-1 text-[10px] font-semibold tracking-widest uppercase text-primary">
+                        <Icon size={11} /> {z.label}
+                      </span>
+                      <p className="mt-1 text-xs text-muted-foreground leading-snug">{z.sub}</p>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-bold text-foreground">{z.price}</span>
+                      <span className="grid place-items-center w-9 h-9 rounded-full bg-primary text-primary-foreground">
+                        <ArrowUpRight size={15} />
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })()}
+
+            {/* 3 small cards */}
+            <div className="grid grid-cols-3 gap-3">
+              {ZONES.slice(1).map((z) => {
+                const Icon = z.icon;
+                const Art  = z.Art;
+                return (
+                  <Link
+                    key={z.href}
+                    href={z.href}
+                    className="group flex flex-col overflow-hidden rounded-xl bg-card border border-border active:scale-[0.97] transition-transform"
+                  >
+                    <div className="relative h-24 overflow-hidden">
+                      <Art className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                    </div>
+                    <div className="p-2.5">
+                      <span className="flex items-center gap-1 text-[9px] font-semibold tracking-wider uppercase text-primary">
+                        <Icon size={10} /> {z.label}
+                      </span>
+                      <p className="mt-0.5 text-[11px] font-semibold text-foreground">{z.price}</p>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* ── Tablet+ grid ── */}
+          <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
             {ZONES.map((z) => {
               const Icon = z.icon;
-              const Art = z.Art;
+              const Art  = z.Art;
               return (
                 <Link
                   key={z.href}
