@@ -6,65 +6,21 @@ export default function Footer() {
     <footer className="bg-background text-muted-foreground border-t border-border pb-24 sm:pb-0" aria-label="Thông tin Song Thạch">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-16">
 
-        {/* Brand — full width trên mobile */}
-        <div className="flex items-center justify-between mb-6 sm:hidden">
-          <span className="text-foreground text-lg tracking-[0.18em] uppercase font-semibold"
-                style={{ fontFamily: 'var(--font-playfair)' }}>Song Thạch</span>
-          <div className="flex gap-2">
-            <a href="#" aria-label="Facebook" className="w-8 h-8 border border-border flex items-center justify-center hover:border-primary hover:text-primary transition-colors">
-              <Facebook size={14} />
-            </a>
-            <a href="#" aria-label="Instagram" className="w-8 h-8 border border-border flex items-center justify-center hover:border-primary hover:text-primary transition-colors">
-              <Instagram size={14} />
-            </a>
+        {/* Mobile footer — chỉ địa chỉ + SĐT */}
+        <div className="sm:hidden space-y-2.5">
+          <a href="https://maps.google.com/?q=9B/3+Ấp+An+Hoà,+Xã+Hưng+Thịnh,+TP+Đồng+Nai" target="_blank" rel="noopener noreferrer"
+             className="flex items-start gap-2.5">
+            <MapPin size={14} className="text-primary shrink-0 mt-0.5" />
+            <span className="text-xs leading-relaxed">9B/3 Ấp An Hoà, Xã Hưng Thịnh, TP Đồng Nai</span>
+          </a>
+          <div className="flex items-center gap-2.5">
+            <Phone size={14} className="text-primary shrink-0" />
+            <span className="text-xs">
+              <a href="tel:0378990979" className="hover:text-foreground transition-colors">0378 990 979</a>
+              <span className="mx-1.5 opacity-40">·</span>
+              <a href="tel:0886798690" className="hover:text-foreground transition-colors">0886 798 690</a>
+            </span>
           </div>
-        </div>
-
-        {/* Nav links — 2 cột trên mobile */}
-        <div className="grid grid-cols-2 sm:hidden gap-x-4 gap-y-4 mb-6 text-sm">
-          <div>
-            <h4 className="text-foreground font-semibold mb-2 text-xs uppercase tracking-widest">Thể thao</h4>
-            <ul className="space-y-1.5">
-              <li><Link href="/sports/football" className="hover:text-primary transition-colors">Sân Bóng Đá</Link></li>
-              <li><Link href="/sports/badminton" className="hover:text-primary transition-colors">Sân Cầu Lông</Link></li>
-              <li><Link href="/sports" className="hover:text-primary transition-colors">Bảng giá</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-foreground font-semibold mb-2 text-xs uppercase tracking-widest">Tiệc cưới</h4>
-            <ul className="space-y-1.5">
-              <li><Link href="/wedding" className="hover:text-primary transition-colors">Giới thiệu</Link></li>
-              <li><Link href="/wedding#gallery" className="hover:text-primary transition-colors">Thư viện ảnh</Link></li>
-              <li><Link href="/wedding#inquiry" className="hover:text-primary transition-colors">Đặt lịch</Link></li>
-            </ul>
-          </div>
-        </div>
-
-        {/* Contact — compact trên mobile */}
-        <div className="sm:hidden border-t border-border pt-4 mb-4">
-          <ul className="space-y-2 text-sm">
-            <li className="flex items-center gap-2">
-              <MapPin size={13} className="text-primary shrink-0" />
-              <span className="text-xs">9B/3 Ấp An Hoà, Xã Hưng Thịnh, TP Đồng Nai</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <Phone size={13} className="text-primary shrink-0" />
-              <span className="text-xs">
-                <a href="tel:0378990979" className="hover:text-foreground">0378 990 979</a>
-                {' · '}
-                <a href="tel:0886798690" className="hover:text-foreground">0886 798 690</a>
-              </span>
-            </li>
-            <li className="flex items-center gap-2">
-              <Clock size={13} className="text-primary shrink-0" />
-              <span className="text-xs">Mở cửa hàng ngày: 06:00 – 22:00</span>
-            </li>
-          </ul>
-        </div>
-
-        {/* Copyright mobile */}
-        <div className="sm:hidden text-xs text-center pt-3 border-t border-border">
-          <p>© {new Date().getFullYear()} Song Thạch. Bảo lưu mọi quyền.</p>
         </div>
 
         {/* Desktop layout — giữ nguyên */}

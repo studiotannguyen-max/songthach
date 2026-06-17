@@ -186,61 +186,38 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile menu — chỉ user auth, tab bar lo navigation */}
       {mobileOpen && (
         <div id="mobile-menu" className="md:hidden bg-background border-t border-border">
-          <div className="px-4 py-4 space-y-1">
-            <div className="grid grid-cols-2 gap-2 mb-3">
-              {ZONE_LINKS.map((link) => {
-                const Icon   = link.icon;
-                const active = pathname.startsWith(link.href);
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setMobileOpen(false)}
-                    className={cn(
-                      'flex items-center justify-center gap-1.5 px-4 py-3 text-sm font-semibold border rounded-full transition-colors',
-                      active ? ZONE_ACTIVE : ZONE_IDLE,
-                    )}
-                  >
-                    <Icon size={15} aria-hidden="true" />
-                    {link.label}
-                  </Link>
-                );
-              })}
-            </div>
-
-            <div className="pt-3 border-t border-border space-y-2">
-              {user ? (
-                <>
-                  <div className="flex items-center gap-3 px-4 py-3 bg-muted">
-                    <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold text-sm shrink-0">
-                      {initials}
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-sm font-semibold text-foreground truncate">{displayName}</p>
-                      <p className="text-xs text-muted-foreground truncate">{user.email}</p>
-                    </div>
+          <div className="px-4 py-3">
+            {user ? (
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold text-sm shrink-0">
+                    {initials}
                   </div>
-                  <button
-                    onClick={handleSignOut}
-                    className="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm text-red-400 border border-red-400/30"
-                  >
-                    <LogOut size={15} /> Đăng xuất
-                  </button>
-                </>
-              ) : (
-                <>
-                  <Link href="/login" className="block px-4 py-3 text-center text-foreground/80 border border-border" onClick={() => setMobileOpen(false)}>
-                    Đăng nhập
-                  </Link>
-                  <Link href="/sports/football" className="block px-4 py-3 text-center bg-primary text-primary-foreground font-semibold" onClick={() => setMobileOpen(false)}>
-                    Đặt sân ngay
-                  </Link>
-                </>
-              )}
-            </div>
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold text-foreground truncate">{displayName}</p>
+                    <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+                  </div>
+                </div>
+                <button
+                  onClick={handleSignOut}
+                  className="flex items-center gap-1.5 px-3 py-2 text-xs text-red-400 border border-red-400/30 rounded-lg shrink-0"
+                >
+                  <LogOut size={13} /> Đăng xuất
+                </button>
+              </div>
+            ) : (
+              <div className="flex gap-2">
+                <Link href="/login" className="flex-1 py-2.5 text-center text-sm text-foreground/80 border border-border rounded-xl" onClick={() => setMobileOpen(false)}>
+                  Đăng nhập
+                </Link>
+                <Link href="/sports/football" className="flex-1 py-2.5 text-center text-sm bg-primary text-primary-foreground font-semibold rounded-xl" onClick={() => setMobileOpen(false)}>
+                  Đặt sân ngay
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       )}
