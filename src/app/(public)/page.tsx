@@ -1,15 +1,20 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUpRight, Clock, MapPin, Phone, Goal, Feather, Heart, Coffee } from 'lucide-react';
 import Navbar from '@/components/shared/Navbar';
 import Footer from '@/components/shared/Footer';
 import HeroCarousel from '@/components/shared/HeroCarousel';
 import { FootballArt, BadmintonArt, WeddingArt, CafeArt } from '@/components/shared/ZoneArt';
+import { getGallery } from '@/lib/gallery';
 
 export const metadata: Metadata = {
   title: 'Song Thạch — Khu thể thao, Tiệc cưới & Café',
   description: 'Đặt sân bóng đá, sân cầu lông tại Song Thạch. Mở cửa 06:00–22:00, đặt sân online trong 60 giây.',
 };
+
+// Đọc lại ảnh gallery từ DB mỗi 60s — admin upload ảnh mới sẽ hiện sau ~1 phút (giống trang /wedding)
+export const revalidate = 60;
 
 const ZONES = [
   { href: '/sports/football',  icon: Goal,    Art: FootballArt,  label: 'Sân Bóng Đá',  sub: '1 sân 7 người · 3 sân 5 người',   price: 'Từ 120.000đ / giờ' },
@@ -24,7 +29,46 @@ const INFO = [
   { icon: Phone,  label: '0378 990 979 , 0886 798690 ' },
 ];
 
-export default function HomePage() {
+// Gradient tối ở đáy thẻ để chữ trắng đọc được trên ảnh — viết trực tiếp bằng hex/rgba,
+// KHÔNG dùng class Tailwind dạng bg-secondary/90 (vỡ CSS với theme hex-trong-CSS-var của project).
+const ZONE_GRADIENT = 'linear-gradient(180deg, transparent 35%, rgba(44,42,38,.92) 100%)';
+
+function ZoneBackground({
+  Art,
+  imageUrl,
+  sizes,
+}: {
+  Art: React.ComponentType<{ className?: string }>;
+  imageUrl?: string;
+  sizes: string;
+}) {
+  return (
+    <>
+      {imageUrl ? (
+        <Image
+          src={imageUrl}
+          alt=""
+          fill
+          sizes={sizes}
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+      ) : (
+        <Art className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+      )}
+      <div className="absolute inset-0" style={{ background: ZONE_GRADIENT }} />
+    </>
+  );
+}
+
+export default async function HomePage() {
+  const weddingPhotos = await getGallery('wedding');
+  const weddingImage = weddingPhotos[0]?.url;
+
+  const zones = ZONES.map((z) => ({
+    ...z,
+    imageUrl: z.href === '/wedding' ? weddingImage : undefined,
+  }));
+
   return (
     <>
       <Navbar />
@@ -49,27 +93,22 @@ export default function HomePage() {
           <div className="sm:hidden space-y-3">
             {/* Big card — Bóng đá */}
             {(() => {
-              const z = ZONES[0];
+              const z = zones[0];
               const Icon = z.icon;
-              const Art  = z.Art;
               return (
                 <Link
                   href={z.href}
-                  className="group flex overflow-hidden rounded-2xl bg-card border border-border h-36 active:scale-[0.98] transition-transform"
+                  className="group relative block overflow-hidden rounded-2xl h-44 active:scale-[0.98] transition-transform"
                 >
-                  <div className="relative w-40 shrink-0 overflow-hidden">
-                    <Art className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                  </div>
-                  <div className="flex flex-col justify-between p-4 flex-1 min-w-0">
-                    <div>
-                      <span className="inline-flex items-center gap-1 text-[10px] font-semibold tracking-widest uppercase text-primary">
-                        <Icon size={11} /> {z.label}
-                      </span>
-                      <p className="mt-1 text-xs text-muted-foreground leading-snug">{z.sub}</p>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-bold text-foreground">{z.price}</span>
-                      <span className="grid place-items-center w-9 h-9 rounded-full bg-primary text-primary-foreground">
+                  <ZoneBackground Art={z.Art} imageUrl={z.imageUrl} sizes="100vw" />
+                  <div className="absolute inset-0 flex flex-col justify-end p-4">
+                    <span className="inline-flex items-center gap-1 text-[10px] font-semibold tracking-widest uppercase text-white/90">
+                      <Icon size={11} /> {z.label}
+                    </span>
+                    <p className="mt-1 text-xs text-white/70 leading-snug">{z.sub}</p>
+                    <div className="flex items-center justify-between mt-2">
+                      <span className="text-base font-bold text-white">{z.price}</span>
+                      <span className="grid place-items-center w-9 h-9 rounded-full bg-accent text-accent-foreground">
                         <ArrowUpRight size={15} />
                       </span>
                     </div>
@@ -80,23 +119,20 @@ export default function HomePage() {
 
             {/* 3 small cards */}
             <div className="grid grid-cols-3 gap-3">
-              {ZONES.slice(1).map((z) => {
+              {zones.slice(1).map((z) => {
                 const Icon = z.icon;
-                const Art  = z.Art;
                 return (
                   <Link
                     key={z.href}
                     href={z.href}
-                    className="group flex flex-col overflow-hidden rounded-xl bg-card border border-border active:scale-[0.97] transition-transform"
+                    className="group relative block overflow-hidden rounded-xl h-32 active:scale-[0.97] transition-transform"
                   >
-                    <div className="relative h-24 overflow-hidden">
-                      <Art className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                    </div>
-                    <div className="p-2.5">
-                      <span className="flex items-center gap-1 text-[9px] font-semibold tracking-wider uppercase text-primary">
+                    <ZoneBackground Art={z.Art} imageUrl={z.imageUrl} sizes="33vw" />
+                    <div className="absolute inset-0 flex flex-col justify-end p-2.5">
+                      <span className="flex items-center gap-1 text-[9px] font-semibold tracking-wider uppercase text-white/90">
                         <Icon size={10} /> {z.label}
                       </span>
-                      <p className="mt-0.5 text-[11px] font-semibold text-foreground">{z.price}</p>
+                      <p className="mt-0.5 text-[11px] font-bold text-white">{z.price}</p>
                     </div>
                   </Link>
                 );
@@ -106,27 +142,24 @@ export default function HomePage() {
 
           {/* ── Tablet+ grid ── */}
           <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
-            {ZONES.map((z) => {
+            {zones.map((z) => {
               const Icon = z.icon;
-              const Art  = z.Art;
               return (
                 <Link
                   key={z.href}
                   href={z.href}
-                  className="group relative overflow-hidden rounded-[var(--radius)] bg-card border border-border flex flex-col"
+                  className="group relative block overflow-hidden rounded-[var(--radius)] h-64"
                 >
-                  <div className="relative h-44 overflow-hidden">
-                    <Art className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                  </div>
-                  <div className="p-5 flex flex-col flex-1">
-                    <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold tracking-[0.18em] uppercase text-primary">
+                  <ZoneBackground Art={z.Art} imageUrl={z.imageUrl} sizes="(max-width: 1024px) 50vw, 25vw" />
+                  <div className="absolute inset-0 flex flex-col justify-end p-5">
+                    <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold tracking-[0.18em] uppercase text-white/90">
                       <Icon size={13} /> {z.label}
                     </span>
-                    <p className="mt-1.5 text-xs text-muted-foreground">{z.sub}</p>
-                    <div className="mt-4 pt-4 border-t border-border flex items-center justify-between">
-                      <span className="text-sm font-bold text-foreground tracking-tight">{z.price}</span>
-                      <span className="grid place-items-center w-8 h-8 rounded-full bg-muted text-foreground group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                        <ArrowUpRight size={15} />
+                    <p className="mt-1.5 text-xs text-white/70">{z.sub}</p>
+                    <div className="mt-4 flex items-center justify-between">
+                      <span className="text-lg font-bold text-white tracking-tight">{z.price}</span>
+                      <span className="grid place-items-center w-9 h-9 rounded-full bg-accent text-accent-foreground group-hover:scale-110 transition-transform">
+                        <ArrowUpRight size={16} />
                       </span>
                     </div>
                   </div>

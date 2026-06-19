@@ -45,6 +45,9 @@ export const metadata: Metadata = {
   description: 'Đặt sân bóng đá, sân cầu lông tại Song Thạch. Mở cửa 06:00–22:00, đặt sân online trong 60 giây.',
 };
 
+// Đọc lại ảnh gallery từ DB mỗi 60s — admin upload ảnh mới sẽ hiện sau ~1 phút (giống trang /wedding)
+export const revalidate = 60;
+
 const ZONES = [
   { href: '/sports/football',  icon: Goal,    Art: FootballArt,  label: 'Sân Bóng Đá',  sub: '1 sân 7 người · 3 sân 5 người',   price: 'Từ 120.000đ / giờ' },
   { href: '/sports/badminton', icon: Feather, Art: BadmintonArt, label: 'Sân Cầu Lông', sub: '3 mặt sân thảm Elite vân cát',     price: 'Từ 50.000đ / giờ' },
