@@ -26,9 +26,10 @@ export async function middleware(request: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser();
 
   // ===== Bảo vệ khu vực admin (trang + API) =====
-  const path        = request.nextUrl.pathname;
-  const isAdminPage = path === '/admin' || path.startsWith('/admin/');
-  const isAdminApi  = path.startsWith('/api/admin');
+  const path         = request.nextUrl.pathname;
+  const isAdminLogin = path === '/admin/login';
+  const isAdminPage  = (path === '/admin' || path.startsWith('/admin/')) && !isAdminLogin;
+  const isAdminApi   = path.startsWith('/api/admin');
 
   if (isAdminPage || isAdminApi) {
     if (!user) {
@@ -36,7 +37,7 @@ export async function middleware(request: NextRequest) {
         return NextResponse.json({ error: 'Chưa đăng nhập' }, { status: 401 });
       }
       const url = request.nextUrl.clone();
-      url.pathname = '/login';
+      url.pathname = '/admin/login';
       url.searchParams.set('next', path);
       return NextResponse.redirect(url);
     }
