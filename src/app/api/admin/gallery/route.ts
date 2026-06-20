@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { requireAdmin } from '@/lib/auth';
 
-const CATEGORIES = ['badminton', 'football', 'wedding'] as const;
+const CATEGORIES = ['badminton', 'football', 'wedding', 'cafe'] as const;
 
 // GET /api/admin/gallery?category=wedding — danh sách ảnh (admin xem cả ảnh đã tắt)
 export async function GET(req: NextRequest) {
@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
   const { category, url, caption } = await req.json();
 
   if (!CATEGORIES.includes(category)) {
-    return NextResponse.json({ error: 'Mục không hợp lệ (sân cầu / sân bóng / tiệc cưới)' }, { status: 400 });
+    return NextResponse.json({ error: 'Mục không hợp lệ (sân cầu / sân bóng / tiệc cưới / café)' }, { status: 400 });
   }
   if (!url?.trim()) {
     return NextResponse.json({ error: 'Thiếu ảnh — vui lòng upload trước' }, { status: 400 });

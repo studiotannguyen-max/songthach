@@ -76,7 +76,7 @@ export default async function WeddingPage() {
             <a href="#inquiry" className="wedding-btn px-10 py-4 inline-flex items-center gap-2 justify-center">
               Đặt lịch tư vấn miễn phí
             </a>
-            <a href="#gallery" className="inline-flex items-center gap-2 justify-center border border-white/40 text-white px-10 py-4 hover:bg-white/10 transition-all tracking-widest text-sm uppercase" style={{ fontFamily: 'var(--font-playfair)', letterSpacing: '0.15em' }}>
+            <a href="#gallery" className="inline-flex items-center gap-2 justify-center border border-white/40 text-white px-10 py-4 hover:bg-white/10 transition-all tracking-widest text-sm uppercase" style={{ fontFamily: 'var(--font-bricolage)', letterSpacing: '0.15em' }}>
               Xem thư viện ảnh
             </a>
           </div>
@@ -100,7 +100,7 @@ export default async function WeddingPage() {
       <section className="py-24 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <p className="text-wedding-accent text-xs tracking-widest uppercase mb-3" style={{ fontFamily: 'var(--font-playfair)' }}>Không gian tổ chức</p>
+            <p className="text-wedding-accent text-xs tracking-widest uppercase mb-3" style={{ fontFamily: 'var(--font-bricolage)' }}>Không gian tổ chức</p>
             <h2 className="wedding-serif text-4xl md:text-5xl font-bold text-wedding-dark">Sảnh tiệc không gian mở</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
@@ -126,7 +126,7 @@ export default async function WeddingPage() {
       <section id="gallery" className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
-            <p className="text-wedding-accent text-xs tracking-widest uppercase mb-3" style={{ fontFamily: 'var(--font-playfair)' }}>Thư viện hình ảnh</p>
+            <p className="text-wedding-accent text-xs tracking-widest uppercase mb-3" style={{ fontFamily: 'var(--font-bricolage)' }}>Thư viện hình ảnh</p>
             <h2 className="wedding-serif text-4xl font-bold text-wedding-dark">Những khoảnh khắc đẹp</h2>
           </div>
           <div className="grid grid-cols-3 grid-rows-2 gap-3 h-[480px]">
@@ -152,7 +152,7 @@ export default async function WeddingPage() {
       <section id="inquiry" className="py-24 px-4 bg-white">
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-12">
-            <p className="text-wedding-accent text-xs tracking-widest uppercase mb-3" style={{ fontFamily: 'var(--font-playfair)' }}>Liên hệ tư vấn</p>
+            <p className="text-wedding-accent text-xs tracking-widest uppercase mb-3" style={{ fontFamily: 'var(--font-bricolage)' }}>Liên hệ tư vấn</p>
             <h2 className="wedding-serif text-4xl font-bold text-wedding-dark mb-3">Bắt đầu hành trình của bạn</h2>
             <p className="text-wedding-primary/60 leading-relaxed">
               Để lại thông tin — đội ngũ tư vấn của chúng tôi sẽ liên hệ trong vòng 24 giờ với báo giá chi tiết.

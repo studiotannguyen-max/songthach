@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@300..700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Oswald:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@300..700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Oswald:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@500&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -11,6 +11,8 @@
   --font-oswald: 'Oswald', sans-serif;
   --font-sans: var(--font-geist);
   --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-bricolage: 'Bricolage Grotesque', sans-serif;
+  --font-plex-mono: 'IBM Plex Mono', monospace;
 
   /* ── Light Minimal design tokens (white / warm gold / charcoal) ── */
   --background: #f6f5f2;
@@ -62,7 +64,7 @@
 @layer components {
   /* ── Sports zone ─────────────────────────── */
   .sports-hero-text {
-    font-family: var(--font-oswald);
+    font-family: var(--font-bricolage);
     letter-spacing: 0.02em;
     text-transform: uppercase;
   }
@@ -100,7 +102,7 @@
   }
 
   /* ── Wedding zone ────────────────────────── */
-  .wedding-serif { font-family: var(--font-playfair); }
+  .wedding-serif { font-family: var(--font-bricolage); }
 
   .wedding-btn {
     @apply bg-wedding-accent text-white font-semibold px-8 py-4 rounded-none
@@ -157,10 +159,10 @@
   .animate-delay-400 { animation-delay: 400ms; }
 
   .gradient-sports {
-    background: linear-gradient(135deg, #292723 0%, #a9781f 55%, #d8b257 100%);
+    background: #0F3C2C;
   }
   .gradient-wedding {
-    background: linear-gradient(135deg, #1a0f0a 0%, #7c5c3a 60%, #c9a96e 100%);
+    background: #C8746B;
   }
   .gradient-overlay {
     background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.7) 100%);
@@ -182,4 +184,13 @@
   .eyebrow {
     @apply text-primary text-xs font-semibold tracking-[0.3em] uppercase;
   }
+}
+
+/* Floating sticker animation cho trang chủ (Digital Collage section) */
+@keyframes float-sticker {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+.animate-float-sticker {
+  animation: float-sticker 4s ease-in-out infinite;
 }

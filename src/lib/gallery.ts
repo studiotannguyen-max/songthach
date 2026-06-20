@@ -1,6 +1,6 @@
 import { createAdminClient } from '@/lib/supabase/admin';
 
-export type GalleryCategory = 'badminton' | 'football' | 'wedding';
+export type GalleryCategory = 'badminton' | 'football' | 'wedding' | 'cafe';
 
 export interface GalleryImage {
   url: string;

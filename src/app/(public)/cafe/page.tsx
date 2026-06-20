@@ -86,10 +86,10 @@ export default function CafePage() {
         <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(28,40,32,0.2) 0%, rgba(28,40,32,0.85) 100%)' }} />
         <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 w-full">
           <span className="cafe-tag mb-4 inline-block">Tiện ích nội khu</span>
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-3" style={{ fontFamily: 'var(--font-playfair)' }}>
+          <h1 className="text-5xl md:text-6xl font-bold text-white mb-3" style={{ fontFamily: 'var(--font-bricolage)' }}>
             Lavie en Rose
           </h1>
-          <p className="text-white/70 text-lg mb-2" style={{ fontFamily: 'var(--font-playfair)', fontStyle: 'italic' }}>
+          <p className="text-white/70 text-lg mb-2" style={{ fontFamily: 'var(--font-bricolage)', fontStyle: 'italic' }}>
             La vie en rose — Cuộc sống màu hồng
           </p>
           <p className="text-white/60 text-sm">Mở cửa 07:00 – 22:00 · Phục vụ khách nội khu & bên ngoài</p>
@@ -101,7 +101,7 @@ export default function CafePage() {
         <div className="max-w-3xl mx-auto text-center">
           <div className="w-12 h-px bg-cafe-accent mx-auto mb-8" />
           <p className="text-cafe-primary text-xs tracking-widest uppercase mb-4">Câu chuyện của chúng tôi</p>
-          <p className="text-2xl text-cafe-dark leading-relaxed" style={{ fontFamily: 'var(--font-playfair)' }}>
+          <p className="text-2xl text-cafe-dark leading-relaxed" style={{ fontFamily: 'var(--font-bricolage)' }}>
             Một không gian xanh mát, yên tĩnh giữa lòng tổ hợp — nơi bạn thư giãn sau những trận đấu sôi nổi, hoặc đơn giản là thưởng thức một tách cà phê chất lượng trong không gian kiến trúc tinh tế.
           </p>
           <div className="w-12 h-px bg-cafe-accent mx-auto mt-8" />
@@ -135,7 +135,7 @@ export default function CafePage() {
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-8">
             <p className="text-cafe-primary text-xs tracking-widest uppercase mb-3">Thực đơn</p>
-            <h2 className="text-3xl font-bold text-cafe-dark" style={{ fontFamily: 'var(--font-playfair)' }}>Menu thức uống</h2>
+            <h2 className="text-3xl font-bold text-cafe-dark" style={{ fontFamily: 'var(--font-bricolage)' }}>Menu thức uống</h2>
             <p className="text-gray-400 text-sm mt-3">Xem trước menu rồi quét QR tại bàn để gọi món</p>
           </div>
 

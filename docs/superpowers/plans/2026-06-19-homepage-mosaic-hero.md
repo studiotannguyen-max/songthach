@@ -88,7 +88,7 @@ function MosaicTile({ zone, imageUrl, className }: { zone: Zone; imageUrl?: stri
             sizes="(max-width: 1024px) 50vw, 25vw"
             className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg, rgba(216,178,87,.55), rgba(20,18,16,.55))' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(20,18,16,.15) 0%, rgba(20,18,16,.88) 100%)' }} />
         </>
       ) : zone.href === '/wedding' ? (
         <WeddingArt className="absolute inset-0 h-full w-full object-cover" />

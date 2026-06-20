@@ -11,7 +11,7 @@ const ZONE_LINKS = [
   { label: 'Sân Bóng Đá', href: '/sports/football', icon: Goal },
   { label: 'Sân Cầu Lông', href: '/sports/badminton', icon: Feather },
   { label: 'Tiệc Cưới', href: '/wedding', icon: Heart },
-  { label: 'Café Lavie', href: '/cafe', icon: Coffee },
+  { label: 'Lavie en Rose', href: '/cafe', icon: Coffee },
 ];
 
 const ZONE_IDLE = 'border-[#c1922f]/40 text-[#292723]/80 hover:border-primary hover:text-primary';
@@ -44,7 +44,8 @@ export default function Navbar() {
     return () => document.removeEventListener('click', close);
   }, [userMenu]);
 
-  const solid = scrolled || (!isHome && !isSports && !isWedding);
+  // Trang chủ không còn hero ảnh tối phía sau navbar (đã bỏ slide) — luôn dùng nền đặc.
+  const solid = scrolled || isHome || (!isSports && !isWedding);
 
   const navBg = solid
     ? 'bg-background backdrop-blur-md border-b border-border shadow-sm'
@@ -52,14 +53,14 @@ export default function Navbar() {
 
   const textColor = solid ? 'text-foreground' : 'text-white';
 
-  // Pill khu vực: trên nền hero tối dùng tông trắng, khi nav đặc dùng tông gold
+  // Link khu vực kiểu chữ gọn (không khung/pill), sát logo — giống mẫu Olipop
   // Lưu ý: KHÔNG dùng opacity modifier (vd /70) với màu CSS-var dạng hex — sẽ ra CSS lỗi.
   const zoneIdle = solid
-    ? 'border-[#c1922f]/40 text-[#292723]/80 hover:border-primary hover:text-primary'
-    : 'border-white/40 text-white/85 hover:border-white hover:text-white';
+    ? 'text-[#292723]/80 hover:text-primary'
+    : 'text-white/85 hover:text-white';
   const zoneActive = solid
-    ? 'bg-primary text-primary-foreground border-primary'
-    : 'bg-white text-secondary border-white';
+    ? 'text-primary'
+    : 'text-white';
 
   const displayName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Tài khoản';
   const initials    = displayName.charAt(0).toUpperCase();
@@ -73,9 +74,9 @@ export default function Navbar() {
   return (
     <nav aria-label="Điều hướng chính" className={cn('fixed top-0 left-0 right-0 z-50 transition-[background-color,box-shadow] duration-300', navBg)}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 md:h-20">
+        <div className="relative flex items-center justify-between md:justify-center md:gap-8 h-16 md:h-20">
 
-          {/* Logo */}
+          {/* Logo — đứng giữa, các nhóm menu nằm sát 2 bên */}
           <Link href="/" className="flex items-center group" aria-label="Song Thạch — Trang chủ">
             <span className={cn(
               'text-xl tracking-[0.18em] uppercase transition-colors select-none',
@@ -86,9 +87,9 @@ export default function Navbar() {
             </span>
           </Link>
 
-          {/* Desktop nav */}
-          <div className="hidden md:flex items-center gap-2" role="list">
-            {ZONE_LINKS.map((link) => {
+          {/* Desktop nav — trái: Bóng đá, Cầu lông */}
+          <div className="hidden md:flex items-center gap-4" role="list">
+            {ZONE_LINKS.slice(0, 2).map((link) => {
               const Icon   = link.icon;
               const active = pathname.startsWith(link.href);
               return (
@@ -97,7 +98,7 @@ export default function Navbar() {
                   href={link.href}
                   role="listitem"
                   className={cn(
-                    'flex items-center gap-1.5 px-4 py-2 text-sm font-semibold tracking-wide transition-colors border rounded-full',
+                    'flex items-center gap-1 text-xs font-semibold tracking-wide transition-colors whitespace-nowrap',
                     active ? zoneActive : zoneIdle,
                   )}
                 >
@@ -108,8 +109,28 @@ export default function Navbar() {
             })}
           </div>
 
-          {/* CTA / User area */}
+          {/* CTA / User area — trái: Tiệc cưới, Café, rồi đăng nhập/đặt sân */}
           <div className="hidden md:flex items-center gap-3">
+            <div className="flex items-center gap-4" role="list">
+              {ZONE_LINKS.slice(2, 4).map((link) => {
+                const Icon   = link.icon;
+                const active = pathname.startsWith(link.href);
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    role="listitem"
+                    className={cn(
+                      'flex items-center gap-1 text-xs font-semibold tracking-wide transition-colors whitespace-nowrap',
+                      active ? zoneActive : zoneIdle,
+                    )}
+                  >
+                    <Icon size={15} aria-hidden="true" />
+                    {link.label}
+                  </Link>
+                );
+              })}
+            </div>
             {loading ? (
               <Loader2 size={18} className={cn('animate-spin', textColor)} aria-label="Đang tải..." />
             ) : user ? (
@@ -159,7 +180,7 @@ export default function Navbar() {
               <>
                 <Link
                   href="/login"
-                  className={cn('text-sm font-medium transition-colors px-4 py-2 rounded-full hover:text-primary', textColor)}
+                  className={cn('text-sm font-medium transition-colors px-4 py-2 rounded-full hover:text-primary whitespace-nowrap', textColor)}
                 >
                   Đăng nhập
                 </Link>

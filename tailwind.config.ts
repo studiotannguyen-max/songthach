@@ -61,27 +61,27 @@ const config: Config = {
           '4': 'var(--chart-4)',
           '5': 'var(--chart-5)',
         },
-        // --- Sports Zone Theme ---
+        // --- Sports Zone Theme (đồng bộ với trang chủ: xanh sân cỏ + lime) ---
         sports: {
-          primary:   '#c1922f',   // Gold
-          accent:    '#d8b257',   // Light gold
-          dark:      '#292723',   // Charcoal
-          light:     '#f6efe0',   // Pale gold tint
+          primary:   '#0F3C2C',   // Pitch — xanh sân cỏ đậm
+          accent:    '#9CE25C',   // Lime
+          dark:      '#10150F',   // Ink
+          light:     '#F4EEE1',   // Sand
         },
-        // --- Wedding Zone Theme ---
+        // --- Wedding Zone Theme (đồng bộ với trang chủ: hồng rose) ---
         wedding: {
-          primary:   '#7c5c3a',   // Warm brown/gold
-          accent:    '#c9a96e',   // Gold
-          dark:      '#1a0f0a',
-          cream:     '#faf6f0',
-          rose:      '#e8d5c4',
+          primary:   '#C8746B',   // Rose
+          accent:    '#C8746B',   // Rose
+          dark:      '#10150F',   // Ink
+          cream:     '#FBFAF7',   // Paper
+          rose:      '#F6EBE9',   // Rose nhạt
         },
-        // --- Cafe Zone Theme ---
+        // --- Cafe Zone Theme (đồng bộ với trang chủ: hồng rose) ---
         cafe: {
-          primary:   '#4a7c59',   // Sage green
-          accent:    '#c8a97a',   // Warm sand
-          dark:      '#1c2820',
-          light:     '#f5f0e8',
+          primary:   '#C8746B',   // Rose
+          accent:    '#C8746B',   // Rose
+          dark:      '#10150F',   // Ink
+          light:     '#F6EBE9',   // Rose nhạt
         },
       },
       fontFamily: {

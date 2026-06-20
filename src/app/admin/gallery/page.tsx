@@ -4,12 +4,13 @@ import Image from 'next/image';
 import { ImagePlus, Trash2, Eye, EyeOff, Loader2, UploadCloud, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-type Category = 'badminton' | 'football' | 'wedding';
+type Category = 'badminton' | 'football' | 'wedding' | 'cafe';
 
 const TABS: { key: Category; label: string; hint: string }[] = [
   { key: 'badminton', label: 'Sân Cầu lông', hint: 'Ảnh sân cầu lông hiển thị ở trang Sân Cầu lông' },
   { key: 'football',  label: 'Sân Bóng đá',  hint: 'Ảnh sân bóng hiển thị ở trang Sân Bóng đá'     },
   { key: 'wedding',   label: 'Tiệc cưới',    hint: 'Ảnh sảnh tiệc hiển thị ở trang Tiệc cưới'       },
+  { key: 'cafe',      label: 'Café Lavie',   hint: 'Ảnh/logo Café Lavie hiển thị ở trang chủ'       },
 ];
 
 interface GalleryImage {

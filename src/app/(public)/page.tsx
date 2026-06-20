@@ -1,168 +1,257 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowUpRight, Clock, MapPin, Phone, Goal, Feather, Heart, Coffee } from 'lucide-react';
-import Navbar from '@/components/shared/Navbar';
-import Footer from '@/components/shared/Footer';
-import HeroCarousel from '@/components/shared/HeroCarousel';
-import { FootballArt, BadmintonArt, WeddingArt, CafeArt } from '@/components/shared/ZoneArt';
+import { format } from 'date-fns';
+import { vi } from 'date-fns/locale';
+import { ArrowRight, MapPin, Clock, Phone } from 'lucide-react';
+import QuickBook from '@/components/home/QuickBook';
 import { getGallery } from '@/lib/gallery';
+import { getPublishedPosts } from '@/lib/posts';
 
 export const metadata: Metadata = {
   title: 'Song Thạch — Khu thể thao, Tiệc cưới & Café',
   description: 'Đặt sân bóng đá, sân cầu lông tại Song Thạch. Mở cửa 06:00–22:00, đặt sân online trong 60 giây.',
 };
 
-// Đọc lại ảnh gallery từ DB mỗi 60s — admin upload ảnh mới sẽ hiện sau ~1 phút (giống trang /wedding)
+// Đọc lại ảnh/bài viết từ DB mỗi 60s
 export const revalidate = 60;
 
-const ZONES = [
-  { href: '/sports/football',  icon: Goal,    Art: FootballArt,  label: 'Sân Bóng Đá',  sub: '1 sân 7 người · 3 sân 5 người',   price: 'Từ 120.000đ / giờ' },
-  { href: '/sports/badminton', icon: Feather, Art: BadmintonArt, label: 'Sân Cầu Lông', sub: '3 mặt sân thảm Elite vân cát',     price: 'Từ 50.000đ / giờ' },
-  { href: '/wedding',          icon: Heart,   Art: WeddingArt,   label: 'Tiệc Cưới',    sub: '1 sảnh · sức chứa 800 khách',     price: 'Tư vấn miễn phí' },
-  { href: '/cafe',             icon: Coffee,  Art: CafeArt,      label: 'Café Lavie',   sub: 'Lavie en Rose',                 price: 'Mở 07:00–22:00' },
-];
+const PITCH      = '#0F3C2C';
+const PITCH_2    = '#0A2C20';
+const INK        = '#10150F';
+const LIME       = '#9CE25C';
+const LIME_DEEP  = '#3F8F33';
+const SAND       = '#F4EEE1';
+const PAPER      = '#FBFAF7';
+const LINE       = '#E6E2D6';
+const MUTED      = '#6A6F66';
+const ROSE       = '#C8746B';
+const ROSE_SOFT  = '#F6EBE9';
 
-const INFO = [
-  { icon: MapPin, label: '9B/3 Ấp An Hoà , Xã Hưng Thịnh , TP Đồng Nai' },
-  { icon: Clock,  label: 'Mở cửa hàng ngày · 06:00 – 22:00' },
-  { icon: Phone,  label: '0378 990 979 , 0886 798690 ' },
-];
+const ADDRESS    = '9B/3 Ấp An Hoà, Xã Hưng Thịnh, TP Đồng Nai';
+const OPEN_HOURS = '06:00 – 22:00';
+const PHONE      = '0378 990 979';
 
-// Gradient tối ở đáy thẻ để chữ trắng đọc được trên ảnh — viết trực tiếp bằng hex/rgba,
-// KHÔNG dùng class Tailwind dạng bg-secondary/90 (vỡ CSS với theme hex-trong-CSS-var của project).
-const ZONE_GRADIENT = 'linear-gradient(180deg, transparent 35%, rgba(44,42,38,.92) 100%)';
+type IconProps = { size?: number };
 
-function ZoneBackground({
-  Art,
-  imageUrl,
-  sizes,
-}: {
-  Art: React.ComponentType<{ className?: string }>;
-  imageUrl?: string;
-  sizes: string;
-}) {
+function ShuttlecockIcon({ size = 22 }: IconProps) {
   return (
-    <>
-      {imageUrl ? (
-        <Image
-          src={imageUrl}
-          alt=""
-          fill
-          sizes={sizes}
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-        />
-      ) : (
-        <Art className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-      )}
-      <div className="absolute inset-0" style={{ background: ZONE_GRADIENT }} />
-    </>
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+      <circle cx="12" cy="17" r="3" />
+      <path d="M12 14 L9 5 M12 14 L15 5 M9 5 L15 5 M8 7 L16 7" />
+    </svg>
+  );
+}
+function BallIcon({ size = 22 }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7l4 3-1.5 4.5h-5L8 10z" />
+    </svg>
+  );
+}
+function CapIcon({ size = 22 }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+      <path d="M12 4l8 4-8 4-8-4 8-4z" />
+      <path d="M6 10v4c0 1.5 2.7 3 6 3s6-1.5 6-3v-4" />
+    </svg>
+  );
+}
+function RacketIcon({ size = 22 }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+      <ellipse cx="9" cy="9" rx="5" ry="6.5" transform="rotate(-40 9 9)" />
+      <path d="M13 13l6 6" />
+    </svg>
+  );
+}
+function RingsIcon({ size = 22 }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+      <circle cx="9" cy="14" r="5" />
+      <circle cx="15" cy="14" r="5" />
+    </svg>
+  );
+}
+function CupIcon({ size = 22 }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+      <path d="M4 8h13v5a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z" />
+      <path d="M17 9h2a2 2 0 0 1 0 4h-2" />
+      <path d="M8 3v2M11 3v2" />
+    </svg>
+  );
+}
+
+const SERVICES = [
+  { href: '/sports/badminton',         id: undefined,  icon: ShuttlecockIcon, image: '/images/icons/badminton.png', label: 'Sân Cầu Lông',     desc: 'Đặt sân theo giờ, lịch trống cập nhật trực tiếp.', badge: 'Đặt theo giờ', go: 'Đặt sân', accent: 'green' as const },
+  { href: '/sports/football',          id: undefined,  icon: BallIcon,        image: '/images/icons/football.png',  label: 'Sân Bóng Đá',      desc: 'Sân cỏ chuẩn, đặt nhanh cho cả đội của bạn.',        badge: 'Đặt theo giờ', go: 'Đặt sân', accent: 'green' as const },
+  { href: '/sports/football#classes',  id: 'daotao',    icon: CapIcon,         image: undefined,                     label: 'Đào tạo Bóng đá',  desc: 'Lớp 7–14 tuổi, huấn luyện viên theo sát.',           badge: 'Ghi danh',     go: 'Xem lớp', accent: 'green' as const },
+  { href: '/sports/badminton#classes', id: undefined,  icon: RacketIcon,      image: undefined,                     label: 'Đào tạo Cầu lông', desc: 'Rèn kỹ thuật bài bản theo từng cấp độ.',             badge: 'Ghi danh',     go: 'Xem lớp', accent: 'green' as const },
+  { href: '/wedding',                  id: undefined,  icon: RingsIcon,       image: '/images/icons/wedding.png',   label: 'Tiệc Cưới',        desc: 'Sảnh tiệc sức chứa 800 khách cho ngày trọng đại.',   badge: 'Tư vấn',       go: 'Đặt tư vấn', accent: 'rose' as const },
+  { href: '/cafe',                     id: 'cafe',      icon: CupIcon,         image: undefined,                     label: 'Café Lavie en Rose', desc: 'Góc sân vườn kiểu Pháp để nghỉ chân.',             badge: `Mở 07:00–22:00`, go: 'Xem menu', accent: 'rose' as const },
+];
+
+function CourtLines() {
+  return (
+    <div className="absolute inset-0 pointer-events-none" style={{ opacity: 0.16 }}>
+      <span className="absolute top-0 bottom-0 w-[1.5px] bg-white" style={{ left: '22%' }} />
+      <span className="absolute top-0 bottom-0 w-[1.5px] bg-white" style={{ left: '50%' }} />
+      <span className="absolute top-0 bottom-0 w-[1.5px] bg-white" style={{ left: '78%' }} />
+      <span className="absolute left-0 right-0 h-[1.5px] bg-white" style={{ top: '50%' }} />
+      <span
+        className="absolute rounded-full border-[1.5px] border-white"
+        style={{ width: 280, height: 280, right: -70, top: '50%', transform: 'translateY(-50%)' }}
+      />
+    </div>
   );
 }
 
 export default async function HomePage() {
-  const weddingPhotos = await getGallery('wedding');
-  const weddingImage = weddingPhotos[0]?.url;
-
-  const zones = ZONES.map((z) => ({
-    ...z,
-    imageUrl: z.href === '/wedding' ? weddingImage : undefined,
-  }));
+  const [footballPhotos, cafePhotos, posts] = await Promise.all([
+    getGallery('football'),
+    getGallery('cafe'),
+    getPublishedPosts(3),
+  ]);
+  const footballImage = footballPhotos[0]?.url;
+  const cafeImage     = cafePhotos[0]?.url;
 
   return (
     <>
-      <Navbar />
-      <HeroCarousel />
+      {/* ── Announcement bar ───────────────── */}
+      <div className="text-center text-xs py-2 px-4" style={{ background: INK, color: PAPER }}>
+        Đặt sân online — <b style={{ color: LIME }}>giữ chỗ trong 60 giây</b>, mở cửa {OPEN_HOURS} mỗi ngày
+      </div>
 
-      {/* ── Zone grid ───────────────────────────── */}
-      <section className="bg-background py-10 md:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
-          <div className="flex items-end justify-between gap-4 mb-6 md:mb-14">
-            <div>
-              <span className="eyebrow">Dịch vụ</span>
-              <h2 className="mt-1.5 text-foreground text-2xl md:text-4xl font-bold tracking-tight">
-                Một địa điểm, bốn không gian
-              </h2>
-            </div>
-            <Link href="/sports" className="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:gap-2.5 transition-all shrink-0">
-              Xem bảng giá <ArrowUpRight size={15} />
+      {/* ── Nav ───────────────── */}
+      <nav className="sticky top-0 z-50 border-b" style={{ background: 'rgba(251,250,247,.88)', backdropFilter: 'blur(10px)', borderColor: LINE }}>
+        <div className="max-w-[1180px] mx-auto px-4 sm:px-6 flex items-center gap-7 h-16">
+          <Link href="/" className="flex items-center gap-2.5 font-extrabold text-lg" style={{ fontFamily: 'var(--font-bricolage)', color: INK }}>
+            <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: LIME_DEEP, boxShadow: `0 0 0 4px rgba(63,143,51,.18)` }} />
+            SONG THẠCH
+          </Link>
+          <div className="hidden md:flex items-center gap-6 ml-2 text-sm font-medium" style={{ color: '#2c322a' }}>
+            <a href="#dichvu" className="hover:opacity-70">Dịch vụ</a>
+            <Link href="/sports/football" className="hover:opacity-70">Đặt sân</Link>
+            <a href="#daotao" className="hover:opacity-70">Đào tạo</a>
+            <a href="#cafe" className="hover:opacity-70">Cafe</a>
+            <a href="#tintuc" className="hover:opacity-70">Tin tức</a>
+          </div>
+          <div className="ml-auto flex items-center gap-3.5">
+            <Link href="/login" className="hidden sm:inline text-sm font-medium" style={{ color: PITCH }}>Đăng nhập</Link>
+            <span className="hidden md:flex items-center gap-1.5 text-sm font-semibold" style={{ color: PITCH }}>
+              <Phone size={14} /> {PHONE}
+            </span>
+            <Link href="/sports/football" className="rounded-full text-sm font-semibold px-5 py-2.5" style={{ background: LIME, color: INK }}>
+              Đặt sân
             </Link>
           </div>
+        </div>
+      </nav>
 
-          {/* ── Mobile: 1 big + 3 small ── */}
-          <div className="sm:hidden space-y-3">
-            {/* Big card — Bóng đá */}
-            {(() => {
-              const z = zones[0];
-              const Icon = z.icon;
-              return (
-                <Link
-                  href={z.href}
-                  className="group relative block overflow-hidden rounded-2xl h-44 active:scale-[0.98] transition-transform"
-                >
-                  <ZoneBackground Art={z.Art} imageUrl={z.imageUrl} sizes="100vw" />
-                  <div className="absolute inset-0 flex flex-col justify-end p-4">
-                    <span className="inline-flex items-center gap-1 text-[10px] font-semibold tracking-widest uppercase text-white/90">
-                      <Icon size={11} /> {z.label}
-                    </span>
-                    <p className="mt-1 text-xs text-white/70 leading-snug">{z.sub}</p>
-                    <div className="flex items-center justify-between mt-2">
-                      <span className="text-base font-bold text-white">{z.price}</span>
-                      <span className="grid place-items-center w-9 h-9 rounded-full bg-accent text-accent-foreground">
-                        <ArrowUpRight size={15} />
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-              );
-            })()}
-
-            {/* 3 small cards */}
-            <div className="grid grid-cols-3 gap-3">
-              {zones.slice(1).map((z) => {
-                const Icon = z.icon;
-                return (
-                  <Link
-                    key={z.href}
-                    href={z.href}
-                    className="group relative block overflow-hidden rounded-xl h-32 active:scale-[0.97] transition-transform"
-                  >
-                    <ZoneBackground Art={z.Art} imageUrl={z.imageUrl} sizes="33vw" />
-                    <div className="absolute inset-0 flex flex-col justify-end p-2.5">
-                      <span className="flex items-center gap-1 text-[9px] font-semibold tracking-wider uppercase text-white/90">
-                        <Icon size={10} /> {z.label}
-                      </span>
-                      <p className="mt-0.5 text-[11px] font-bold text-white">{z.price}</p>
-                    </div>
-                  </Link>
-                );
-              })}
+      {/* ── Hero ───────────────── */}
+      <header className="relative overflow-hidden" style={{ background: PITCH, color: PAPER }}>
+        <CourtLines />
+        <div className="relative z-10 max-w-[1180px] mx-auto px-4 sm:px-6 grid lg:grid-cols-[1.15fr_.85fr] gap-10 items-center py-16 lg:py-20">
+          <div>
+            <span
+              className="inline-block text-xs font-medium px-3 py-1.5 rounded-full mb-5 border"
+              style={{ color: LIME, borderColor: 'rgba(156,226,92,.4)' }}
+            >
+              Tổ hợp thể thao · tiệc cưới · cà phê — Đồng Nai
+            </span>
+            <h1 className="font-extrabold leading-[1.02] tracking-tight" style={{ fontFamily: 'var(--font-bricolage)', fontSize: 'clamp(38px,6.2vw,64px)' }}>
+              Cả một sân chơi,<br />gói trong <span style={{ color: LIME }}>một nơi.</span>
+            </h1>
+            <p className="text-base mt-5 mb-7 max-w-[46ch]" style={{ color: '#d7e3da' }}>
+              Sân cầu lông, sân bóng đá, lớp đào tạo thể thao, tiệc cưới sân vườn và Café Lavie en Rose — tất cả ở cùng một địa chỉ.
+            </p>
+            <div className="flex gap-3.5 flex-wrap">
+              <Link href="/sports/football" className="inline-flex items-center gap-2 rounded-full text-sm font-semibold px-6 py-3" style={{ background: LIME, color: INK }}>
+                Đặt sân ngay <ArrowRight size={16} />
+              </Link>
+              <a href="#dichvu" className="inline-flex items-center gap-2 rounded-full text-sm font-semibold px-6 py-3 border" style={{ borderColor: 'rgba(255,255,255,.4)', color: PAPER }}>
+                Khám phá tổ hợp
+              </a>
+            </div>
+            <div className="flex gap-8 mt-10 pt-6 border-t flex-wrap" style={{ borderColor: 'rgba(255,255,255,.14)' }}>
+              <div>
+                <b className="block text-2xl font-bold" style={{ fontFamily: 'var(--font-bricolage)' }}>7</b>
+                <span className="text-xs" style={{ color: '#aebfb4' }}>sân cầu lông &amp; bóng đá</span>
+              </div>
+              <div>
+                <b className="block text-2xl font-bold" style={{ fontFamily: 'var(--font-bricolage)' }}>2</b>
+                <span className="text-xs" style={{ color: '#aebfb4' }}>lớp đào tạo thể thao</span>
+              </div>
+              <div>
+                <b className="block text-2xl font-bold" style={{ fontFamily: 'var(--font-bricolage)' }}>{OPEN_HOURS}</b>
+                <span className="text-xs" style={{ color: '#aebfb4' }}>mở cửa mỗi ngày</span>
+              </div>
             </div>
           </div>
 
-          {/* ── Tablet+ grid ── */}
-          <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
-            {zones.map((z) => {
-              const Icon = z.icon;
+          {/* Quick book card */}
+          <div className="rounded-[20px] p-6 border" style={{ background: `linear-gradient(160deg,#15543d,#0c3022)`, borderColor: 'rgba(156,226,92,.22)' }}>
+            <span className="inline-block text-xs font-semibold px-2.5 py-1 rounded-full" style={{ background: LIME, color: INK }}>Đặt nhanh</span>
+            <h3 className="mt-3.5 mb-1 text-lg" style={{ fontFamily: 'var(--font-bricolage)' }}>Tìm sân trống trong 30 giây</h3>
+            <div className="relative h-36 rounded-xl my-4 overflow-hidden">
+              {footballImage ? (
+                <Image src={footballImage} alt="Sân Song Thạch" fill sizes="400px" className="object-cover" />
+              ) : (
+                <div className="absolute inset-0" style={{ background: '#0e3a2a' }} />
+              )}
+            </div>
+            <QuickBook />
+          </div>
+        </div>
+      </header>
+
+      {/* ── Services ───────────────── */}
+      <section className="py-16 md:py-20" id="dichvu" style={{ background: PAPER }}>
+        <div className="max-w-[1180px] mx-auto px-4 sm:px-6">
+          <div className="flex items-end justify-between gap-5 mb-8 flex-wrap">
+            <div>
+              <div className="text-xs font-semibold mb-2" style={{ color: LIME_DEEP }}>Khám phá theo dịch vụ</div>
+              <h2 className="font-bold tracking-tight max-w-[18ch]" style={{ fontFamily: 'var(--font-bricolage)', fontSize: 'clamp(26px,4vw,38px)', color: INK }}>
+                Chọn cuộc chơi của bạn
+              </h2>
+            </div>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {SERVICES.map((s) => {
+              const Icon = s.icon;
+              const rose = s.accent === 'rose';
               return (
                 <Link
-                  key={z.href}
-                  href={z.href}
-                  className="group relative block overflow-hidden rounded-[var(--radius)] h-64"
+                  key={s.label}
+                  href={s.href}
+                  id={s.id}
+                  className="relative block rounded-[14px] border p-6 transition-shadow hover:shadow-lg"
+                  style={{ background: '#fff', borderColor: LINE }}
                 >
-                  <ZoneBackground Art={z.Art} imageUrl={z.imageUrl} sizes="(max-width: 1024px) 50vw, 25vw" />
-                  <div className="absolute inset-0 flex flex-col justify-end p-5">
-                    <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold tracking-[0.18em] uppercase text-white/90">
-                      <Icon size={13} /> {z.label}
-                    </span>
-                    <p className="mt-1.5 text-xs text-white/70">{z.sub}</p>
-                    <div className="mt-4 flex items-center justify-between">
-                      <span className="text-lg font-bold text-white tracking-tight">{z.price}</span>
-                      <span className="grid place-items-center w-9 h-9 rounded-full bg-accent text-accent-foreground group-hover:scale-110 transition-transform">
-                        <ArrowUpRight size={16} />
-                      </span>
-                    </div>
+                  <span
+                    className="absolute top-4.5 right-4.5 text-[10.5px] font-semibold px-2.5 py-1 rounded-full"
+                    style={{ background: rose ? ROSE_SOFT : SAND, color: rose ? ROSE : PITCH }}
+                  >
+                    {s.badge}
+                  </span>
+                  <div
+                    className="w-[50px] h-[50px] rounded-xl flex items-center justify-center mt-7 mb-4 overflow-hidden"
+                    style={{ background: rose ? ROSE_SOFT : SAND, color: rose ? ROSE : PITCH }}
+                  >
+                    {s.image ? (
+                      <Image src={s.image} alt="" width={32} height={32} />
+                    ) : (
+                      <Icon size={22} />
+                    )}
                   </div>
+                  <h3 className="font-bold text-lg mb-1.5" style={{ fontFamily: 'var(--font-bricolage)', color: INK }}>{s.label}</h3>
+                  <p className="text-sm" style={{ color: MUTED }}>{s.desc}</p>
+                  <span className="mt-4 flex items-center gap-1.5 text-sm font-semibold" style={{ color: rose ? ROSE : LIME_DEEP }}>
+                    {s.go} <ArrowRight size={14} />
+                  </span>
                 </Link>
               );
             })}
@@ -170,30 +259,153 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── Info strip ──────────────────────────── */}
-      <section className="bg-secondary text-secondary-foreground py-5">
-        <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 flex flex-wrap items-center justify-between gap-x-8 gap-y-3 text-sm">
-          <div className="flex flex-wrap items-center gap-x-8 gap-y-2">
-            {INFO.map((item) => {
-              const Icon = item.icon;
-              return (
-                <div key={item.label} className="flex items-center gap-2.5 text-secondary-foreground/80">
-                  <Icon size={15} className="text-accent shrink-0" />
-                  <span>{item.label}</span>
-                </div>
-              );
-            })}
+      {/* ── Cafe spotlight ───────────────── */}
+      <section className="py-16 md:py-20" style={{ background: SAND }}>
+        <div className="max-w-[1180px] mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-10 items-center">
+          <div className="relative h-72 lg:h-[380px] rounded-[18px] overflow-hidden flex items-center justify-center" style={{ background: '#fff', border: `1px solid ${LINE}` }}>
+            {cafeImage ? (
+              <Image src={cafeImage} alt="Café Lavie en Rose" width={260} height={260} className="object-contain" />
+            ) : null}
           </div>
-          <Link
-            href="/sports/football"
-            className="inline-flex items-center gap-1.5 bg-accent text-accent-foreground font-bold text-xs tracking-wide px-5 py-2.5 rounded-full hover:bg-white transition-colors"
-          >
-            Đặt sân ngay <ArrowUpRight size={13} />
-          </Link>
+          <div>
+            <div className="text-xs font-semibold mb-2.5" style={{ color: ROSE }}>La Vie en Rose</div>
+            <h2 className="font-bold tracking-tight mb-4" style={{ fontFamily: 'var(--font-bricolage)', fontSize: 'clamp(28px,4vw,38px)', color: INK }}>
+              Nghỉ chân giữa một góc vườn Pháp
+            </h2>
+            <p className="text-[15.5px] mb-6 max-w-[44ch]" style={{ color: '#54584d' }}>
+              Một không gian xanh mát, yên tĩnh giữa lòng tổ hợp — nơi bạn thư giãn sau những trận đấu sôi nổi, hoặc đơn giản là thưởng thức một tách cà phê chất lượng trong không gian kiến trúc tinh tế.
+            </p>
+            <Link href="/cafe" className="inline-flex items-center gap-2 rounded-full text-sm font-semibold px-6 py-3" style={{ background: INK, color: PAPER }}>
+              Xem menu &amp; không gian <ArrowRight size={16} />
+            </Link>
+          </div>
         </div>
       </section>
 
-      <Footer />
+      {/* ── News ───────────────── */}
+      <section className="py-16 md:py-20" id="tintuc" style={{ background: PAPER }}>
+        <div className="max-w-[1180px] mx-auto px-4 sm:px-6">
+          <div className="flex items-end justify-between gap-5 mb-8 flex-wrap">
+            <div>
+              <div className="text-xs font-semibold mb-2" style={{ color: LIME_DEEP }}>Tin tức &amp; sự kiện</div>
+              <h2 className="font-bold tracking-tight max-w-[18ch]" style={{ fontFamily: 'var(--font-bricolage)', fontSize: 'clamp(26px,4vw,38px)', color: INK }}>
+                Đang diễn ra tại Song Thạch
+              </h2>
+            </div>
+          </div>
+
+          {posts.length === 0 ? (
+            <p className="text-sm" style={{ color: MUTED }}>Chưa có tin tức nào.</p>
+          ) : (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {posts.map((post) => (
+                <Link
+                  key={post.id}
+                  href={`/tin-tuc/${post.slug}`}
+                  className="block rounded-[14px] overflow-hidden border transition-transform hover:-translate-y-1"
+                  style={{ background: '#fff', borderColor: LINE }}
+                >
+                  <div className="relative h-[172px]" style={{ background: '#ece7da' }}>
+                    {post.cover_image && (
+                      <Image src={post.cover_image} alt={post.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />
+                    )}
+                  </div>
+                  <div className="p-5">
+                    {post.published_at && (
+                      <div className="text-[11.5px] font-semibold mb-2" style={{ color: LIME_DEEP }}>
+                        {format(new Date(post.published_at), 'dd/MM', { locale: vi })}
+                      </div>
+                    )}
+                    <h4 className="font-semibold text-[17.5px] leading-snug mb-2" style={{ fontFamily: 'var(--font-bricolage)', color: INK }}>{post.title}</h4>
+                    {post.excerpt && <p className="text-sm" style={{ color: MUTED }}>{post.excerpt}</p>}
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ── Location ───────────────── */}
+      <section className="py-16 md:py-20" style={{ background: PITCH, color: PAPER }}>
+        <div className="max-w-[1180px] mx-auto px-4 sm:px-6 grid lg:grid-cols-[.9fr_1.1fr] gap-10 items-center">
+          <div>
+            <h2 className="font-bold tracking-tight mb-5" style={{ fontFamily: 'var(--font-bricolage)', fontSize: 'clamp(26px,4vw,34px)' }}>Ghé Song Thạch</h2>
+            <div className="flex gap-3 items-start mb-4" style={{ color: '#d7e3da' }}>
+              <MapPin size={20} style={{ color: LIME }} className="shrink-0 mt-0.5" />
+              <span><b className="block text-white font-semibold">Địa chỉ</b>{ADDRESS}</span>
+            </div>
+            <div className="flex gap-3 items-start mb-4" style={{ color: '#d7e3da' }}>
+              <Clock size={20} style={{ color: LIME }} className="shrink-0 mt-0.5" />
+              <span><b className="block text-white font-semibold">Giờ mở cửa</b>{OPEN_HOURS} mỗi ngày</span>
+            </div>
+            <div className="flex gap-3 items-start mb-4" style={{ color: '#d7e3da' }}>
+              <Phone size={20} style={{ color: LIME }} className="shrink-0 mt-0.5" />
+              <span><b className="block text-white font-semibold">Đặt sân &amp; tư vấn</b>{PHONE}</span>
+            </div>
+            <a
+              href={`https://maps.google.com/?q=${encodeURIComponent(ADDRESS)}`}
+              target="_blank" rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full text-sm font-semibold px-6 py-3 mt-2"
+              style={{ background: LIME, color: INK }}
+            >
+              Chỉ đường <ArrowRight size={16} />
+            </a>
+          </div>
+          <div
+            className="h-[280px] md:h-[300px] rounded-[18px] flex items-center justify-center text-sm border"
+            style={{ background: PITCH_2, borderColor: 'rgba(156,226,92,.25)', color: '#86a394' }}
+          >
+            Bản đồ Google Maps
+          </div>
+        </div>
+      </section>
+
+      {/* ── Footer ───────────────── */}
+      <footer className="py-12 md:py-16" style={{ background: INK, color: '#cfd4cb' }}>
+        <div className="max-w-[1180px] mx-auto px-4 sm:px-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr] gap-9 mb-11">
+            <div>
+              <div className="flex items-center gap-2.5 font-extrabold text-lg mb-3.5" style={{ fontFamily: 'var(--font-bricolage)', color: PAPER }}>
+                <span className="w-2.5 h-2.5 rounded-full" style={{ background: LIME_DEEP }} />
+                SONG THẠCH
+              </div>
+              <p className="text-[13.5px] max-w-[34ch]" style={{ color: '#9aa098' }}>
+                Tổ hợp dịch vụ thể thao, tiệc cưới và café — nơi mọi khoảnh khắc đều trở nên đáng nhớ.
+              </p>
+            </div>
+            <div>
+              <h5 className="text-[11px] tracking-[0.1em] uppercase mb-4" style={{ fontFamily: 'var(--font-plex-mono)', color: '#7f867d' }}>Thể thao</h5>
+              <ul className="space-y-2.5 text-sm">
+                <li><Link href="/sports/football" className="hover:text-white">Sân Bóng Đá</Link></li>
+                <li><Link href="/sports/badminton" className="hover:text-white">Sân Cầu Lông</Link></li>
+                <li><Link href="/sports/football#classes" className="hover:text-white">Đào tạo Bóng đá</Link></li>
+                <li><Link href="/sports/badminton#classes" className="hover:text-white">Đào tạo Cầu lông</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h5 className="text-[11px] tracking-[0.1em] uppercase mb-4" style={{ fontFamily: 'var(--font-plex-mono)', color: '#7f867d' }}>Dịch vụ</h5>
+              <ul className="space-y-2.5 text-sm">
+                <li><Link href="/wedding" className="hover:text-white">Tiệc cưới</Link></li>
+                <li><Link href="/cafe" className="hover:text-white">Café Lavie en Rose</Link></li>
+                <li><a href="#tintuc" className="hover:text-white">Tin tức</a></li>
+              </ul>
+            </div>
+            <div>
+              <h5 className="text-[11px] tracking-[0.1em] uppercase mb-4" style={{ fontFamily: 'var(--font-plex-mono)', color: '#7f867d' }}>Liên hệ</h5>
+              <ul className="space-y-2.5 text-sm">
+                <li><a href="tel:0378990979" className="hover:text-white">0378 990 979</a></li>
+                <li><a href="tel:0886798690" className="hover:text-white">0886 798 690</a></li>
+                <li><Link href="/login" className="hover:text-white">Tài khoản của tôi</Link></li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t pt-5 flex flex-wrap justify-between gap-2.5 text-xs" style={{ borderColor: 'rgba(255,255,255,.1)', color: '#7f867d' }}>
+            <span>© {new Date().getFullYear()} Song Thạch. Mọi quyền được bảo lưu.</span>
+            <span>Hưng Thịnh, Đồng Nai · songthach.com</span>
+          </div>
+        </div>
+      </footer>
     </>
   );
 }
