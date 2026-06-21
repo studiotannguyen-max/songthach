@@ -137,6 +137,7 @@ export default async function HomePage() {
           </div>
           <div className="ml-auto flex items-center gap-3.5">
             <Link href="/login" className="hidden sm:inline text-sm font-medium" style={{ color: PITCH }}>Đăng nhập</Link>
+            <Link href="/login?mode=register" className="hidden sm:inline text-sm font-semibold underline" style={{ color: PITCH }}>Đăng ký</Link>
             <span className="hidden md:flex items-center gap-1.5 text-sm font-semibold" style={{ color: PITCH }}>
               <Phone size={14} /> {PHONE}
             </span>

@@ -1,12 +1,24 @@
 'use client';
 import Link from 'next/link';
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Mail, ArrowRight, CheckCircle2, Loader2 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 
 type Step = 'input' | 'sending' | 'sent';
 
 export default function LoginPage() {
+  return (
+    <Suspense fallback={null}>
+      <LoginForm />
+    </Suspense>
+  );
+}
+
+function LoginForm() {
+  const searchParams = useSearchParams();
+  const isRegister   = searchParams.get('mode') === 'register';
+
   const [email, setEmail]   = useState('');
   const [step, setStep]     = useState<Step>('input');
   const [error, setError]   = useState('');
@@ -43,10 +55,15 @@ export default function LoginPage() {
           </div>
           <h2 className="sports-hero-text text-4xl font-bold text-white mb-4">SONG THẠCH</h2>
           <p className="text-white/70 leading-relaxed max-w-xs">
-            Đăng nhập để đặt sân nhanh chóng, theo dõi lịch đặt và nhận ưu đãi độc quyền.
+            {isRegister
+              ? 'Đăng ký tài khoản miễn phí — tích điểm mỗi lần đặt sân, dùng điểm giảm giá ngay.'
+              : 'Đăng nhập để đặt sân nhanh chóng, theo dõi lịch đặt và nhận ưu đãi độc quyền.'}
           </p>
           <div className="mt-10 space-y-3 text-left">
-            {['Đặt sân online 24/7', 'Nhận xác nhận qua email', 'Quản lý lịch đặt dễ dàng'].map((t) => (
+            {(isRegister
+              ? ['Tích điểm mỗi lần đặt sân (10.000đ = 1 điểm)', 'Dùng điểm giảm giá lần đặt sau', 'Theo dõi điểm & lịch sử tại trang cá nhân']
+              : ['Đặt sân online 24/7', 'Nhận xác nhận qua email', 'Quản lý lịch đặt dễ dàng']
+            ).map((t) => (
               <div key={t} className="flex items-center gap-3 text-white/80 text-sm">
                 <CheckCircle2 size={16} className="text-sports-accent shrink-0" /> {t}
               </div>
@@ -68,9 +85,9 @@ export default function LoginPage() {
           {step !== 'sent' ? (
             <>
               <div className="mb-8">
-                <h1 className="text-2xl font-bold text-gray-900">Đăng nhập</h1>
+                <h1 className="text-2xl font-bold text-gray-900">{isRegister ? 'Đăng ký tài khoản' : 'Đăng nhập'}</h1>
                 <p className="text-gray-500 text-sm mt-1">
-                  Nhập email — chúng tôi gửi link đăng nhập về hộp thư của bạn.
+                  Nhập email — chúng tôi gửi link {isRegister ? 'đăng ký' : 'đăng nhập'} về hộp thư của bạn.
                 </p>
               </div>
 
@@ -102,7 +119,7 @@ export default function LoginPage() {
                   {step === 'sending' ? (
                     <><Loader2 size={18} className="animate-spin" /> Đang gửi...</>
                   ) : (
-                    <>Gửi link đăng nhập <ArrowRight size={18} /></>
+                    <>Gửi link {isRegister ? 'đăng ký' : 'đăng nhập'} <ArrowRight size={18} /></>
                   )}
                 </button>
               </form>
