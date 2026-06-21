@@ -78,6 +78,18 @@ export default function BookingWidget({ courts, venueName }: Props) {
       .catch(() => setPointsBalance(null));
   }, [user]);
 
+  // Nội dung ưu đãi đọc từ chương trình voucher admin đang bật — không viết cứng trong code,
+  // để admin chỉnh ở /admin/vouchers là khách thấy ngay, không cần sửa code.
+  const [rewardNote, setRewardNote] = useState<string | null>(null);
+  const [rewardValidDays, setRewardValidDays] = useState<number | null>(null);
+
+  useEffect(() => {
+    fetch(`/api/vouchers/active?venue_type=${selectedCourt.type}`)
+      .then(r => r.json())
+      .then(d => { setRewardNote(d.reward_note ?? null); setRewardValidDays(d.valid_days ?? null); })
+      .catch(() => { setRewardNote(null); setRewardValidDays(null); });
+  }, [selectedCourt.type]);
+
   const days = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
 
   useEffect(() => {
@@ -229,13 +241,15 @@ export default function BookingWidget({ courts, venueName }: Props) {
             </div>
           )}
 
-          <div className="bg-sports-light border border-sports-primary/20 rounded-2xl p-4 text-left mb-5">
-            <p className="text-sm font-semibold text-sports-dark mb-1">🎁 Quà tặng kèm</p>
-            <p className="text-xs text-gray-600 leading-relaxed">
-              Sau khi xác nhận đặt cọc, bạn được tặng <strong>1 ly nước miễn phí</strong> tại Café Lavie
-              (hạn 7 ngày). Khi đến quầy chỉ cần đọc <strong>số điện thoại đặt sân</strong> để nhận.
-            </p>
-          </div>
+          {rewardNote && (
+            <div className="bg-sports-light border border-sports-primary/20 rounded-2xl p-4 text-left mb-5">
+              <p className="text-sm font-semibold text-sports-dark mb-1">🎁 Quà tặng kèm</p>
+              <p className="text-xs text-gray-600 leading-relaxed">
+                Sau khi xác nhận đặt cọc, bạn được <strong>{rewardNote}</strong>
+                {rewardValidDays ? ` (hạn ${rewardValidDays} ngày)` : ''}. Khi đến quầy chỉ cần đọc <strong>số điện thoại đặt sân</strong> để nhận.
+              </p>
+            </div>
+          )}
 
           <button onClick={resetForm} className="w-full sports-btn py-3.5 text-base">
             Đặt sân khác
