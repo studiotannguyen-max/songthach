@@ -316,9 +316,18 @@ export default function BookingWidget({ courts, venueName }: Props) {
               </div>
             )
           ) : (
-            <p className="text-xs text-gray-500">
-              <a href="/login" className="text-sports-primary underline">Đăng nhập</a> để tích & dùng điểm cho lần đặt sân này.
-            </p>
+            <div className="bg-sports-light border border-sports-primary/20 rounded-2xl p-4 flex items-center justify-between gap-3">
+              <div>
+                <p className="text-sm font-semibold text-sports-dark">Đăng ký thành viên — nhận thêm ưu đãi</p>
+                <p className="text-xs text-gray-600 mt-0.5">Tích điểm mỗi lần đặt sân, dùng điểm giảm giá ngay lần sau.</p>
+              </div>
+              <a
+                href="/login?mode=register"
+                className="shrink-0 rounded-full bg-sports-primary text-white text-xs font-semibold px-4 py-2 hover:opacity-90 transition-opacity"
+              >
+                Đăng ký
+              </a>
+            </div>
           )}
 
           {/* Contact info */}
