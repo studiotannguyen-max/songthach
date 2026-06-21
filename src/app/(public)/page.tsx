@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
 import { ArrowRight, MapPin, Clock, Phone } from 'lucide-react';
-import QuickBook from '@/components/home/QuickBook';
 import { getGallery } from '@/lib/gallery';
 import { getPublishedPosts } from '@/lib/posts';
 
@@ -109,13 +108,11 @@ function CourtLines() {
 }
 
 export default async function HomePage() {
-  const [footballPhotos, cafePhotos, posts] = await Promise.all([
-    getGallery('football'),
+  const [cafePhotos, posts] = await Promise.all([
     getGallery('cafe'),
     getPublishedPosts(3),
   ]);
-  const footballImage = footballPhotos[0]?.url;
-  const cafeImage     = cafePhotos[0]?.url;
+  const cafeImage = cafePhotos[0]?.url;
 
   return (
     <>
@@ -136,7 +133,7 @@ export default async function HomePage() {
             <Link href="/sports/football" className="hover:opacity-70">Đặt sân</Link>
             <a href="#daotao" className="hover:opacity-70">Đào tạo</a>
             <a href="#cafe" className="hover:opacity-70">Cafe</a>
-            <a href="#tintuc" className="hover:opacity-70">Tin tức</a>
+            <Link href="/tin-tuc" className="hover:opacity-70">Tin tức</Link>
           </div>
           <div className="ml-auto flex items-center gap-3.5">
             <Link href="/login" className="hidden sm:inline text-sm font-medium" style={{ color: PITCH }}>Đăng nhập</Link>
@@ -162,7 +159,7 @@ export default async function HomePage() {
               Tổ hợp thể thao · tiệc cưới · cà phê — Đồng Nai
             </span>
             <h1 className="font-extrabold leading-[1.02] tracking-tight" style={{ fontFamily: 'var(--font-bricolage)', fontSize: 'clamp(38px,6.2vw,64px)' }}>
-              Cả một sân chơi,<br />gói trong <span style={{ color: LIME }}>một nơi.</span>
+              Welcome — come play, <span style={{ color: LIME }}>stay, relax</span>
             </h1>
             <p className="text-base mt-5 mb-7 max-w-[46ch]" style={{ color: '#d7e3da' }}>
               Sân cầu lông, sân bóng đá, lớp đào tạo thể thao, tiệc cưới sân vườn và Café Lavie en Rose — tất cả ở cùng một địa chỉ.
@@ -177,8 +174,12 @@ export default async function HomePage() {
             </div>
             <div className="flex gap-8 mt-10 pt-6 border-t flex-wrap" style={{ borderColor: 'rgba(255,255,255,.14)' }}>
               <div>
-                <b className="block text-2xl font-bold" style={{ fontFamily: 'var(--font-bricolage)' }}>7</b>
-                <span className="text-xs" style={{ color: '#aebfb4' }}>sân cầu lông &amp; bóng đá</span>
+                <b className="block text-2xl font-bold" style={{ fontFamily: 'var(--font-bricolage)' }}>3</b>
+                <span className="text-xs" style={{ color: '#aebfb4' }}>sân cầu lông</span>
+              </div>
+              <div>
+                <b className="block text-2xl font-bold" style={{ fontFamily: 'var(--font-bricolage)' }}>2</b>
+                <span className="text-xs" style={{ color: '#aebfb4' }}>sân bóng đá</span>
               </div>
               <div>
                 <b className="block text-2xl font-bold" style={{ fontFamily: 'var(--font-bricolage)' }}>2</b>
@@ -191,18 +192,41 @@ export default async function HomePage() {
             </div>
           </div>
 
-          {/* Quick book card */}
-          <div className="rounded-[20px] p-6 border" style={{ background: `linear-gradient(160deg,#15543d,#0c3022)`, borderColor: 'rgba(156,226,92,.22)' }}>
-            <span className="inline-block text-xs font-semibold px-2.5 py-1 rounded-full" style={{ background: LIME, color: INK }}>Đặt nhanh</span>
-            <h3 className="mt-3.5 mb-1 text-lg" style={{ fontFamily: 'var(--font-bricolage)' }}>Tìm sân trống trong 30 giây</h3>
-            <div className="relative h-36 rounded-xl my-4 overflow-hidden">
-              {footballImage ? (
-                <Image src={footballImage} alt="Sân Song Thạch" fill sizes="400px" className="object-cover" />
-              ) : (
-                <div className="absolute inset-0" style={{ background: '#0e3a2a' }} />
-              )}
-            </div>
-            <QuickBook />
+          {/* Tin tức & sự kiện */}
+          <div id="tintuc" className="rounded-[20px] p-6 border" style={{ background: `linear-gradient(160deg,#15543d,#0c3022)`, borderColor: 'rgba(156,226,92,.22)' }}>
+            <span className="inline-block text-xs font-semibold px-2.5 py-1 rounded-full" style={{ background: LIME, color: INK }}>Tin tức &amp; sự kiện</span>
+            <h3 className="mt-3.5 mb-4 text-lg" style={{ fontFamily: 'var(--font-bricolage)' }}>Đang diễn ra tại Song Thạch</h3>
+
+            {posts.length === 0 ? (
+              <p className="text-sm" style={{ color: '#aebfb4' }}>Chưa có tin tức nào.</p>
+            ) : (
+              <div className="space-y-3">
+                {posts.map((post) => (
+                  <Link
+                    key={post.id}
+                    href={`/tin-tuc/${post.slug}`}
+                    className="flex gap-3 items-center rounded-xl p-2.5 transition-colors hover:bg-white/5"
+                  >
+                    <div className="relative w-16 h-16 rounded-lg overflow-hidden shrink-0" style={{ background: '#0e3a2a' }}>
+                      {post.cover_image && (
+                        <Image src={post.cover_image} alt={post.title} fill sizes="64px" className="object-cover" />
+                      )}
+                    </div>
+                    <div className="min-w-0">
+                      {post.published_at && (
+                        <div className="text-[11px] font-semibold" style={{ color: LIME }}>
+                          {format(new Date(post.published_at), 'dd/MM/yyyy', { locale: vi })}
+                        </div>
+                      )}
+                      <p className="text-sm font-semibold leading-snug truncate" style={{ color: PAPER }}>{post.title}</p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
+            <Link href="/tin-tuc" className="mt-4 flex items-center gap-1.5 text-sm font-semibold" style={{ color: LIME }}>
+              Xem tất cả tin tức <ArrowRight size={14} />
+            </Link>
           </div>
         </div>
       </header>
@@ -214,7 +238,7 @@ export default async function HomePage() {
             <div>
               <div className="text-xs font-semibold mb-2" style={{ color: LIME_DEEP }}>Khám phá theo dịch vụ</div>
               <h2 className="font-bold tracking-tight max-w-[18ch]" style={{ fontFamily: 'var(--font-bricolage)', fontSize: 'clamp(26px,4vw,38px)', color: INK }}>
-                Chọn cuộc chơi của bạn
+                DỊCH VỤ TẠI SONG THẠCH
               </h2>
             </div>
           </div>
@@ -282,50 +306,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── News ───────────────── */}
-      <section className="py-16 md:py-20" id="tintuc" style={{ background: PAPER }}>
-        <div className="max-w-[1180px] mx-auto px-4 sm:px-6">
-          <div className="flex items-end justify-between gap-5 mb-8 flex-wrap">
-            <div>
-              <div className="text-xs font-semibold mb-2" style={{ color: LIME_DEEP }}>Tin tức &amp; sự kiện</div>
-              <h2 className="font-bold tracking-tight max-w-[18ch]" style={{ fontFamily: 'var(--font-bricolage)', fontSize: 'clamp(26px,4vw,38px)', color: INK }}>
-                Đang diễn ra tại Song Thạch
-              </h2>
-            </div>
-          </div>
-
-          {posts.length === 0 ? (
-            <p className="text-sm" style={{ color: MUTED }}>Chưa có tin tức nào.</p>
-          ) : (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {posts.map((post) => (
-                <Link
-                  key={post.id}
-                  href={`/tin-tuc/${post.slug}`}
-                  className="block rounded-[14px] overflow-hidden border transition-transform hover:-translate-y-1"
-                  style={{ background: '#fff', borderColor: LINE }}
-                >
-                  <div className="relative h-[172px]" style={{ background: '#ece7da' }}>
-                    {post.cover_image && (
-                      <Image src={post.cover_image} alt={post.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />
-                    )}
-                  </div>
-                  <div className="p-5">
-                    {post.published_at && (
-                      <div className="text-[11.5px] font-semibold mb-2" style={{ color: LIME_DEEP }}>
-                        {format(new Date(post.published_at), 'dd/MM', { locale: vi })}
-                      </div>
-                    )}
-                    <h4 className="font-semibold text-[17.5px] leading-snug mb-2" style={{ fontFamily: 'var(--font-bricolage)', color: INK }}>{post.title}</h4>
-                    {post.excerpt && <p className="text-sm" style={{ color: MUTED }}>{post.excerpt}</p>}
-                  </div>
-                </Link>
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
-
       {/* ── Location ───────────────── */}
       <section className="py-16 md:py-20" style={{ background: PITCH, color: PAPER }}>
         <div className="max-w-[1180px] mx-auto px-4 sm:px-6 grid lg:grid-cols-[.9fr_1.1fr] gap-10 items-center">
@@ -388,7 +368,7 @@ export default async function HomePage() {
               <ul className="space-y-2.5 text-sm">
                 <li><Link href="/wedding" className="hover:text-white">Tiệc cưới</Link></li>
                 <li><Link href="/cafe" className="hover:text-white">Café Lavie en Rose</Link></li>
-                <li><a href="#tintuc" className="hover:text-white">Tin tức</a></li>
+                <li><Link href="/tin-tuc" className="hover:text-white">Tin tức</Link></li>
               </ul>
             </div>
             <div>

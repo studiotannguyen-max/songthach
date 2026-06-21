@@ -5,7 +5,7 @@ import Footer from '@/components/shared/Footer';
 
 export const metadata: Metadata = {
   title: 'Café Lavie en Rose',
-  description: 'Café Lavie en Rose — không gian xanh mát, yên tĩnh trong khuôn viên Song Thạch. Cà phê, trà, nước ép tươi. Mở cửa 07:00–22:00, phục vụ khách nội khu và bên ngoài.',
+  description: 'Café Lavie en Rose — không gian xanh mát, yên tĩnh trong khuôn viên Song Thạch. Cà phê, trà,. Mở cửa 07:00–22:00, phục vụ khách nội khu và bên ngoài.',
 };
 
 // Menu thật — Lavie en Rose. m = size M, l = size L (k = nghìn đồng)

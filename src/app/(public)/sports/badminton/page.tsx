@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import { Shield, Wrench, Users, GraduationCap, CheckCircle2, BookOpen, Award, Zap, TrendingUp, MapPin, Phone } from 'lucide-react';
+import { Shield, Wrench, Users, GraduationCap, CheckCircle2, BookOpen, Award, Zap, TrendingUp, MapPin, Phone, ArrowRight } from 'lucide-react';
 import Navbar from '@/components/shared/Navbar';
 import Footer from '@/components/shared/Footer';
 import BookingWidget from '@/components/sports/BookingWidget';
@@ -82,6 +82,9 @@ const COURTS = [
   { id: 'court-2', name: 'Sân 2', type: 'badminton' as const },
   { id: 'court-3', name: 'Sân 3', type: 'badminton' as const },
 ];
+
+const MAP_LINK = 'https://maps.app.goo.gl/As3cSj4JTF49MsLVA';
+const MAP_EMBED_SRC = 'https://www.google.com/maps?q=10.950334,107.045569&z=16&output=embed';
 
 const FEATURES = [
   { icon: Shield, title: 'Sàn PVC chính hãng',    desc: 'Giảm chấn tốt, bảo vệ khớp gối.' },
@@ -308,6 +311,38 @@ export default async function BadmintonPage() {
               ))}
               <p className="text-center text-gray-400 text-xs">Tất cả các lớp đều học 8 buổi / tháng.</p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Vị trí ──────────────────────────────────────── */}
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-8 items-center">
+          <div>
+            <h2 className="sports-hero-text text-3xl font-bold text-sports-dark mb-4">Vị trí Sân Cầu lông</h2>
+            <p className="flex items-start gap-2 text-gray-600 mb-6">
+              <MapPin size={18} className="text-sports-primary shrink-0 mt-0.5" />
+              9B/3, Ấp An Hòa, Xã Hưng Thịnh, Đồng Nai
+            </p>
+            <a
+              href={MAP_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="sports-btn inline-flex items-center gap-2"
+            >
+              Chỉ đường <ArrowRight size={16} />
+            </a>
+          </div>
+          <div className="rounded-2xl overflow-hidden border border-gray-100 h-[300px]">
+            <iframe
+              src={MAP_EMBED_SRC}
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Vị trí Sân Cầu lông Song Thạch"
+            />
           </div>
         </div>
       </section>
