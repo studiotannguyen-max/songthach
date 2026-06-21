@@ -3,6 +3,7 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import { requireAdmin } from '@/lib/auth';
 import { issueVoucherForBooking, revokeVouchersForBooking } from '@/lib/vouchers';
 import { sendVoucherEmail } from '@/lib/email';
+import { awardPointsForBooking } from '@/lib/points';
 
 // PATCH /api/admin/bookings/:id — Cập nhật trạng thái
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
@@ -21,7 +22,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     .from('bookings')
     .update({ status })
     .eq('id', params.id)
-    .select('id, venue_type, user_phone, user_email, user_name')
+    .select('id, venue_type, user_id, user_phone, user_email, user_name, total_price')
     .single();
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
@@ -43,12 +44,14 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
           expires_at:  voucher.expires_at,
         }).catch(err => console.error('[Email] Gửi voucher thất bại:', err));
       }
+
+      await awardPointsForBooking(supabase, booking);
     } else if (status === 'cancelled' && booking) {
       await revokeVouchersForBooking(supabase, booking.id);
     }
   } catch (e) {
-    // Voucher lỗi không được chặn việc đổi trạng thái booking
-    console.error('[Voucher] Lỗi phát/thu hồi:', e);
+    // Voucher/điểm lỗi không được chặn việc đổi trạng thái booking
+    console.error('[Voucher/Points] Lỗi phát/thu hồi:', e);
   }
 
   return NextResponse.json({ success: true, voucher_code });
