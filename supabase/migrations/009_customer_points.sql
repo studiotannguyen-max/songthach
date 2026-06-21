@@ -1,8 +1,11 @@
 -- Hệ thống tích điểm khách hàng — chạy trong Supabase SQL Editor
 
+-- Lưu ý: bảng public.users trong dự án này KHÔNG được dùng thực tế (0 dòng, luôn rỗng) —
+-- đăng nhập/khách hàng thật chỉ tồn tại trong auth.users (Supabase Auth nội bộ).
+-- Vì vậy user_id ở đây trỏ thẳng auth.users(id), không trỏ public.users(id).
 CREATE TABLE point_transactions (
   id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id     UUID NOT NULL REFERENCES users(id),
+  user_id     UUID NOT NULL REFERENCES auth.users(id),
   booking_id  UUID REFERENCES bookings(id),
   type        VARCHAR(10) NOT NULL CHECK (type IN ('earn', 'redeem')),
   points      INT NOT NULL,            -- dương cho earn, âm cho redeem
