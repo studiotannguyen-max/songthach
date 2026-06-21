@@ -232,7 +232,9 @@ export async function POST(req: NextRequest) {
       await redeemPoints(admin, { userId, bookingId: booking.id, points: points_used });
     }
 
-    const bookingId = `BK-${booking.id.slice(0, 8).toUpperCase()}`;
+    // Mã đặt sân gọn: ST + 5 chữ số, suy ra từ id thật (không lưu cột riêng)
+    const numericCode = parseInt(booking.id.replace(/-/g, '').slice(0, 8), 16) % 100_000;
+    const bookingId   = `ST${numericCode.toString().padStart(5, '0')}`;
     const amountDue  = total_price - pointsDiscountAmount;
 
     // Gửi email xác nhận — không block response nếu email thất bại
