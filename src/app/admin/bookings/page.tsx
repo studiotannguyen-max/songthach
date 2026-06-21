@@ -21,6 +21,8 @@ interface Booking {
   end_time: string;
   duration: number;
   total_price: number;
+  points_used: number;
+  points_discount_amount: number;
   payment_method: string;
   status: string;
   created_at: string;
@@ -237,7 +239,14 @@ export default function AdminBookingsPage() {
 
                       {/* Tổng tiền */}
                       <td className="px-4 py-3.5">
-                        <p className="font-bold text-sports-primary">{formatCurrency(b.total_price)}</p>
+                        <p className="font-bold text-sports-primary">
+                          {formatCurrency(b.total_price - (b.points_discount_amount || 0))}
+                        </p>
+                        {b.points_used > 0 && (
+                          <p className="text-[10px] text-amber-600 mt-0.5">
+                            Đã giảm {b.points_used} điểm (giá gốc {formatCurrency(b.total_price)})
+                          </p>
+                        )}
                       </td>
 
                       {/* Trạng thái */}
