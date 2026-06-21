@@ -6,6 +6,7 @@ import { sendBookingConfirmation } from '@/lib/email';
 import { sendTelegramNotification } from '@/lib/telegram';
 import { getPriceRules } from '@/lib/pricing';
 import { rateLimit, getClientIp } from '@/lib/rate-limit';
+import { getUserPointsBalance, redeemPoints, VND_PER_POINT } from '@/lib/points';
 
 // Dùng bước 30 phút để hỗ trợ cả sân cầu lông (30'/slot) và bóng đá (60'/slot)
 // Widget bóng đá chỉ hiển thị slot chẵn giờ nên các slot :30 bị bỏ qua ở phía client
@@ -93,6 +94,7 @@ const BookingSchema = z.object({
     z.string().regex(/^(0|\+84)[0-9]{8,10}$/, 'Số điện thoại không hợp lệ'),
   ),
   user_email:     z.string().email('Email không hợp lệ').max(100),
+  points_used:    z.number().int().min(0).max(100_000).optional().default(0),
 });
 
 function addHoursToTime(time: string, hours: number): string {
@@ -120,6 +122,7 @@ export async function POST(req: NextRequest) {
       court_id, court_name, venue_type,
       booking_date, start_time, duration,
       payment_method, user_name, user_phone, user_email,
+      points_used,
     } = parsed.data;
 
     // Không cho đặt ngày quá khứ hoặc quá 60 ngày tới
@@ -174,16 +177,30 @@ export async function POST(req: NextRequest) {
     }
 
     // Lấy user_id nếu đang đăng nhập (tuỳ chọn, không block booking nếu lỗi auth)
+    // Lưu ý: public.users không dùng thực tế trong dự án này (luôn rỗng) — khách hàng
+    // thật chỉ tồn tại trong auth.users, nên dùng trực tiếp auth.uid(), không qua public.users.
     let userId: string | null = null;
     try {
       const supabase = createClient();
       const { data: { user } } = await supabase.auth.getUser();
-      if (user?.id) {
-        // Chỉ dùng user_id nếu tồn tại trong public.users (tránh FK violation khi bảng rỗng)
-        const { data: publicUser } = await admin.from('users').select('id').eq('id', user.id).maybeSingle();
-        if (publicUser) userId = user.id;
-      }
+      if (user?.id) userId = user.id;
     } catch { /* guest booking — bỏ qua lỗi auth */ }
+
+    // Dùng điểm tích lũy giảm giá — chỉ cho phép khi đã đăng nhập
+    let pointsDiscountAmount = 0;
+    if (points_used > 0) {
+      if (!userId) {
+        return NextResponse.json({ error: 'Cần đăng nhập để dùng điểm tích lũy' }, { status: 400 });
+      }
+      const balance = await getUserPointsBalance(admin, userId);
+      if (points_used > balance) {
+        return NextResponse.json({ error: `Bạn chỉ có ${balance} điểm, không đủ để dùng ${points_used} điểm` }, { status: 400 });
+      }
+      pointsDiscountAmount = points_used * VND_PER_POINT;
+      if (pointsDiscountAmount > total_price) {
+        return NextResponse.json({ error: 'Số điểm dùng vượt quá giá trị đặt sân' }, { status: 400 });
+      }
+    }
 
     const { data: booking, error } = await admin
       .from('bookings')
@@ -200,6 +217,8 @@ export async function POST(req: NextRequest) {
         end_time,
         duration,
         total_price,
+        points_used,
+        points_discount_amount: pointsDiscountAmount,
         payment_method,
         status: 'pending',
       })
@@ -208,7 +227,13 @@ export async function POST(req: NextRequest) {
 
     if (error) throw error;
 
+    // Trừ điểm sau khi tạo booking thành công
+    if (points_used > 0 && userId) {
+      await redeemPoints(admin, { userId, bookingId: booking.id, points: points_used });
+    }
+
     const bookingId = `BK-${booking.id.slice(0, 8).toUpperCase()}`;
+    const amountDue  = total_price - pointsDiscountAmount;
 
     // Gửi email xác nhận — không block response nếu email thất bại
     sendBookingConfirmation({
@@ -221,7 +246,7 @@ export async function POST(req: NextRequest) {
       start_time,
       end_time,
       duration,
-      total_price,
+      total_price:    amountDue,
       payment_method,
     }).catch(err => console.error('[Email] Gửi thất bại:', err));
 
@@ -235,11 +260,11 @@ export async function POST(req: NextRequest) {
       duration,
       user_name:      user_name || null,
       user_phone,
-      total_price,
+      total_price:    amountDue,
       payment_method,
     }).catch(err => console.error('[Telegram] Gửi thất bại:', err));
 
-    return NextResponse.json({ success: true, booking_id: bookingId, id: booking.id, total_price }, { status: 201 });
+    return NextResponse.json({ success: true, booking_id: bookingId, id: booking.id, total_price: amountDue }, { status: 201 });
   } catch (err) {
     console.error('[POST /api/bookings]', err);
     const isDev = process.env.NODE_ENV === 'development';
