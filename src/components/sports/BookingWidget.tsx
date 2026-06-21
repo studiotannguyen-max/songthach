@@ -6,6 +6,7 @@ import { vi } from 'date-fns/locale';
 import { cn, formatCurrency, isWeekend } from '@/lib/utils';
 import { getPriceRules } from '@/lib/pricing';
 import { VenueType } from '@/types';
+import { useAuth } from '@/components/providers/AuthProvider';
 
 interface Court {
   id: string;
@@ -65,6 +66,18 @@ export default function BookingWidget({ courts, venueName }: Props) {
   const [bookedSlots,   setBookedSlots]  = useState<string[]>([]);
   const [blockedSlots,  setBlockedSlots] = useState<string[]>([]);
 
+  const { user } = useAuth();
+  const [pointsBalance, setPointsBalance] = useState<number | null>(null);
+  const [pointsUsed,    setPointsUsed]    = useState(0);
+
+  useEffect(() => {
+    if (!user) { setPointsBalance(null); setPointsUsed(0); return; }
+    fetch('/api/points/balance')
+      .then(r => r.ok ? r.json() : { balance: null })
+      .then(d => setPointsBalance(d.balance ?? null))
+      .catch(() => setPointsBalance(null));
+  }, [user]);
+
   const days = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
 
   useEffect(() => {
@@ -82,6 +95,16 @@ export default function BookingWidget({ courts, venueName }: Props) {
   const priceInfo  = selectedSlot ? getPriceRules(selectedSlot, selectedCourt.type) : null;
   const totalPrice = priceInfo ? priceInfo.price * duration : 0;
   const endTime    = selectedSlot ? addHoursToTime(selectedSlot, duration) : '';
+
+  const maxPointsUsable = pointsBalance !== null
+    ? Math.min(pointsBalance, Math.floor(totalPrice / 1000))
+    : 0;
+  const pointsDiscount  = pointsUsed * 1000;
+  const finalPrice      = totalPrice - pointsDiscount;
+
+  useEffect(() => {
+    if (pointsUsed > maxPointsUsable) setPointsUsed(maxPointsUsable);
+  }, [maxPointsUsable, pointsUsed]);
 
   function isBooked(slot: string)  { return bookedSlots.includes(slot); }
   function isBlocked(slot: string) { return blockedSlots.includes(slot); }
@@ -118,6 +141,7 @@ export default function BookingWidget({ courts, venueName }: Props) {
           user_name:      guestName.trim() || null,
           user_phone:     guestPhone.trim(),
           user_email:     guestEmail.trim(),
+          points_used:    pointsUsed,
         }),
       });
       const data = await res.json();
@@ -171,9 +195,15 @@ export default function BookingWidget({ courts, venueName }: Props) {
                 <span className="font-semibold text-gray-900 text-right">{r.value}</span>
               </div>
             ))}
+            {pointsUsed > 0 && (
+              <div className="flex justify-between text-sm text-amber-700">
+                <span>Giảm giá ({pointsUsed} điểm)</span>
+                <span>-{formatCurrency(pointsDiscount)}</span>
+              </div>
+            )}
             <div className="flex justify-between font-bold text-base border-t border-gray-200 pt-2 mt-1">
               <span>Tổng tiền</span>
-              <span className="text-sports-primary">{formatCurrency(totalPrice)}</span>
+              <span className="text-sports-primary">{formatCurrency(finalPrice)}</span>
             </div>
           </div>
 
@@ -181,7 +211,7 @@ export default function BookingWidget({ courts, venueName }: Props) {
             <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4 text-left mb-5">
               <p className="text-sm font-semibold text-blue-800 mb-1">Chuyển khoản để giữ sân</p>
               <p className="text-xs text-blue-700 leading-relaxed mb-3">
-                Vui lòng chuyển <strong>{formatCurrency(totalPrice)}</strong> — sân được giữ trong <strong>2 giờ</strong>.
+                Vui lòng chuyển <strong>{formatCurrency(finalPrice)}</strong> — sân được giữ trong <strong>2 giờ</strong>.
               </p>
               <div className="bg-white rounded-xl p-4 text-center border border-blue-100">
                 <div className="w-28 h-28 bg-gray-100 rounded-xl mx-auto flex items-center justify-center mb-2">
@@ -237,11 +267,45 @@ export default function BookingWidget({ courts, venueName }: Props) {
                 <span className="font-semibold text-gray-900 text-right">{r.value}</span>
               </div>
             ))}
+            {pointsUsed > 0 && (
+              <div className="flex justify-between text-sm text-amber-700">
+                <span>Giảm giá ({pointsUsed} điểm)</span>
+                <span>-{formatCurrency(pointsDiscount)}</span>
+              </div>
+            )}
             <div className="flex justify-between font-bold text-base border-t border-sports-primary/20 pt-2 mt-1">
               <span>Tổng tiền</span>
-              <span className="text-sports-primary">{formatCurrency(totalPrice)}</span>
+              <span className="text-sports-primary">{formatCurrency(finalPrice)}</span>
             </div>
           </div>
+
+          {/* Dùng điểm tích lũy */}
+          {user ? (
+            pointsBalance !== null && pointsBalance > 0 && (
+              <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-sm font-semibold text-amber-800">Dùng điểm tích lũy</p>
+                  <p className="text-xs text-amber-700">Bạn có {pointsBalance} điểm</p>
+                </div>
+                <input
+                  type="range"
+                  min={0}
+                  max={maxPointsUsable}
+                  value={pointsUsed}
+                  onChange={(e) => setPointsUsed(Number(e.target.value))}
+                  className="w-full"
+                />
+                <div className="flex justify-between text-xs text-amber-700 mt-1">
+                  <span>Dùng {pointsUsed} điểm (-{formatCurrency(pointsDiscount)})</span>
+                  <span>Tối đa {maxPointsUsable} điểm</span>
+                </div>
+              </div>
+            )
+          ) : (
+            <p className="text-xs text-gray-500">
+              <a href="/login" className="text-sports-primary underline">Đăng nhập</a> để tích & dùng điểm cho lần đặt sân này.
+            </p>
+          )}
 
           {/* Contact info */}
           <div>
