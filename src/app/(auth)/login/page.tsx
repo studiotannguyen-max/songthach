@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { Suspense, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Mail, ArrowRight, CheckCircle2, Loader2 } from 'lucide-react';
+import { Mail, ArrowRight, CheckCircle2, Loader2, User, Phone } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 
 type Step = 'input' | 'sending' | 'sent';
@@ -20,6 +20,8 @@ function LoginForm() {
   const isRegister   = searchParams.get('mode') === 'register';
 
   const [email, setEmail]   = useState('');
+  const [name, setName]     = useState('');
+  const [phone, setPhone]   = useState('');
   const [step, setStep]     = useState<Step>('input');
   const [error, setError]   = useState('');
   const supabase = createClient();
@@ -27,6 +29,7 @@ function LoginForm() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!email.trim()) return;
+    if (isRegister && !phone.trim()) { setError('Vui lòng nhập số điện thoại'); return; }
     setError('');
     setStep('sending');
 
@@ -34,6 +37,9 @@ function LoginForm() {
       email: email.trim().toLowerCase(),
       options: {
         emailRedirectTo: `${location.origin}/auth/callback`,
+        ...(isRegister && {
+          data: { full_name: name.trim(), phone: phone.trim(), onboarded: true },
+        }),
       },
     });
 
@@ -92,6 +98,43 @@ function LoginForm() {
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-5">
+                {isRegister && (
+                  <>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Họ và tên <span className="text-gray-400 font-normal">(tuỳ chọn)</span>
+                      </label>
+                      <div className="relative">
+                        <User size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+                        <input
+                          type="text"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          placeholder="Nguyễn Văn A"
+                          disabled={step === 'sending'}
+                          className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-sports-primary/30 focus:border-sports-primary transition-all text-sm disabled:opacity-50"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Số điện thoại
+                      </label>
+                      <div className="relative">
+                        <Phone size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+                        <input
+                          type="tel"
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
+                          placeholder="0901 234 567"
+                          required
+                          disabled={step === 'sending'}
+                          className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-sports-primary/30 focus:border-sports-primary transition-all text-sm disabled:opacity-50"
+                        />
+                      </div>
+                    </div>
+                  </>
+                )}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Địa chỉ email
@@ -113,7 +156,7 @@ function LoginForm() {
 
                 <button
                   type="submit"
-                  disabled={step === 'sending' || !email.trim()}
+                  disabled={step === 'sending' || !email.trim() || (isRegister && !phone.trim())}
                   className="w-full sports-btn py-3.5 text-base flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {step === 'sending' ? (
