@@ -159,6 +159,36 @@ interface VoucherEmailData {
   expires_at:  string; // ISO
 }
 
+interface WeddingInquiryData {
+  contact_name:     string;
+  phone:            string;
+  email?:           string | null;
+  event_date?:      string | null;
+  guest_count?:     number | null;
+  table_count?:     number | null;
+  special_requests?: string | null;
+}
+
+export async function sendWeddingInquiryNotification(to: string, data: WeddingInquiryData) {
+  const { contact_name, phone, email, event_date, guest_count, table_count, special_requests } = data;
+
+  const html = `
+<p><strong>Yêu cầu tư vấn tiệc cưới mới</strong></p>
+<p>Khách: ${contact_name} — ${phone}</p>
+<p>Email: ${email || '—'}</p>
+<p>Ngày dự kiến: ${event_date || '—'}</p>
+<p>Số khách: ${guest_count ?? '—'} · Số bàn: ${table_count ?? '—'}</p>
+<p>Yêu cầu: ${special_requests || '—'}</p>`;
+
+  const transporter = createTransporter();
+  return transporter.sendMail({
+    from:    FROM,
+    to,
+    subject: `[Song Thạch] Yêu cầu tư vấn tiệc cưới mới — ${contact_name}`,
+    html,
+  });
+}
+
 export async function sendVoucherEmail(data: VoucherEmailData) {
   const { to, user_name, code, reward_note, expires_at } = data;
   const greeting = user_name ? `Xin chào <strong>${user_name}</strong>,` : 'Xin chào,';

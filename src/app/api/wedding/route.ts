@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { rateLimit, getClientIp } from '@/lib/rate-limit';
+import { sendWeddingInquiryNotification } from '@/lib/email';
 
 const InquirySchema = z.object({
   contact_name:     z.string().min(1, 'Vui lòng nhập tên').max(100),
@@ -52,20 +53,9 @@ export async function POST(req: NextRequest) {
     }
 
     // Báo email cho admin (không block response nếu thất bại)
-    if (process.env.RESEND_API_KEY && process.env.ADMIN_EMAIL) {
-      import('resend').then(({ Resend }) => {
-        const resend = new Resend(process.env.RESEND_API_KEY);
-        return resend.emails.send({
-          from:    process.env.RESEND_FROM_EMAIL ?? 'Song Thạch <onboarding@resend.dev>',
-          to:      process.env.ADMIN_EMAIL!,
-          subject: `Yêu cầu tư vấn tiệc cưới mới — ${d.contact_name}`,
-          html:    `<p>Khách: ${d.contact_name} — ${d.phone}</p>
-                    <p>Email: ${d.email || '—'}</p>
-                    <p>Ngày dự kiến: ${d.event_date || '—'}</p>
-                    <p>Số khách: ${d.guest_count ?? '—'} · Số bàn: ${d.table_count ?? '—'}</p>
-                    <p>Yêu cầu: ${d.special_requests || '—'}</p>`,
-        });
-      }).catch((err) => console.error('[Wedding inquiry] Email thất bại:', err));
+    if (process.env.ADMIN_EMAIL) {
+      sendWeddingInquiryNotification(process.env.ADMIN_EMAIL, d)
+        .catch((err) => console.error('[Wedding inquiry] Email thất bại:', err));
     }
 
     return NextResponse.json({ success: true });
