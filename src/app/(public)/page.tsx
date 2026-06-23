@@ -160,7 +160,7 @@ export default async function HomePage() {
               Tổ hợp thể thao · tiệc cưới · cà phê — Đồng Nai
             </span>
             <h1 className="font-extrabold leading-[1.02] tracking-tight" style={{ fontFamily: 'var(--font-bricolage)', fontSize: 'clamp(38px,6.2vw,64px)' }}>
-              Welcome — come play, <span style={{ color: LIME }}>stay, relax</span>
+              SONG THẠCH — come play, <span style={{ color: LIME }}>stay, relax</span>
             </h1>
             <p className="text-base mt-5 mb-7 max-w-[46ch]" style={{ color: '#d7e3da' }}>
               Sân cầu lông, sân bóng đá, lớp đào tạo thể thao, tiệc cưới sân vườn và Café Lavie en Rose — tất cả ở cùng một địa chỉ.
@@ -295,7 +295,7 @@ export default async function HomePage() {
           <div>
             <div className="text-xs font-semibold mb-2.5" style={{ color: ROSE }}>La Vie en Rose</div>
             <h2 className="font-bold tracking-tight mb-4" style={{ fontFamily: 'var(--font-bricolage)', fontSize: 'clamp(28px,4vw,38px)', color: INK }}>
-              Nghỉ chân giữa một góc vườn Pháp
+              Nghỉ chân giữa một góc bình yên
             </h2>
             <p className="text-[15.5px] mb-6 max-w-[44ch]" style={{ color: '#54584d' }}>
               Một không gian xanh mát, yên tĩnh giữa lòng tổ hợp — nơi bạn thư giãn sau những trận đấu sôi nổi, hoặc đơn giản là thưởng thức một tách cà phê chất lượng trong không gian kiến trúc tinh tế.
