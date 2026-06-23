@@ -1,14 +1,14 @@
 import nodemailer from 'nodemailer';
 
-// Tạo transporter một lần — tái sử dụng connection pool
-function createTransporter() {
+// Tạo transporter — cho phép override user/pass để gửi từ mailbox khác (vẫn cùng server Axigen)
+function createTransporter(user?: string, pass?: string) {
   return nodemailer.createTransport({
     host:   process.env.SMTP_HOST ?? 'localhost',
     port:   Number(process.env.SMTP_PORT ?? 465),
     secure: process.env.SMTP_SECURE !== 'false',
     auth: {
-      user: process.env.SMTP_USER ?? '',
-      pass: process.env.SMTP_PASS ?? '',
+      user: user ?? process.env.SMTP_USER ?? '',
+      pass: pass ?? process.env.SMTP_PASS ?? '',
     },
     tls: { rejectUnauthorized: false }, // cert của shared server không match hostname
   });
@@ -157,6 +157,54 @@ interface VoucherEmailData {
   code:        string;
   reward_note: string;
   expires_at:  string; // ISO
+}
+
+export async function sendRegistrationWelcomeEmail(to: string, name: string | null) {
+  const user = process.env.ADMIN_SMTP_USER ?? process.env.SMTP_USER ?? '';
+  const pass = process.env.ADMIN_SMTP_PASS ?? process.env.SMTP_PASS ?? '';
+  const from = process.env.ADMIN_SMTP_USER ?? FROM;
+  const greeting = name ? `Xin chào <strong>${name}</strong>,` : 'Xin chào,';
+
+  const html = `
+<!DOCTYPE html>
+<html lang="vi">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#f3f4f6;font-family:'Segoe UI',Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f3f4f6;padding:32px 16px;">
+    <tr><td align="center">
+      <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;">
+        <tr><td style="background:linear-gradient(135deg,#1a6b3a,#2d9e5f);border-radius:16px 16px 0 0;padding:28px 32px;text-align:center;">
+          <div style="display:inline-block;background:rgba(255,255,255,0.2);border-radius:10px;padding:8px 16px;margin-bottom:12px;">
+            <span style="color:#fff;font-weight:900;font-size:18px;letter-spacing:2px;">SONG THẠCH</span>
+          </div>
+          <h1 style="margin:0;color:#fff;font-size:22px;font-weight:700;">Đăng ký tài khoản thành công!</h1>
+        </td></tr>
+        <tr><td style="background:#fff;padding:32px;border-radius:0 0 16px 16px;box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+          <p style="margin:0 0 20px;font-size:15px;color:#374151;line-height:1.6;">${greeting}</p>
+          <p style="margin:0 0 24px;font-size:15px;color:#374151;line-height:1.6;">
+            Tài khoản của bạn tại <strong>Song Thạch</strong> đã được tạo thành công.
+            Từ giờ đặt sân, tích điểm và theo dõi lịch sử ngay trên trang cá nhân.
+          </p>
+          <p style="margin:24px 0 0;font-size:13px;color:#9ca3af;line-height:1.6;text-align:center;">
+            Hẹn gặp bạn tại <strong>Song Thạch</strong>!
+          </p>
+        </td></tr>
+        <tr><td style="padding:20px;text-align:center;">
+          <p style="margin:0;font-size:12px;color:#9ca3af;">© 2026 Song Thạch · Email này được gửi tự động, vui lòng không reply.</p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+
+  const transporter = createTransporter(user, pass);
+  return transporter.sendMail({
+    from,
+    to,
+    subject: '[Song Thạch] Đăng ký tài khoản thành công',
+    html,
+  });
 }
 
 interface WeddingInquiryData {

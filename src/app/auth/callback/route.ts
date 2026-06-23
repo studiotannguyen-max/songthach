@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { sendRegistrationWelcomeEmail } from '@/lib/email';
 
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url);
@@ -18,6 +19,15 @@ export async function GET(request: NextRequest) {
     if (!error && data.user) {
       const meta = data.user.user_metadata ?? {};
       const hasProfile = meta.full_name || meta.onboarded;
+
+      // email_confirmed_at chỉ được set đúng 1 lần, tại thời điểm xác nhận đầu tiên —
+      // dùng để nhận biết đây là lượt xác nhận tài khoản mới, không phải đăng nhập lại
+      const confirmedAt = data.user.email_confirmed_at ? new Date(data.user.email_confirmed_at).getTime() : 0;
+      const isFirstConfirmation = Date.now() - confirmedAt < 60_000;
+      if (isFirstConfirmation) {
+        sendRegistrationWelcomeEmail(data.user.email!, meta.full_name || null)
+          .catch((err) => console.error('[Auth callback] Welcome email thất bại:', err));
+      }
 
       // Lần đầu đăng nhập → điền thông tin
       if (!hasProfile) {
