@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { Lightbulb, Car, GraduationCap, Clock, CalendarDays, Users, MapPin, Phone, Building2 } from 'lucide-react';
 import Navbar from '@/components/shared/Navbar';
 import Footer from '@/components/shared/Footer';
-import BookingWidget from '@/components/sports/BookingWidget';
+import FootballBookingPanel from '@/components/sports/FootballBookingPanel';
 import { getGallery } from '@/lib/gallery';
 
 // Đọc lại ảnh từ DB mỗi 60s — admin đổi ảnh nền sẽ hiện sau ~1 phút
@@ -81,16 +81,7 @@ export default async function FootballPage() {
 
             {/* Booking widget — first in HTML = first on mobile */}
             <div className="lg:col-start-3 lg:col-span-3">
-              <div className="sticky top-24 space-y-4">
-                <div className="flex gap-2">
-                  {['Sân 5 người', 'Sân 7 người'].map((tab, i) => (
-                    <button key={tab} className={`flex-1 py-2.5 rounded-xl text-sm font-semibold transition-all ${i === 0 ? 'bg-sports-primary text-white' : 'bg-card border border-border text-foreground/70 hover:border-sports-primary'}`}>
-                      {tab}
-                    </button>
-                  ))}
-                </div>
-                <BookingWidget courts={COURTS_5} venueName="Sân Bóng đá 5 người" />
-              </div>
+              <FootballBookingPanel courts5={COURTS_5} courts7={COURTS_7} />
             </div>
 
             {/* Info — explicit col placement keeps it left on desktop */}

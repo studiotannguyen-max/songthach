@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { sendBookingConfirmation } from '@/lib/email';
 import { sendTelegramNotification } from '@/lib/telegram';
-import { getPriceRules } from '@/lib/pricing';
+import { calculateBookingPrice } from '@/lib/pricing';
 import { rateLimit, getClientIp } from '@/lib/rate-limit';
 import { getUserPointsBalance, redeemPoints, VND_PER_POINT } from '@/lib/points';
 
@@ -135,8 +135,7 @@ export async function POST(req: NextRequest) {
 
     // GIÁ TÍNH PHÍA SERVER — không tin total_price từ client
     const end_time    = addHoursToTime(start_time, duration);
-    const { price }   = getPriceRules(start_time, venue_type);
-    const total_price = price * duration;
+    const { total: total_price } = calculateBookingPrice(start_time, duration, venue_type);
 
     // Giờ chơi phải nằm trong khung mở cửa 06:00 – 22:00
     if (start_time < '06:00' || end_time > '22:00') {

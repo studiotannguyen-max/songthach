@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { randomUUID } from 'crypto';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { requireAdmin } from '@/lib/auth';
-import { getPriceRules } from '@/lib/pricing';
+import { calculateBookingPrice } from '@/lib/pricing';
 import { VenueType } from '@/types';
 
 function addHoursToTime(time: string, hours: number): string {
@@ -90,8 +90,7 @@ export async function POST(req: NextRequest) {
   }
 
   const recurring_id = randomUUID();
-  const { price }    = getPriceRules(start_time, venue_type as VenueType);
-  const total_price  = price * duration;
+  const { total: total_price } = calculateBookingPrice(start_time, duration, venue_type as VenueType);
 
   if (toInsert.length > 0) {
     const rows = toInsert.map(date => ({

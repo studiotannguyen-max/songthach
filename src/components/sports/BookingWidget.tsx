@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight, Clock, Info, Banknote, MapPin, CheckCircle2,
 import { format, addDays, isSameDay, isToday } from 'date-fns';
 import { vi } from 'date-fns/locale';
 import { cn, formatCurrency, isWeekend } from '@/lib/utils';
-import { getPriceRules } from '@/lib/pricing';
+import { getPriceRules, calculateBookingPrice } from '@/lib/pricing';
 import { VenueType } from '@/types';
 import { useAuth } from '@/components/providers/AuthProvider';
 
@@ -104,9 +104,9 @@ export default function BookingWidget({ courts, venueName }: Props) {
       .catch(() => { setBookedSlots([]); setBlockedSlots([]); });
   }, [selectedDate, selectedCourt]);
 
-  const priceInfo  = selectedSlot ? getPriceRules(selectedSlot, selectedCourt.type) : null;
-  const totalPrice = priceInfo ? priceInfo.price * duration : 0;
-  const endTime    = selectedSlot ? addHoursToTime(selectedSlot, duration) : '';
+  const priceBreakdown = selectedSlot ? calculateBookingPrice(selectedSlot, duration, selectedCourt.type) : null;
+  const totalPrice     = priceBreakdown?.total ?? 0;
+  const endTime        = selectedSlot ? addHoursToTime(selectedSlot, duration) : '';
 
   const maxPointsUsable = pointsBalance !== null
     ? Math.min(pointsBalance, Math.floor(totalPrice / 1000))
@@ -596,10 +596,15 @@ export default function BookingWidget({ courts, venueName }: Props) {
             <div className="bg-sports-light rounded-2xl p-4 space-y-2">
               <div className="flex justify-between items-center text-sm">
                 <span className="text-gray-600 flex items-center gap-1.5">
-                  <Clock size={14} /> {selectedSlot} – {endTime} · {priceInfo?.label}
+                  <Clock size={14} /> {selectedSlot} – {endTime}
                 </span>
-                <span className="font-bold text-sports-primary">{formatCurrency(priceInfo!.price)}/h</span>
               </div>
+              {priceBreakdown?.segments.map(seg => (
+                <div key={seg.label} className="flex justify-between items-center text-xs text-gray-500">
+                  <span>{seg.label} · {formatDuration(seg.hours)}</span>
+                  <span>{formatCurrency(seg.price)}/h</span>
+                </div>
+              ))}
               <div className="flex justify-between font-bold text-base border-t border-sports-primary/20 pt-2">
                 <span>Tổng tiền</span>
                 <span className="text-sports-primary">{formatCurrency(totalPrice)}</span>
