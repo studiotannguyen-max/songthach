@@ -22,9 +22,10 @@ export default function Navbar() {
   const router      = useRouter();
   const { user, loading, signOut } = useAuth();
 
-  const [scrolled,    setScrolled]    = useState(false);
-  const [mobileOpen,  setMobileOpen]  = useState(false);
-  const [userMenu,    setUserMenu]    = useState(false);
+  const [scrolled,     setScrolled]    = useState(false);
+  const [mobileOpen,   setMobileOpen]  = useState(false);
+  const [userMenu,     setUserMenu]    = useState(false);
+  const [bookingOpen,  setBookingOpen] = useState(false);
 
   const isWedding = pathname.startsWith('/wedding');
   const isSports  = pathname.startsWith('/sports');
@@ -43,6 +44,14 @@ export default function Navbar() {
     document.addEventListener('click', close);
     return () => document.removeEventListener('click', close);
   }, [userMenu]);
+
+  // Đóng booking dropdown khi click ngoài
+  useEffect(() => {
+    if (!bookingOpen) return;
+    const close = () => setBookingOpen(false);
+    document.addEventListener('click', close);
+    return () => document.removeEventListener('click', close);
+  }, [bookingOpen]);
 
   // Trang chủ không còn hero ảnh tối phía sau navbar (đã bỏ slide) — luôn dùng nền đặc.
   const solid = scrolled || isHome || (!isSports && !isWedding);
@@ -184,12 +193,36 @@ export default function Navbar() {
                 >
                   Đăng nhập
                 </Link>
-                <Link
-                  href="/sports/football"
-                  className="bg-primary text-primary-foreground text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-[#a9781f] transition-colors active:scale-95 tracking-wide"
-                >
-                  Đặt sân ngay
-                </Link>
+                <div className="relative" onClick={(e) => { e.stopPropagation(); setBookingOpen(!bookingOpen); }}>
+                  <button
+                    className="flex items-center gap-1.5 bg-primary text-primary-foreground text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-[#a9781f] transition-colors active:scale-95 tracking-wide"
+                    aria-expanded={bookingOpen}
+                    aria-haspopup="menu"
+                  >
+                    Đặt sân ngay
+                    <ChevronDown size={14} aria-hidden="true" className={cn('transition-transform', bookingOpen && 'rotate-180')} />
+                  </button>
+                  {bookingOpen && (
+                    <div className="absolute right-0 top-full mt-2 w-44 bg-card border border-border overflow-hidden py-1 shadow-md" role="menu">
+                      <Link
+                        href="/sports/football"
+                        className="flex items-center gap-2.5 px-4 py-3 text-sm text-foreground/80 hover:bg-muted transition-colors"
+                        onClick={() => setBookingOpen(false)}
+                        role="menuitem"
+                      >
+                        <Goal size={15} aria-hidden="true" /> Sân Bóng Đá
+                      </Link>
+                      <Link
+                        href="/sports/badminton"
+                        className="flex items-center gap-2.5 px-4 py-3 text-sm text-foreground/80 hover:bg-muted transition-colors"
+                        onClick={() => setBookingOpen(false)}
+                        role="menuitem"
+                      >
+                        <Feather size={15} aria-hidden="true" /> Sân Cầu Lông
+                      </Link>
+                    </div>
+                  )}
+                </div>
               </>
             )}
           </div>
@@ -230,13 +263,18 @@ export default function Navbar() {
                 </button>
               </div>
             ) : (
-              <div className="flex gap-2">
-                <Link href="/login" className="flex-1 py-2.5 text-center text-sm text-foreground/80 border border-border rounded-xl" onClick={() => setMobileOpen(false)}>
+              <div className="flex flex-col gap-2">
+                <Link href="/login" className="py-2.5 text-center text-sm text-foreground/80 border border-border rounded-xl" onClick={() => setMobileOpen(false)}>
                   Đăng nhập
                 </Link>
-                <Link href="/sports/football" className="flex-1 py-2.5 text-center text-sm bg-primary text-primary-foreground font-semibold rounded-xl" onClick={() => setMobileOpen(false)}>
-                  Đặt sân ngay
-                </Link>
+                <div className="flex gap-2">
+                  <Link href="/sports/football" className="flex-1 flex items-center justify-center gap-1.5 py-2.5 text-sm bg-primary text-primary-foreground font-semibold rounded-xl" onClick={() => setMobileOpen(false)}>
+                    <Goal size={14} aria-hidden="true" /> Sân Bóng Đá
+                  </Link>
+                  <Link href="/sports/badminton" className="flex-1 flex items-center justify-center gap-1.5 py-2.5 text-sm bg-primary text-primary-foreground font-semibold rounded-xl" onClick={() => setMobileOpen(false)}>
+                    <Feather size={14} aria-hidden="true" /> Sân Cầu Lông
+                  </Link>
+                </div>
               </div>
             )}
           </div>
