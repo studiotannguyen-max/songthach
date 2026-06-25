@@ -7,6 +7,7 @@ import { sendTelegramNotification } from '@/lib/telegram';
 import { calculateBookingPrice } from '@/lib/pricing';
 import { rateLimit, getClientIp } from '@/lib/rate-limit';
 import { getUserPointsBalance, redeemPoints, VND_PER_POINT } from '@/lib/points';
+import { getLockGroupCourtIds } from '@/lib/court-locks';
 
 // Dùng bước 30 phút để hỗ trợ cả sân cầu lông (30'/slot) và bóng đá (60'/slot)
 // Widget bóng đá chỉ hiển thị slot chẵn giờ nên các slot :30 bị bỏ qua ở phía client
@@ -145,10 +146,11 @@ export async function POST(req: NextRequest) {
     const admin = createAdminClient();
 
     // Kiểm tra trùng lịch — 2 khoảng giao nhau khi: existing.start < new.end VÀ existing.end > new.start
+    // .in() thay .eq() vì 1 số sân nằm chung diện tích (xem getLockGroupCourtIds)
     const { data: conflict } = await admin
       .from('bookings')
       .select('id')
-      .eq('court_id', court_id)
+      .in('court_id', getLockGroupCourtIds(court_id))
       .eq('booking_date', booking_date)
       .in('status', ['pending', 'confirmed'])
       .lt('start_time', end_time)
@@ -160,10 +162,11 @@ export async function POST(req: NextRequest) {
     }
 
     // Kiểm tra sân có đang bị khoá bảo trì trong khung giờ này không
+    // (gồm cả sân liên kết — vd Sân 5A bảo trì thì Sân 7A cũng không đặt được)
     const { data: blocks } = await admin
       .from('court_blocks')
       .select('start_time, end_time')
-      .eq('court_id', court_id)
+      .in('court_id', getLockGroupCourtIds(court_id))
       .eq('block_date', booking_date);
 
     const isBlocked = (blocks ?? []).some(b => {
