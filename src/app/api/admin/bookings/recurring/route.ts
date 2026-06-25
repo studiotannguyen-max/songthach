@@ -4,6 +4,7 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import { requireAdmin } from '@/lib/auth';
 import { calculateBookingPrice } from '@/lib/pricing';
 import { VenueType } from '@/types';
+import { getLockGroupCourtIds } from '@/lib/court-locks';
 
 function addHoursToTime(time: string, hours: number): string {
   const [h, m] = time.split(':').map(Number);
@@ -58,15 +59,17 @@ export async function POST(req: NextRequest) {
   const dates    = buildOccurrences(start_date, day_of_week, weeks);
 
   // Lấy các booking & khoá sân hiện có để kiểm tra trùng lịch cho từng ngày
+  // (gồm cả sân liên kết — xem getLockGroupCourtIds)
+  const groupIds = getLockGroupCourtIds(court_id);
   const [{ data: existing }, { data: blocks }] = await Promise.all([
     admin.from('bookings')
       .select('booking_date, start_time, end_time')
-      .eq('court_id', court_id)
+      .in('court_id', groupIds)
       .in('booking_date', dates)
       .in('status', ['pending', 'confirmed']),
     admin.from('court_blocks')
       .select('block_date, start_time, end_time')
-      .eq('court_id', court_id)
+      .in('court_id', groupIds)
       .in('block_date', dates),
   ]);
 
