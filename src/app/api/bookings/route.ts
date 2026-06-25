@@ -28,18 +28,19 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ booked_slots: [] });
   }
 
-  const supabase = createAdminClient();
+  const supabase  = createAdminClient();
+  const groupIds  = getLockGroupCourtIds(court_id);
   const [{ data }, { data: blocks }] = await Promise.all([
     supabase
       .from('bookings')
       .select('start_time, duration')
-      .eq('court_id', court_id)
+      .in('court_id', groupIds)
       .eq('booking_date', date)
       .in('status', ['pending', 'confirmed']),
     supabase
       .from('court_blocks')
       .select('start_time, end_time')
-      .eq('court_id', court_id)
+      .in('court_id', groupIds)
       .eq('block_date', date),
   ]);
 
