@@ -11,7 +11,7 @@ import { useSportPicker } from '@/components/providers/SportPickerProvider';
 const ZONE_LINKS = [
   { label: 'Sân Bóng Đá', href: '/sports/football', icon: Goal },
   { label: 'Sân Cầu Lông', href: '/sports/badminton', icon: Feather },
-  { label: 'Giải CL 2026', href: '/giai-cau-long-2026', icon: Trophy },
+  { label: 'Giải Cầu Lông 2026', href: '/giai-cau-long-2026', icon: Trophy },
   { label: 'Tiệc Cưới', href: '/wedding', icon: Heart },
   { label: 'Lavie en Rose', href: '/cafe', icon: Coffee },
 ];
