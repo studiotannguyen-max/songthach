@@ -1,0 +1,139 @@
+/* Scoped styles for Giải Cầu Lông Song Thạch Mở Rộng 2026 */
+/* All vars scoped under .giai-page to avoid global conflicts */
+
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap');
+
+.giai-page {
+  --cream:#F4E9D6; --cream2:#FBF4E6; --paper:#FFFBF2;
+  --mustard:#E3A21A; --mustard-d:#C5860F; --mustard-soft:#F6DD9E;
+  --terra:#C5532F; --terra-d:#A33E1F; --terra-soft:#F1C9B4;
+  --ink:#3B2A1E; --brown:#7A5638; --muted:#8A6E54;
+  --line:#E2CFA9;
+  font-family:"Nunito",system-ui,sans-serif;
+  color:var(--ink);
+  background:var(--cream);
+  line-height:1.62;
+  font-size:17px;
+  -webkit-font-smoothing:antialiased;
+}
+.giai-page *{box-sizing:border-box}
+.giai-page h1,.giai-page h2,.giai-page h3,.giai-page h4{font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;line-height:1.05}
+.giai-page a{color:inherit}
+.giai-page svg{display:block}
+
+/* buttons */
+.giai-page .g-btn{display:inline-flex;align-items:center;gap:9px;font-family:"Baloo 2";font-weight:700;text-decoration:none;border-radius:999px;cursor:pointer;border:2.5px solid var(--ink);transition:transform .12s ease,box-shadow .12s ease;box-shadow:4px 4px 0 var(--ink)}
+.giai-page .g-btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.giai-page .g-btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.giai-page .btn-terra{background:var(--terra);color:#FFF6EC;padding:12px 24px}
+.giai-page .btn-mustard{background:var(--mustard);color:var(--ink);padding:12px 24px}
+.giai-page .btn-cream{background:var(--cream2);color:var(--ink);padding:12px 24px}
+.giai-page .btn-lg{padding:15px 32px;font-size:18px}
+
+/* ribbon */
+.giai-page .ribbon{background:var(--ink);color:var(--cream2);font-size:13.5px;font-weight:700;text-align:center;padding:9px 16px;letter-spacing:.01em}
+.giai-page .ribbon b{color:var(--mustard)}
+
+/* hero */
+.giai-page .hero{position:relative;overflow:hidden;background:radial-gradient(60% 80% at 88% 6%,var(--mustard-soft) 0%,transparent 60%),var(--cream)}
+.giai-page .sunburst{position:absolute;top:-160px;right:-160px;width:520px;height:520px;opacity:.5;color:var(--mustard);z-index:0;display:block}
+.giai-page .racket-bg{position:absolute;left:-70px;bottom:-90px;width:340px;height:340px;color:var(--terra-soft);transform:rotate(-18deg);opacity:.55;z-index:0;display:block}
+.giai-page .hero-inner{position:relative;z-index:1;padding:60px 22px 78px;max-width:1100px;margin:0 auto}
+.giai-page .sticker{display:inline-flex;align-items:center;gap:8px;background:var(--terra);color:#FFF6EC;font-family:"Baloo 2";font-weight:700;font-size:13.5px;letter-spacing:.06em;text-transform:uppercase;padding:8px 16px;border:2.5px solid var(--ink);border-radius:999px;box-shadow:3px 3px 0 var(--ink);transform:rotate(-2deg);margin-bottom:24px}
+.giai-page .sticker .dot{width:8px;height:8px;border-radius:50%;background:var(--mustard);display:inline-block}
+.giai-page h1.title{font-size:clamp(2.7rem,7.5vw,5.4rem);letter-spacing:-.01em;max-width:16ch;color:var(--ink)}
+.giai-page h1.title .a{color:var(--terra)}
+.giai-page h1.title .b{color:var(--mustard-d)}
+.giai-page .lede{margin-top:22px;font-size:clamp(1.08rem,2.2vw,1.32rem);max-width:56ch;color:var(--brown);font-weight:600}
+.giai-page .facts{display:flex;flex-wrap:wrap;gap:14px;margin-top:32px}
+.giai-page .fact{display:flex;align-items:center;gap:12px;background:var(--cream2);border:2.5px solid var(--ink);border-radius:16px;padding:12px 18px;box-shadow:3px 3px 0 var(--ink)}
+.giai-page .fact .ic{width:38px;height:38px;border-radius:11px;background:var(--mustard-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.giai-page .fact .ic svg{width:21px;height:21px;color:var(--terra-d)}
+.giai-page .fact .k{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:800}
+.giai-page .fact .v{font-family:"Baloo 2";font-weight:700;font-size:15px;line-height:1.2}
+.giai-page .hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+
+/* wave */
+.giai-page .wave{display:block;width:100%;height:46px}
+
+/* section layout */
+.giai-page section{padding:64px 0}
+.giai-page .wrap{max-width:1100px;margin:0 auto;padding:0 22px}
+.giai-page .sec-head{max-width:60ch;margin-bottom:40px}
+.giai-page .kicker{display:inline-block;font-family:"Baloo 2";font-weight:700;color:var(--terra);font-size:15px;letter-spacing:.04em;background:var(--terra-soft);border:2px solid var(--ink);padding:4px 14px;border-radius:999px;box-shadow:2px 2px 0 var(--ink);transform:rotate(-1.5deg);margin-bottom:16px}
+.giai-page h2{font-size:clamp(2.1rem,4.6vw,3.1rem);color:var(--ink)}
+.giai-page .sec-head p{margin-top:14px;color:var(--brown);font-size:1.08rem;font-weight:600}
+
+/* mission */
+.giai-page .mission{background:var(--cream2)}
+.giai-page .mission-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:46px;align-items:center}
+.giai-page .mission-grid h2 .hl{color:var(--terra)}
+.giai-page .mission-grid p{font-size:1.13rem;color:#4a3424;margin-top:18px;font-weight:600}
+.giai-page .mission-grid p strong{color:var(--terra-d)}
+.giai-page .stat-card{position:relative;background:var(--terra);color:#FFF6EC;border:3px solid var(--ink);border-radius:26px;padding:38px;box-shadow:8px 8px 0 var(--ink);overflow:hidden;text-align:center}
+.giai-page .stat-card .rays{position:absolute;inset:0;color:rgba(255,255,255,.12);z-index:0;display:block;width:100%;height:100%}
+.giai-page .stat-card .big{position:relative;font-family:"Baloo 2";font-weight:800;font-size:clamp(4rem,11vw,6.5rem);color:var(--mustard);line-height:.9;z-index:1;text-shadow:3px 3px 0 var(--ink)}
+.giai-page .stat-card .lbl{position:relative;z-index:1;margin-top:6px;font-size:1.06rem;font-weight:700}
+@media(max-width:780px){.giai-page .mission-grid{grid-template-columns:1fr;gap:30px}}
+
+/* groups */
+.giai-page .groups{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+.giai-page .grp{background:var(--paper);border:2.5px solid var(--ink);border-radius:22px;padding:24px;box-shadow:5px 5px 0 var(--ink);transition:transform .14s ease,box-shadow .14s ease}
+.giai-page .grp:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--ink)}
+.giai-page .grp .top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
+.giai-page .gnum{display:inline-block;font-family:"Baloo 2";font-weight:800;font-size:13px;letter-spacing:.05em;color:#FFF6EC;background:var(--mustard-d);border:2px solid var(--ink);padding:2px 11px;border-radius:999px;margin-bottom:8px}
+.giai-page .grp h3{font-size:1.5rem;color:var(--ink);line-height:1.06}
+.giai-page .grp .age{color:var(--muted);font-size:.96rem;font-weight:700;margin-top:3px}
+.giai-page .fee{flex-shrink:0;font-family:"Baloo 2";font-weight:700;font-size:.95rem;padding:7px 15px;border-radius:999px;background:var(--mustard);color:var(--ink);border:2.5px solid var(--ink);box-shadow:2px 2px 0 var(--ink);white-space:nowrap;transform:rotate(2deg)}
+.giai-page .fee.free{background:#BFD9A0}
+.giai-page .grp .content{margin-top:16px;padding-top:16px;border-top:2.5px dashed var(--line)}
+.giai-page .c-lbl{font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:800;margin-bottom:8px}
+.giai-page .events{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.giai-page .events span{font-family:"Baloo 2";font-weight:600;font-size:.92rem;background:var(--cream);border:2px solid var(--ink);padding:3px 12px;border-radius:999px}
+.giai-page .prize-row{display:flex;align-items:center;gap:11px;margin-bottom:8px;font-size:1rem;font-weight:700}
+.giai-page .prize-row:last-child{margin-bottom:0}
+.giai-page .pmedal{width:24px;height:24px;flex-shrink:0}
+.giai-page .pmedal.g{color:var(--mustard)}.giai-page .pmedal.s{color:#B98A5E}.giai-page .pmedal.b{color:var(--terra)}
+.giai-page .prize-row .amt{font-family:"Baloo 2";font-weight:800;color:var(--terra-d)}
+.giai-page .prize-gift{margin-top:12px;display:flex;align-items:center;gap:10px;color:var(--brown);font-size:.95rem;font-weight:700}
+.giai-page .prize-gift svg{width:20px;height:20px;color:var(--terra-d);flex-shrink:0;display:inline-block}
+.giai-page .grp.wide{grid-column:1/-1}
+@media(max-width:780px){.giai-page .groups{grid-template-columns:1fr}}
+
+/* fees table */
+.giai-page .feetable{width:100%;border-collapse:separate;border-spacing:0;border:2.5px solid var(--ink);border-radius:18px;overflow:hidden;box-shadow:5px 5px 0 var(--ink);background:var(--paper)}
+.giai-page .feetable th,.giai-page .feetable td{padding:15px 18px;text-align:left;border-bottom:2px solid var(--line);font-weight:700}
+.giai-page .feetable thead th{background:var(--mustard);color:var(--ink);font-family:"Baloo 2";border-bottom:2.5px solid var(--ink)}
+.giai-page .feetable tbody tr:last-child td{border-bottom:none}
+.giai-page .feetable td:last-child,.giai-page .feetable th:last-child{text-align:right;font-family:"Baloo 2";white-space:nowrap}
+.giai-page .feetable tbody tr:nth-child(even){background:var(--cream2)}
+
+/* rules */
+.giai-page .rules-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px 30px}
+.giai-page .rule{display:flex;gap:14px;align-items:flex-start}
+.giai-page .rule .ico{flex-shrink:0;width:38px;height:38px;border-radius:50%;background:var(--mustard);color:var(--ink);border:2.5px solid var(--ink);display:flex;align-items:center;justify-content:center;font-family:"Baloo 2";font-weight:800;box-shadow:2px 2px 0 var(--ink)}
+.giai-page .rule p{font-size:1.02rem;color:#4a3424;font-weight:600}
+@media(max-width:780px){.giai-page .rules-grid{grid-template-columns:1fr}}
+
+/* register */
+.giai-page .register{background:var(--terra);color:#FFF6EC;border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);position:relative;overflow:hidden}
+.giai-page .register .rays{position:absolute;inset:0;color:rgba(255,255,255,.08);display:block;width:100%;height:100%}
+.giai-page .reg-card{position:relative;display:grid;grid-template-columns:1fr .85fr;gap:42px;align-items:center;z-index:1}
+.giai-page .register .kicker{background:var(--mustard);color:var(--ink)}
+.giai-page .reg-card h2{color:#FFF6EC}
+.giai-page .reg-card .lede{color:rgba(255,246,236,.92)}
+.giai-page .pay{background:var(--cream2);color:var(--ink);border:3px solid var(--ink);border-radius:22px;padding:26px;box-shadow:7px 7px 0 var(--ink)}
+.giai-page .pay h4{font-family:"Baloo 2";font-size:1.05rem;color:var(--terra);margin-bottom:14px}
+.giai-page .pay .row{display:flex;justify-content:space-between;gap:14px;padding:11px 0;border-bottom:2px dashed var(--line);font-size:.97rem;font-weight:700}
+.giai-page .pay .row:last-child{border-bottom:none}
+.giai-page .pay .row .lbl{color:var(--muted)}.giai-page .pay .row .val{font-family:"Baloo 2";font-weight:700;text-align:right}
+.giai-page .pay .note{margin-top:14px;font-size:.88rem;color:var(--brown);font-weight:700}
+@media(max-width:780px){.giai-page .reg-card{grid-template-columns:1fr;gap:28px}}
+
+/* giai footer bar */
+.giai-page .giai-footer{background:var(--ink);color:var(--cream2);padding:32px 0;font-weight:600}
+.giai-page .giai-footer .inner{max-width:1100px;margin:0 auto;padding:0 22px;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;align-items:center}
+.giai-page .giai-footer .fb{display:flex;align-items:center;gap:11px;font-family:"Baloo 2";font-weight:700;font-size:17px;color:var(--mustard)}
+.giai-page .giai-footer a{color:var(--mustard);text-decoration:none;font-weight:800}
+
+@media(prefers-reduced-motion:reduce){.giai-page *{transition:none!important}}
