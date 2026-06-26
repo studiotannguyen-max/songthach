@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home, Dumbbell, Heart, Phone, CalendarPlus } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useSportPicker } from '@/components/providers/SportPickerProvider';
 
 const TABS = [
   { label: 'Trang chủ', href: '/', icon: Home },
@@ -14,6 +15,7 @@ const TABS = [
 
 export default function MobileTabBar() {
   const pathname = usePathname();
+  const { open } = useSportPicker();
 
   const isActive = (href: string) =>
     href === '/' ? pathname === '/' : pathname.startsWith(href);
@@ -31,13 +33,13 @@ export default function MobileTabBar() {
 
         {/* Nút Đặt sân nổi giữa */}
         <div className="flex justify-center">
-          <Link
-            href="/sports/football"
+          <button
+            onClick={open}
             aria-label="Đặt sân ngay"
             className="absolute -top-5 grid place-items-center w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/30 active:scale-95 transition-transform"
           >
             <CalendarPlus size={24} />
-          </Link>
+          </button>
           <span className="text-[10px] font-medium text-primary mb-1.5">Đặt sân</span>
         </div>
 
