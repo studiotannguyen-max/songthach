@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { Menu, X, ChevronDown, User, LogOut, Loader2, Goal, Feather, Heart, Coffee } from 'lucide-react';
+import { Menu, X, ChevronDown, User, LogOut, Loader2, Goal, Feather, Heart, Coffee, Trophy } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { useSportPicker } from '@/components/providers/SportPickerProvider';
@@ -11,6 +11,7 @@ import { useSportPicker } from '@/components/providers/SportPickerProvider';
 const ZONE_LINKS = [
   { label: 'Sân Bóng Đá', href: '/sports/football', icon: Goal },
   { label: 'Sân Cầu Lông', href: '/sports/badminton', icon: Feather },
+  { label: 'Giải CL 2026', href: '/giai-cau-long-2026', icon: Trophy },
   { label: 'Tiệc Cưới', href: '/wedding', icon: Heart },
   { label: 'Lavie en Rose', href: '/cafe', icon: Coffee },
 ];
@@ -89,9 +90,9 @@ export default function Navbar() {
             </span>
           </Link>
 
-          {/* Desktop nav — trái: Bóng đá, Cầu lông */}
+          {/* Desktop nav — trái: Bóng đá, Cầu lông, Giải CL 2026 */}
           <div className="hidden md:flex items-center gap-4" role="list">
-            {ZONE_LINKS.slice(0, 2).map((link) => {
+            {ZONE_LINKS.slice(0, 3).map((link) => {
               const Icon   = link.icon;
               const active = pathname.startsWith(link.href);
               return (
@@ -114,7 +115,7 @@ export default function Navbar() {
           {/* CTA / User area — trái: Tiệc cưới, Café, rồi đăng nhập/đặt sân */}
           <div className="hidden md:flex items-center gap-3">
             <div className="flex items-center gap-4" role="list">
-              {ZONE_LINKS.slice(2, 4).map((link) => {
+              {ZONE_LINKS.slice(3, 5).map((link) => {
                 const Icon   = link.icon;
                 const active = pathname.startsWith(link.href);
                 return (
