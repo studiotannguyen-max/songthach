@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { format } from 'date-fns';
+import SportPickerTrigger from '@/components/shared/SportPickerTrigger';
 import { vi } from 'date-fns/locale';
 import { ArrowRight, MapPin, Clock, Phone } from 'lucide-react';
 import { getGallery } from '@/lib/gallery';
@@ -130,7 +131,7 @@ export default async function HomePage() {
           </Link>
           <div className="hidden md:flex items-center gap-6 ml-2 text-sm font-medium" style={{ color: '#2c322a' }}>
             <a href="#dichvu" className="hover:opacity-70">Dịch vụ</a>
-            <Link href="/sports/football" className="hover:opacity-70">Đặt sân</Link>
+            <Link href="/sports" className="hover:opacity-70">Đặt sân</Link>
             <a href="#daotao" className="hover:opacity-70">Đào tạo</a>
             <a href="#cafe" className="hover:opacity-70">Cafe</a>
             <Link href="/tin-tuc" className="hover:opacity-70">Tin tức</Link>
@@ -141,9 +142,9 @@ export default async function HomePage() {
             <span className="hidden md:flex items-center gap-1.5 text-sm font-semibold" style={{ color: PITCH }}>
               <Phone size={14} /> {PHONE}
             </span>
-            <Link href="/sports/football" className="rounded-full text-sm font-semibold px-5 py-2.5" style={{ background: LIME, color: INK }}>
+            <SportPickerTrigger className="rounded-full text-sm font-semibold px-5 py-2.5" style={{ background: LIME, color: INK }}>
               Đặt sân
-            </Link>
+            </SportPickerTrigger>
           </div>
         </div>
       </nav>
@@ -166,9 +167,9 @@ export default async function HomePage() {
               Sân cầu lông, sân bóng đá, lớp đào tạo thể thao, tiệc cưới sân vườn và Café Lavie en Rose — tất cả ở cùng một địa chỉ.
             </p>
             <div className="flex gap-3.5 flex-wrap">
-              <Link href="/sports/football" className="inline-flex items-center gap-2 rounded-full text-sm font-semibold px-6 py-3" style={{ background: LIME, color: INK }}>
+              <SportPickerTrigger className="inline-flex items-center gap-2 rounded-full text-sm font-semibold px-6 py-3" style={{ background: LIME, color: INK }}>
                 Đặt sân ngay <ArrowRight size={16} />
-              </Link>
+              </SportPickerTrigger>
               <a href="#dichvu" className="inline-flex items-center gap-2 rounded-full text-sm font-semibold px-6 py-3 border" style={{ borderColor: 'rgba(255,255,255,.4)', color: PAPER }}>
                 Khám phá tổ hợp
               </a>
