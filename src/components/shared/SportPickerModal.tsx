@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { X } from 'lucide-react';
 import { useSportPicker } from '@/components/providers/SportPickerProvider';
@@ -24,6 +25,24 @@ export default function SportPickerModal() {
   const { isOpen, close } = useSportPicker();
   const router = useRouter();
 
+  // Fix 1: Escape key closes modal
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') close(); };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [isOpen, close]);
+
+  // Fix 3: Body scroll lock while modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   function pick(href: string) {
@@ -40,6 +59,9 @@ export default function SportPickerModal() {
     >
       {/* Panel — bottom-sheet trên mobile, dialog giữa trên desktop */}
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="sport-picker-title"
         className="
           relative w-full bg-white
           rounded-t-2xl md:rounded-2xl
@@ -51,7 +73,7 @@ export default function SportPickerModal() {
       >
         {/* Header */}
         <div className="flex items-center justify-between mb-5">
-          <h2 className="text-lg font-bold text-sports-dark" style={{ fontFamily: 'var(--font-bricolage)' }}>
+          <h2 id="sport-picker-title" className="text-lg font-bold text-sports-dark" style={{ fontFamily: 'var(--font-bricolage)' }}>
             Chọn loại sân
           </h2>
           <button
