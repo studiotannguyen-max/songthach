@@ -232,45 +232,45 @@ export default function GiaiCauLong2026Page() {
           </div>
         </section>
 
-        {/* Lệ phí */}
-        <section id="lephi" style={{ background:'var(--cream2)' }}>
+        {/* Lệ phí + Quy định — ngang nhau */}
+        <section id="lephi-quydinh" style={{ background:'var(--cream2)' }}>
           <div className="wrap">
-            <div className="sec-head">
-              <span className="kicker">Lệ phí thi đấu</span>
-              <h2>Mức lệ phí theo nhóm</h2>
-              <p>Lệ phí tính theo mỗi nội dung đăng ký của một vận động viên.</p>
-            </div>
-            <table className="feetable">
-              <thead>
-                <tr><th>Nhóm</th><th>Đối tượng</th><th>Lệ phí</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>Nhóm 1</td><td>Tiểu học (≤ 11 tuổi)</td><td>Miễn phí</td></tr>
-                <tr><td>Nhóm 2 &amp; 3</td><td>12 – 15 tuổi</td><td>80.000đ / VĐV / nội dung</td></tr>
-                <tr><td>Nhóm 4</td><td>16 – &lt;18 tuổi</td><td>150.000đ / VĐV / nội dung</td></tr>
-                <tr><td>Nhóm 5 &amp; 6</td><td>Phong trào</td><td>200.000đ / VĐV / nội dung</td></tr>
-                <tr><td>Nhóm 7</td><td>Nội bộ / khách mời</td><td>300.000đ / VĐV / nội dung</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        {/* Quy định */}
-        <section id="quydinh">
-          <div className="wrap">
-            <div className="sec-head">
-              <span className="kicker">Quy định thi đấu</span>
-              <h2>Thể lệ &amp; lưu ý quan trọng</h2>
-            </div>
-            <div className="rules-grid">
-              <div className="rule"><span className="ico">1</span><p><strong>Luật thi đấu:</strong> Nhóm 1, 2, 3, 4 loại trực tiếp 1 set 25 điểm. Nhóm 5, 6 loại trực tiếp 3 set 15 điểm. Nhóm 7 đánh vòng tròn tính điểm ở vòng loại, các vòng trong loại trực tiếp.</p></div>
-              <div className="rule"><span className="ico">2</span><p>Mỗi nội dung chỉ tổ chức khi có từ <strong>12 VĐV/cặp trở lên</strong>; riêng Nhóm 7 từ <strong>20 cặp trở lên</strong>.</p></div>
-              <div className="rule"><span className="ico">3</span><p>Cầu thi đấu chính thức là <strong>cầu Bamboo tốc độ 76</strong>.</p></div>
-              <div className="rule"><span className="ico">4</span><p>VĐV mang theo <strong>CCCD / bản sao Giấy khai sinh / Hộ chiếu / Thẻ học sinh</strong> còn hiệu lực để xuất trình khi có yêu cầu.</p></div>
-              <div className="rule"><span className="ico">5</span><p>Khiếu nại phải bằng văn bản của trưởng đoàn: trước trận đấu với vấn đề nhân sự, trong vòng 10 phút sau trận với vấn đề trong trận.</p></div>
-              <div className="rule"><span className="ico">6</span><p>BTC chỉ giải quyết khiếu nại <strong>trước vòng bán kết</strong>; từ bán kết trở đi không giải quyết khiếu nại về nhân sự.</p></div>
-              <div className="rule"><span className="ico">7</span><p>Sau khi đăng ký <strong>không thể thay đổi VĐV</strong> — đề nghị cân nhắc kỹ trước khi đăng ký.</p></div>
-              <div className="rule"><span className="ico">8</span><p>Ban tổ chức có quyền thay đổi hoặc bổ sung điều lệ cho phù hợp với hoàn cảnh thực tế.</p></div>
+            <div className="lephi-rules-row">
+              <div id="lephi">
+                <div className="sec-head">
+                  <span className="kicker">Lệ phí thi đấu</span>
+                  <h2>Mức lệ phí theo nhóm</h2>
+                  <p>Lệ phí tính theo mỗi nội dung đăng ký của một vận động viên.</p>
+                </div>
+                <table className="feetable">
+                  <thead>
+                    <tr><th>Nhóm</th><th>Đối tượng</th><th>Lệ phí</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Nhóm 1</td><td>Tiểu học (≤ 11 tuổi)</td><td>Miễn phí</td></tr>
+                    <tr><td>Nhóm 2 &amp; 3</td><td>12 – 15 tuổi</td><td>80.000đ / VĐV / nội dung</td></tr>
+                    <tr><td>Nhóm 4</td><td>16 – &lt;18 tuổi</td><td>150.000đ / VĐV / nội dung</td></tr>
+                    <tr><td>Nhóm 5 &amp; 6</td><td>Phong trào</td><td>200.000đ / VĐV / nội dung</td></tr>
+                    <tr><td>Nhóm 7</td><td>Nội bộ / khách mời</td><td>300.000đ / VĐV / nội dung</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div id="quydinh">
+                <div className="sec-head">
+                  <span className="kicker">Quy định thi đấu</span>
+                  <h2>Điều lệ thi đấu</h2>
+                </div>
+                <div className="rules-grid">
+                  <div className="rule"><span className="ico">1</span><p><strong>Luật thi đấu:</strong> Nhóm 1, 2, 3, 4 loại trực tiếp 1 set 25 điểm. Nhóm 5, 6 loại trực tiếp 3 set 15 điểm. Nhóm 7 đánh vòng tròn tính điểm ở vòng loại, các vòng trong loại trực tiếp.</p></div>
+                  <div className="rule"><span className="ico">2</span><p>Mỗi nội dung chỉ tổ chức khi có từ <strong>12 VĐV/cặp trở lên</strong>; riêng Nhóm 7 từ <strong>20 cặp trở lên</strong>.</p></div>
+                  <div className="rule"><span className="ico">3</span><p>Cầu thi đấu chính thức là <strong>cầu Bamboo tốc độ 76</strong>.</p></div>
+                  <div className="rule"><span className="ico">4</span><p>VĐV mang theo <strong>CCCD / bản sao Giấy khai sinh / Hộ chiếu / Thẻ học sinh</strong> còn hiệu lực để xuất trình khi có yêu cầu.</p></div>
+                  <div className="rule"><span className="ico">5</span><p>Khiếu nại phải bằng văn bản của trưởng đoàn: trước trận đấu với vấn đề nhân sự, trong vòng 10 phút sau trận với vấn đề trong trận.</p></div>
+                  <div className="rule"><span className="ico">6</span><p>BTC chỉ giải quyết khiếu nại <strong>trước vòng bán kết</strong>; từ bán kết trở đi không giải quyết khiếu nại về nhân sự.</p></div>
+                  <div className="rule"><span className="ico">7</span><p>Sau khi đăng ký <strong>không thể thay đổi VĐV</strong> — đề nghị cân nhắc kỹ trước khi đăng ký.</p></div>
+                  <div className="rule"><span className="ico">8</span><p>Ban tổ chức có quyền thay đổi hoặc bổ sung điều lệ cho phù hợp với hoàn cảnh thực tế.</p></div>
+                </div>
+              </div>
             </div>
           </div>
         </section>

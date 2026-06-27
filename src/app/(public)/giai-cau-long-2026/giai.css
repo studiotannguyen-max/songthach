@@ -66,12 +66,12 @@
 
 
 /* groups */
-.giai-page .groups{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
-.giai-page .grp{background:var(--paper);border:2.5px solid var(--ink);border-radius:22px;padding:24px;box-shadow:5px 5px 0 var(--ink);transition:transform .14s ease,box-shadow .14s ease}
+.giai-page .groups{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.giai-page .grp{background:var(--paper);border:2.5px solid var(--ink);border-radius:22px;padding:16px;box-shadow:5px 5px 0 var(--ink);transition:transform .14s ease,box-shadow .14s ease}
 .giai-page .grp:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--ink)}
 .giai-page .grp .top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
 .giai-page .gnum{display:inline-block;font-family:"Baloo 2";font-weight:800;font-size:13px;letter-spacing:.05em;color:#FFF6EC;background:var(--mustard-d);border:2px solid var(--ink);padding:2px 11px;border-radius:999px;margin-bottom:8px}
-.giai-page .grp h3{font-size:1.5rem;color:var(--ink);line-height:1.06}
+.giai-page .grp h3{font-size:1.2rem;color:var(--ink);line-height:1.06}
 .giai-page .grp .age{color:var(--muted);font-size:.96rem;font-weight:700;margin-top:3px}
 .giai-page .fee{flex-shrink:0;font-family:"Baloo 2";font-weight:700;font-size:.95rem;padding:7px 15px;border-radius:999px;background:var(--mustard);color:var(--ink);border:2.5px solid var(--ink);box-shadow:2px 2px 0 var(--ink);white-space:nowrap;transform:rotate(2deg)}
 .giai-page .fee.free{background:#BFD9A0}
@@ -87,7 +87,8 @@
 .giai-page .prize-gift{margin-top:12px;display:flex;align-items:center;gap:10px;color:var(--brown);font-size:.95rem;font-weight:700}
 .giai-page .prize-gift svg{width:20px;height:20px;color:var(--terra-d);flex-shrink:0;display:inline-block}
 .giai-page .grp.wide{grid-column:1/-1}
-@media(max-width:780px){.giai-page .groups{grid-template-columns:1fr}}
+@media(max-width:960px){.giai-page .groups{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.giai-page .groups{grid-template-columns:1fr}}
 
 /* fees table */
 .giai-page .feetable{width:100%;border-collapse:separate;border-spacing:0;border:2.5px solid var(--ink);border-radius:18px;overflow:hidden;box-shadow:5px 5px 0 var(--ink);background:var(--paper)}
@@ -97,12 +98,15 @@
 .giai-page .feetable td:last-child,.giai-page .feetable th:last-child{text-align:right;font-family:"Baloo 2";white-space:nowrap}
 .giai-page .feetable tbody tr:nth-child(even){background:var(--cream2)}
 
+/* lephi + quydinh side by side */
+.giai-page .lephi-rules-row{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;align-items:start}
+@media(max-width:860px){.giai-page .lephi-rules-row{grid-template-columns:1fr;gap:32px}}
+
 /* rules */
-.giai-page .rules-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px 30px}
-.giai-page .rule{display:flex;gap:14px;align-items:flex-start}
-.giai-page .rule .ico{flex-shrink:0;width:38px;height:38px;border-radius:50%;background:var(--mustard);color:var(--ink);border:2.5px solid var(--ink);display:flex;align-items:center;justify-content:center;font-family:"Baloo 2";font-weight:800;box-shadow:2px 2px 0 var(--ink)}
-.giai-page .rule p{font-size:1.02rem;color:#4a3424;font-weight:600}
-@media(max-width:780px){.giai-page .rules-grid{grid-template-columns:1fr}}
+.giai-page .rules-grid{display:grid;grid-template-columns:1fr;gap:10px}
+.giai-page .rule{display:flex;gap:10px;align-items:flex-start}
+.giai-page .rule .ico{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--mustard);color:var(--ink);border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;font-family:"Baloo 2";font-weight:800;font-size:.82rem;box-shadow:2px 2px 0 var(--ink)}
+.giai-page .rule p{font-size:.9rem;color:#4a3424;font-weight:600;line-height:1.5;margin:0}
 
 /* register */
 .giai-page .register{background:var(--terra);color:#FFF6EC;border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);position:relative;overflow:hidden}
