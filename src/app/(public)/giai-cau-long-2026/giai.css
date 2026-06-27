@@ -111,9 +111,9 @@
 .giai-page .register .kicker{background:var(--mustard);color:var(--ink)}
 .giai-page .reg-card h2{color:#FFF6EC}
 .giai-page .reg-card .lede{color:rgba(255,246,236,.92)}
-.giai-page .pay{background:var(--cream2);color:var(--ink);border:3px solid var(--ink);border-radius:22px;padding:26px;box-shadow:7px 7px 0 var(--ink)}
+.giai-page .pay{background:var(--cream2);color:var(--ink);border:3px solid var(--ink);border-radius:22px;padding:18px 22px;box-shadow:7px 7px 0 var(--ink)}
 .giai-page .pay h4{font-family:"Baloo 2";font-size:1.05rem;color:var(--terra);margin-bottom:14px}
-.giai-page .pay .row{display:flex;justify-content:space-between;gap:14px;padding:11px 0;border-bottom:2px dashed var(--line);font-size:.97rem;font-weight:700}
+.giai-page .pay .row{display:flex;justify-content:space-between;gap:14px;padding:8px 0;border-bottom:2px dashed var(--line);font-size:.93rem;font-weight:700}
 .giai-page .pay .row:last-child{border-bottom:none}
 .giai-page .pay .row .lbl{color:var(--muted)}.giai-page .pay .row .val{font-family:"Baloo 2";font-weight:700;text-align:right}
 .giai-page .pay .note{margin-top:14px;font-size:.88rem;color:var(--brown);font-weight:700}

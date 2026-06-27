@@ -282,11 +282,11 @@ export default function GiaiCauLong2026Page() {
               <path d="M100 0l6 60h-12zM100 200l6-60h-12zM0 100l60 6v-12zM200 100l-60 6v-12zM26 26l44 32-10 10zM174 174l-44-32 10-10zM174 26l-32 44-10-10zM26 174l32-44 10 10z"/>
             </g>
           </svg>
-          <div className="wrap reg-card" style={{ paddingTop: '64px', paddingBottom: '64px' }}>
+          <div className="wrap reg-card" style={{ paddingTop: '36px', paddingBottom: '36px' }}>
             <div>
               <span className="kicker">Đăng ký tham gia</span>
               <h2>Sẵn sàng ra sân?</h2>
-              <p className="lede">Hoàn tất đăng ký qua Google Biểu mẫu và chuyển khoản lệ phí theo hướng dẫn. Mỗi lượt đăng ký của bạn góp thêm một phần quà cho các em.</p>
+              <p className="lede">Hoàn tất đăng ký qua Google Biểu mẫu và chuyển khoản lệ phí theo hướng dẫn bên cạnh.</p>
               <a className="g-btn btn-mustard btn-lg" href={FORM_URL} target="_blank" rel="noopener" style={{ marginTop: '24px' }}>
                 Mở biểu mẫu đăng ký <ArrowIcon />
               </a>
