@@ -116,27 +116,6 @@ export default function GiaiCauLong2026Page() {
           <path fill="#FBF4E6" d="M0,30 C150,6 300,6 450,24 C600,42 750,42 900,24 C1050,6 1150,6 1200,18 L1200,46 L0,46 Z"/>
         </svg>
 
-        {/* Mission */}
-        <section className="mission" id="mucdich">
-          <div className="wrap mission-grid">
-            <div>
-              <span className="kicker">Mục đích giải đấu</span>
-              <h2>Mỗi trận đấu — <span className="hl">thêm phần quà cho các em!</span></h2>
-              <p>Giải Cầu Lông Song Thạch Mở Rộng 2026 là sân chơi thể thao lành mạnh dành cho mọi lứa tuổi — nơi mọi người <strong>giao lưu học hỏi, lan tỏa yêu thương</strong>.</p>
-              <p>Tinh thần của giải hướng tới việc <strong>gây quỹ trao học bổng và quà</strong> cho các em học sinh có hoàn cảnh khó khăn nhưng vẫn nỗ lực vươn lên học giỏi tại địa phương.</p>
-            </div>
-            <div className="stat-card">
-              <svg className="rays" viewBox="0 0 200 200" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
-                <g fill="currentColor">
-                  <path d="M100 0l6 50h-12zM100 200l6-50h-12zM0 100l50 6v-12zM200 100l-50 6v-12zM30 30l40 28-8 8zM170 170l-40-28 8-8zM170 30l-28 40-8-8zM30 170l28-40 8 8z"/>
-                </g>
-              </svg>
-              <div className="big">7</div>
-              <div className="lbl">nhóm thi đấu — từ thiếu nhi tiểu học đến phong trào nâng cao &amp; khách mời</div>
-            </div>
-          </div>
-        </section>
-
         {/* Groups */}
         <section id="noidung">
           <div className="wrap">
