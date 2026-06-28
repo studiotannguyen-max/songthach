@@ -156,8 +156,8 @@ export default async function BadmintonPage() {
                 <h2 className="sports-hero-text text-xl font-bold text-sports-dark mb-4">Tiện ích & Thiết bị</h2>
                 <div className="grid grid-cols-1 gap-3">
                   {FEATURES.map((f) => (
-                    <div key={f.title} className="flex items-start gap-3 bg-white rounded-xl p-4 border border-gray-100">
-                      <div className="w-9 h-9 bg-sports-light rounded-lg flex items-center justify-center shrink-0">
+                    <div key={f.title} className="flex items-start gap-3 bg-white p-4 border-2 border-[#0F3C2C]" style={{ boxShadow: '3px 3px 0 #9CE25C' }}>
+                      <div className="w-9 h-9 bg-sports-light flex items-center justify-center shrink-0 border border-sports-primary">
                         <f.icon size={18} className="text-sports-primary" />
                       </div>
                       <div>
@@ -170,7 +170,7 @@ export default async function BadmintonPage() {
               </div>
 
               {/* Price table */}
-              <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+              <div className="bg-white border-2 border-[#0F3C2C] overflow-hidden">
                 <div className="gradient-sports px-4 py-3">
                   <p className="sports-hero-text font-bold text-white text-sm tracking-wider">BẢNG GIÁ</p>
                 </div>
@@ -206,7 +206,7 @@ export default async function BadmintonPage() {
       <section id="classes" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <div className="inline-flex items-center gap-2 bg-sports-light text-sports-primary text-xs font-bold px-4 py-1.5 rounded-full mb-4 tracking-widest uppercase">
+            <div className="inline-flex items-center gap-2 bg-sports-light text-sports-primary text-xs font-bold px-4 py-1.5 mb-4 tracking-widest uppercase border-2 border-[#0F3C2C]" style={{ fontFamily: 'var(--font-bebas)' }}>
               <GraduationCap size={14} /> Chiêu sinh hè — Song Thạch Badminton Club
             </div>
             <h2 className="text-4xl font-bold text-sports-dark mb-2">Lớp Cầu Lông Chất Lượng Cao</h2>
@@ -227,7 +227,7 @@ export default async function BadmintonPage() {
                 <ul className="space-y-3 mb-4">
                   {TRAINING_HIGHLIGHTS.map((h) => (
                     <li key={h.title} className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-sports-light flex items-center justify-center shrink-0">
+                      <div className="w-8 h-8 bg-sports-light flex items-center justify-center shrink-0 border border-sports-primary">
                         <h.icon size={15} className="text-sports-primary" />
                       </div>
                       <span className="text-sm text-gray-700">{h.title}</span>
@@ -263,7 +263,7 @@ export default async function BadmintonPage() {
                       href={`tel:${c.phone}`}
                       className={i === 0
                         ? 'sports-btn flex items-center justify-center gap-2'
-                        : 'flex items-center justify-center gap-2 border border-sports-primary text-sports-primary font-semibold px-6 py-3 rounded-xl hover:bg-sports-light transition-all'}
+                        : 'flex items-center justify-center gap-2 border-2 border-sports-primary text-sports-primary font-semibold px-6 py-3 hover:bg-sports-light transition-all'}
                     >
                       <Phone size={16} /> {c.display} ({c.name})
                     </a>
@@ -277,7 +277,7 @@ export default async function BadmintonPage() {
               {PRICE_LEVELS.map((lvl) => (
                 <div key={lvl.level} className="sports-card p-6 flex flex-col sm:flex-row sm:justify-between gap-4">
                   <div className="flex-1">
-                    <span className={`text-xs font-bold px-3 py-1 rounded-full ${lvl.levelColor}`}>{lvl.level}</span>
+                    <span className={`text-xs font-bold px-3 py-1 ${lvl.levelColor}`} style={{ fontFamily: 'var(--font-bebas)', letterSpacing: '0.06em' }}>{lvl.level}</span>
                     <h3 className="sports-hero-text text-xl font-bold text-sports-dark mt-2 mb-1">Cấp độ {lvl.level}</h3>
                     <p className="text-gray-400 text-xs mb-3">{lvl.desc}</p>
                     <ul className="space-y-1.5">
@@ -333,7 +333,7 @@ export default async function BadmintonPage() {
               Chỉ đường <ArrowRight size={16} />
             </a>
           </div>
-          <div className="rounded-2xl overflow-hidden border border-gray-100 h-[300px]">
+          <div className="overflow-hidden border-2 border-[#0F3C2C] h-[300px]">
             <iframe
               src={MAP_EMBED_SRC}
               width="100%"

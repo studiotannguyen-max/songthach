@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard, Calendar, MapPin, Users,
@@ -35,11 +36,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <aside className="w-64 bg-gray-950 flex flex-col shrink-0">
         <div className="px-6 py-5 border-b border-gray-800">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-sports-primary rounded-lg flex items-center justify-center text-white font-bold text-sm">ST</div>
-            <div>
-              <p className="text-white font-bold text-sm">Song Thạch</p>
-              <p className="text-gray-500 text-xs">Admin Dashboard</p>
-            </div>
+            <Image src="/logo.jpg" alt="Song Thạch" width={72} height={36} className="object-contain" style={{ maxHeight: '32px', width: 'auto', filter: 'brightness(0) invert(1)' }} />
+            <p className="text-gray-500 text-xs">Admin</p>
           </div>
         </div>
 
@@ -53,7 +51,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  'flex items-center justify-between px-3 py-2.5 rounded-xl text-sm transition-all group',
+                  'flex items-center justify-between px-3 py-2.5 text-sm transition-all group',
                   active
                     ? 'bg-sports-primary text-white'
                     : 'text-gray-400 hover:text-white hover:bg-gray-800',
@@ -70,7 +68,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </nav>
 
         <div className="px-3 py-4 border-t border-gray-800">
-          <button onClick={handleLogout} className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-400 hover:text-white hover:bg-gray-800 transition-all w-full">
+          <button onClick={handleLogout} className="flex items-center gap-3 px-3 py-2.5 text-sm text-gray-400 hover:text-white hover:bg-gray-800 transition-all w-full">
             <LogOut size={17} /> Đăng xuất
           </button>
         </div>

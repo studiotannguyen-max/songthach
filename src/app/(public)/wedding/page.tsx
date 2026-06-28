@@ -104,7 +104,7 @@ export default async function WeddingPage() {
             <h2 className="wedding-serif text-4xl md:text-5xl font-bold text-wedding-dark">Sảnh tiệc không gian mở</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-            <div className="relative h-80 md:h-[420px] overflow-hidden rounded-2xl">
+            <div className="relative h-80 md:h-[420px] overflow-hidden border-[3px] border-[#4A1942]" style={{ boxShadow: '5px 5px 0 #C9A96E' }}>
               <Image
                 src={GALLERY[1]?.src || GALLERY[0].src}
                 alt={`${HALL.name} — nhà hàng tiệc cưới Song Thạch`}
@@ -131,7 +131,7 @@ export default async function WeddingPage() {
           </div>
           <div className="grid grid-cols-3 grid-rows-2 gap-3 h-[480px]">
             {GALLERY.map((img) => (
-              <div key={img.src} className={`relative overflow-hidden rounded-xl ${img.span}`}>
+              <div key={img.src} className={`relative overflow-hidden border-2 border-[#4A1942] ${img.span}`}>
                 <Image
                   src={img.src}
                   alt={`${img.label} — tiệc cưới tại Song Thạch`}

@@ -32,9 +32,9 @@ export default function AdminLoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-6">
-      <div className="w-full max-w-sm bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+      <div className="w-full max-w-sm bg-white border-2 border-[#0F3C2C] p-8" style={{ boxShadow: '6px 6px 0 #9CE25C' }}>
         <div className="flex items-center gap-2 mb-8">
-          <div className="w-8 h-8 bg-sports-primary rounded-lg flex items-center justify-center text-white font-bold text-sm">ST</div>
+          <div className="w-8 h-8 bg-sports-primary flex items-center justify-center text-white font-bold border border-[#3F8F33]" style={{ fontFamily: 'var(--font-bebas)', fontSize: '1rem' }}>ST</div>
           <div>
             <p className="font-bold text-gray-900 text-sm">Song Thạch</p>
             <p className="text-gray-400 text-xs">Admin Dashboard</p>

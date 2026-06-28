@@ -94,7 +94,7 @@ export default function AdminVenuesPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Form tạo khoá */}
-        <div className="bg-white rounded-2xl border border-gray-100 p-5 space-y-4 h-fit">
+        <div className="bg-white border-2 border-gray-200 p-5 space-y-4 h-fit">
           <h2 className="font-bold text-gray-900 flex items-center gap-2"><Lock size={16} /> Khoá sân bảo trì</h2>
 
           <div>
@@ -177,7 +177,7 @@ export default function AdminVenuesPage() {
         </div>
 
         {/* Danh sách khoá */}
-        <div className="lg:col-span-2 bg-white rounded-2xl border border-gray-100 p-5">
+        <div className="lg:col-span-2 bg-white border-2 border-gray-200 p-5">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-bold text-gray-900">Sân đang/sắp bị khoá</h2>
             <button onClick={fetchBlocks} className="px-3 py-1.5 border border-gray-200 rounded-xl hover:bg-gray-50 text-gray-500">
@@ -197,7 +197,7 @@ export default function AdminVenuesPage() {
           ) : (
             <div className="space-y-2.5">
               {blocks.map(b => (
-                <div key={b.id} className="flex items-center justify-between gap-4 border border-gray-100 rounded-xl p-3.5">
+                <div key={b.id} className="flex items-center justify-between gap-4 border border-gray-100 p-3.5">
                   <div className="min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
                       <span className="text-sm font-semibold text-gray-900">{b.court_name ?? b.court_id}</span>

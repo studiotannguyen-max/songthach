@@ -24,7 +24,7 @@ export default function SportsPage() {
         </div>
       </section>
 
-      <section className="py-20 bg-gray-50">
+      <section className="py-20" style={{ background: '#F4EEE1' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {[
@@ -35,8 +35,8 @@ export default function SportsPage() {
                 src: 'https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?w=800&q=80',
                 desc: 'Sàn PVC chính hãng, hệ thống thông gió, cho thuê vợt và cầu tại sân.' },
             ].map((item) => (
-              <Link key={item.href} href={item.href} className="group sports-card overflow-hidden block">
-                <div className="relative h-64 overflow-hidden">
+              <Link key={item.href} href={item.href} className="group sports-card block">
+                <div className="relative h-64 overflow-hidden" style={{ borderBottom: '3px solid #0F3C2C' }}>
                   <Image src={item.src} alt={item.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
                   <div className="absolute inset-0 bg-gradient-to-t from-sports-dark/80 to-transparent" />
                   <div className="absolute bottom-0 left-0 p-6">

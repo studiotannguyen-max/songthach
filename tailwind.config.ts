@@ -89,6 +89,7 @@ const config: Config = {
         mono:   ['var(--font-mono)', 'monospace'],
         serif:  ['var(--font-playfair)', 'serif'],
         sport:  ['var(--font-oswald)', 'sans-serif'],
+        bebas:  ['var(--font-bebas)', 'sans-serif'],
       },
       borderRadius: {
         lg: 'var(--radius)',

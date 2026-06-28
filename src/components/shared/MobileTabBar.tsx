@@ -23,7 +23,7 @@ export default function MobileTabBar() {
   return (
     <nav
       aria-label="Điều hướng nhanh"
-      className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-card/95 backdrop-blur-md border-t border-border pb-[env(safe-area-inset-bottom)]"
+      className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-card border-t-[3px] border-[#0F3C2C] pb-[env(safe-area-inset-bottom)]"
     >
       <div className="relative grid grid-cols-5 items-end h-16">
         {/* 2 tab đầu */}
@@ -36,7 +36,8 @@ export default function MobileTabBar() {
           <button
             onClick={open}
             aria-label="Đặt sân ngay"
-            className="absolute -top-5 grid place-items-center w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/30 active:scale-95 transition-transform"
+            className="absolute -top-5 grid place-items-center w-14 h-14 bg-[#0F3C2C] text-white transition-all active:translate-x-[2px] active:translate-y-[2px]"
+            style={{ border: '2px solid #0A2C20', boxShadow: '3px 3px 0 #3F8F33' }}
           >
             <CalendarPlus size={24} />
           </button>
@@ -65,7 +66,7 @@ function TabItem({
   );
   const cls = cn(
     'flex items-center justify-center h-16 transition-colors',
-    active ? 'text-primary' : 'text-muted-foreground',
+    active ? 'text-[#9CE25C] bg-[#0F3C2C]' : 'text-muted-foreground',
   );
   return external ? (
     <a href={href} className={cls}>{inner}</a>

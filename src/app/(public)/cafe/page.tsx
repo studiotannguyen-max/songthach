@@ -113,7 +113,7 @@ export default function CafePage() {
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-3 gap-4 h-72">
             {SPACES.map((s, i) => (
-              <div key={s.label} className={`relative overflow-hidden rounded-2xl ${i === 0 ? 'col-span-2' : ''}`}>
+              <div key={s.label} className={`relative overflow-hidden border-2 border-[#3B2314] ${i === 0 ? 'col-span-2' : ''}`}>
                 <Image
                   src={s.src}
                   alt={`${s.label} — café Lavie en Rose tại Song Thạch`}
@@ -140,7 +140,7 @@ export default function CafePage() {
           </div>
 
           {/* Thanh gọi món QR — nhỏ gọn, ngay đầu menu */}
-          <div id="order-qr" className="mb-12 rounded-2xl border border-cafe-accent/40 bg-cafe-light/60 p-5 flex flex-col sm:flex-row items-center justify-center gap-5 sm:gap-8">
+          <div id="order-qr" className="mb-12 border-2 border-[#3B2314] bg-cafe-light/60 p-5 flex flex-col sm:flex-row items-center justify-center gap-5 sm:gap-8" style={{ boxShadow: '4px 4px 0 #C9A96E' }}>
             <div className="text-center sm:text-left">
               <p className="text-cafe-primary font-semibold tracking-wide">Gọi món tại bàn qua QR</p>
               <p className="text-gray-500 text-xs mt-1 max-w-xs">Quét mã khu bạn đang ngồi bằng camera điện thoại — món gửi thẳng tới quầy.</p>
@@ -149,7 +149,7 @@ export default function CafePage() {
             <div className="flex gap-3">
               {ORDER_QR.map((qr) => (
                 <div key={qr.label} className="text-center">
-                  <div className="relative w-24 bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden" style={{ aspectRatio: '420 / 600' }}>
+                  <div className="relative w-24 bg-white border border-[#3B2314] overflow-hidden" style={{ aspectRatio: '420 / 600' }}>
                     <Image
                       src={qr.img}
                       alt={`Mã QR gọi món khu vực ${qr.label} — Café Lavie en Rose`}
@@ -168,7 +168,7 @@ export default function CafePage() {
             {MENU.map((cat) => (
               <div
                 key={cat.category}
-                className={cat.highlight ? 'rounded-2xl border border-cafe-accent/40 bg-cafe-light/50 p-6' : ''}
+                className={cat.highlight ? 'border-2 border-cafe-accent bg-cafe-light/50 p-6' : ''}
               >
                 <div className="flex items-center justify-between mb-4 pb-2 border-b border-cafe-accent/30">
                   <h3 className="text-cafe-primary font-semibold text-sm tracking-widest uppercase">
@@ -187,7 +187,7 @@ export default function CafePage() {
                       <p className="font-medium text-cafe-dark text-sm flex items-center gap-2">
                         {item.name}
                         {item.best && (
-                          <span className="text-[9px] font-bold uppercase tracking-wider text-white bg-cafe-primary rounded-full px-2 py-0.5">
+                          <span className="text-[9px] font-bold uppercase tracking-wider text-white bg-cafe-primary px-2 py-0.5" style={{ fontFamily: 'var(--font-bebas)', letterSpacing: '0.08em' }}>
                             Best
                           </span>
                         )}

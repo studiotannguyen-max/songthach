@@ -143,9 +143,9 @@ export default function AdminPostsPage() {
           {filtered.map(post => {
             const cat = CATEGORY_LABEL[post.category] ?? CATEGORY_LABEL.general;
             return (
-              <div key={post.id} className="bg-white rounded-2xl border border-gray-100 p-4 flex gap-4 hover:shadow-sm transition-shadow">
+              <div key={post.id} className="bg-white border-2 border-gray-200 p-4 flex gap-4 transition-shadow">
                 {/* Thumbnail */}
-                <div className="w-20 h-20 sm:w-28 sm:h-20 rounded-xl overflow-hidden bg-gray-100 shrink-0">
+                <div className="w-20 h-20 sm:w-28 sm:h-20 overflow-hidden bg-gray-100 shrink-0 border border-gray-200">
                   {post.cover_image ? (
                     <Image src={post.cover_image} alt={post.title} width={112} height={80} className="w-full h-full object-cover" />
                   ) : (

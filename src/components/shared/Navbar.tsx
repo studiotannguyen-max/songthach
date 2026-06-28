@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { Menu, X, ChevronDown, User, LogOut, Loader2, Goal, Feather, Heart, Coffee, Trophy } from 'lucide-react';
@@ -51,7 +52,7 @@ export default function Navbar() {
   const solid = scrolled || isHome || (!isSports && !isWedding);
 
   const navBg = solid
-    ? 'bg-background backdrop-blur-md border-b border-border shadow-sm'
+    ? 'bg-background border-b-[3px] border-[#0F3C2C]'
     : 'bg-transparent';
 
   const textColor = solid ? 'text-foreground' : 'text-white';
@@ -81,13 +82,7 @@ export default function Navbar() {
 
           {/* Logo — đứng giữa, các nhóm menu nằm sát 2 bên */}
           <Link href="/" className="flex items-center group" aria-label="Song Thạch — Trang chủ">
-            <span className={cn(
-              'text-xl tracking-[0.18em] uppercase transition-colors select-none',
-              'font-semibold',
-              textColor,
-            )} style={{ fontFamily: 'var(--font-playfair)' }}>
-              Song Thạch
-            </span>
+            <Image src="/logo.jpg" alt="Song Thạch" width={80} height={40} className="object-contain" style={{ maxHeight: '40px', width: 'auto' }} />
           </Link>
 
           {/* Desktop nav — trái: Bóng đá, Cầu lông, Giải CL 2026 */}
@@ -101,9 +96,10 @@ export default function Navbar() {
                   href={link.href}
                   role="listitem"
                   className={cn(
-                    'flex items-center gap-1 text-xs font-semibold tracking-wide transition-colors whitespace-nowrap',
+                    'flex items-center gap-1 text-xs font-semibold tracking-wider transition-colors whitespace-nowrap uppercase',
                     active ? zoneActive : zoneIdle,
                   )}
+                  style={{ fontFamily: 'var(--font-oswald)' }}
                 >
                   <Icon size={15} aria-hidden="true" />
                   {link.label}
@@ -156,7 +152,7 @@ export default function Navbar() {
                 </button>
 
                 {userMenu && (
-                  <div className="absolute right-0 top-full mt-2 w-52 bg-card border border-border overflow-hidden py-1" role="menu">
+                  <div className="absolute right-0 top-full mt-2 w-52 bg-card border-2 border-[#0F3C2C] overflow-hidden py-1" role="menu">
                     <div className="px-4 py-3 border-b border-border">
                       <p className="text-xs text-muted-foreground">Đăng nhập với</p>
                       <p className="text-sm font-semibold text-foreground truncate">{user.email}</p>
@@ -181,7 +177,8 @@ export default function Navbar() {
               </div>
               <button
                 onClick={openSportPicker}
-                className="flex items-center gap-1.5 bg-primary text-primary-foreground text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-[#a9781f] transition-colors active:scale-95 tracking-wide"
+                className="flex items-center gap-1.5 bg-[#0F3C2C] text-white px-5 py-2.5 hover:translate-x-[-2px] hover:translate-y-[-2px] active:translate-x-[1px] active:translate-y-[1px] transition-all duration-150"
+              style={{ fontFamily: 'var(--font-bebas)', fontSize: '0.95rem', letterSpacing: '0.08em', borderRadius: 0, border: '2px solid #0A2C20', boxShadow: '3px 3px 0 #3F8F33' }}
               >
                 Đặt sân
               </button>
@@ -197,7 +194,8 @@ export default function Navbar() {
                 </Link>
                 <button
                   onClick={openSportPicker}
-                  className="flex items-center gap-1.5 bg-primary text-primary-foreground text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-[#a9781f] transition-colors active:scale-95 tracking-wide"
+                  className="flex items-center gap-1.5 bg-[#0F3C2C] text-white px-5 py-2.5 hover:translate-x-[-2px] hover:translate-y-[-2px] active:translate-x-[1px] active:translate-y-[1px] transition-all duration-150"
+              style={{ fontFamily: 'var(--font-bebas)', fontSize: '0.95rem', letterSpacing: '0.08em', borderRadius: 0, border: '2px solid #0A2C20', boxShadow: '3px 3px 0 #3F8F33' }}
                 >
                   Đặt sân ngay
                 </button>
@@ -242,15 +240,15 @@ export default function Navbar() {
               </div>
             ) : (
               <div className="flex flex-col gap-2">
-                <Link href="/login" className="py-2.5 text-center text-sm text-foreground/80 border border-border rounded-xl" onClick={() => setMobileOpen(false)}>
+                <Link href="/login" className="py-2.5 text-center text-sm text-foreground/80 border-2 border-[#0F3C2C]" onClick={() => setMobileOpen(false)}>
                   Đăng nhập
                 </Link>
                 <div className="flex gap-2">
-                  <Link href="/sports/football" className="flex-1 flex items-center justify-center gap-1.5 py-2.5 text-sm bg-primary text-primary-foreground font-semibold rounded-xl" onClick={() => setMobileOpen(false)}>
-                    <Goal size={14} aria-hidden="true" /> Sân Bóng Đá
+                  <Link href="/sports/football" className="flex-1 flex items-center justify-center gap-1.5 py-2.5 text-sm bg-[#0F3C2C] text-white font-semibold" style={{ fontFamily: 'var(--font-bebas)', letterSpacing: '0.06em' }} onClick={() => setMobileOpen(false)}>
+                    <Goal size={14} aria-hidden="true" /> SÂN BÓNG ĐÁ
                   </Link>
-                  <Link href="/sports/badminton" className="flex-1 flex items-center justify-center gap-1.5 py-2.5 text-sm bg-primary text-primary-foreground font-semibold rounded-xl" onClick={() => setMobileOpen(false)}>
-                    <Feather size={14} aria-hidden="true" /> Sân Cầu Lông
+                  <Link href="/sports/badminton" className="flex-1 flex items-center justify-center gap-1.5 py-2.5 text-sm bg-[#0F3C2C] text-white font-semibold" style={{ fontFamily: 'var(--font-bebas)', letterSpacing: '0.06em' }} onClick={() => setMobileOpen(false)}>
+                    <Feather size={14} aria-hidden="true" /> SÂN CẦU LÔNG
                   </Link>
                 </div>
               </div>

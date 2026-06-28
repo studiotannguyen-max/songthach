@@ -55,6 +55,8 @@ export default function AdminBookingsPage() {
   const [updating,    setUpdating]   = useState<string | null>(null);
   const [actionMenu,  setActionMenu] = useState<string | null>(null);
   const [showRecurringModal, setShowRecurringModal] = useState(false);
+  const [selected,    setSelected]   = useState<Set<string>>(new Set());
+  const [bulkRunning, setBulkRunning] = useState(false);
 
   const fetchBookings = useCallback(async () => {
     setLoading(true);
@@ -86,6 +88,30 @@ export default function AdminBookingsPage() {
     });
     await fetchBookings();
     setUpdating(null);
+  }
+
+  async function bulkUpdateStatus(status: string) {
+    setBulkRunning(true);
+    await Promise.all(
+      Array.from(selected).map(id =>
+        fetch(`/api/admin/bookings/${id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status }),
+        }),
+      ),
+    );
+    setSelected(new Set());
+    await fetchBookings();
+    setBulkRunning(false);
+  }
+
+  function toggleSelected(id: string) {
+    setSelected(prev => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
   }
 
   const filtered = bookings.filter(b => {
@@ -168,7 +194,7 @@ export default function AdminBookingsPage() {
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+      <div className="bg-white border-2 border-gray-200 overflow-hidden">
         {loading ? (
           <div className="flex items-center justify-center py-20 text-gray-400">
             <RefreshCw size={20} className="animate-spin mr-2" /> Đang tải...

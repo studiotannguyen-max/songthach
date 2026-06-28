@@ -139,7 +139,7 @@ export default function AdminWeddingPage() {
             const isOpen   = expanded === inq.id;
             const nextSteps = STATUS_FLOW[inq.status] ?? [];
             return (
-              <div key={inq.id} className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+              <div key={inq.id} className="bg-white border-2 border-gray-200 overflow-hidden">
                 {/* Row chính */}
                 <div
                   className="flex flex-col sm:flex-row sm:items-center gap-3 p-4 cursor-pointer hover:bg-gray-50 transition-colors"

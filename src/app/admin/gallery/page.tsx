@@ -120,12 +120,12 @@ export default function AdminGalleryPage() {
       <p className="text-xs text-gray-400 mb-4">{tab.hint}</p>
 
       {/* Khu upload tấm mới */}
-      <div className="bg-white rounded-2xl border border-gray-200 p-5 mb-8">
+      <div className="bg-white border-2 border-gray-200 p-5 mb-8">
         <p className="font-semibold text-gray-800 text-sm mb-3">Thêm ảnh vào mục “{tab.label}”</p>
         <div className="flex flex-col sm:flex-row gap-4">
           {/* Ô upload / preview */}
           {pendingUrl ? (
-            <div className="relative w-40 h-28 rounded-xl overflow-hidden border border-gray-200 shrink-0">
+            <div className="relative w-40 h-28 overflow-hidden border border-gray-200 shrink-0">
               <Image src={pendingUrl} alt="Ảnh sắp thêm" fill sizes="160px" className="object-cover" />
               <button
                 onClick={() => setPendingUrl('')}
@@ -136,7 +136,7 @@ export default function AdminGalleryPage() {
               </button>
             </div>
           ) : (
-            <label className="w-40 h-28 rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center gap-1 cursor-pointer hover:border-sports-primary hover:bg-gray-50 transition-colors shrink-0 text-gray-400">
+            <label className="w-40 h-28 border-2 border-dashed border-gray-300 flex flex-col items-center justify-center gap-1 cursor-pointer hover:border-sports-primary hover:bg-gray-50 transition-colors shrink-0 text-gray-400">
               {uploading ? <Loader2 size={22} className="animate-spin" /> : <UploadCloud size={22} />}
               <span className="text-xs">{uploading ? 'Đang tải...' : 'Chọn ảnh'}</span>
               <input
@@ -176,13 +176,13 @@ export default function AdminGalleryPage() {
       {loading ? (
         <div className="flex items-center gap-2 text-gray-400 text-sm"><Loader2 size={16} className="animate-spin" /> Đang tải...</div>
       ) : images.length === 0 ? (
-        <div className="text-center py-16 text-gray-400 text-sm border border-dashed border-gray-200 rounded-2xl">
+        <div className="text-center py-16 text-gray-400 text-sm border border-dashed border-gray-200">
           Chưa có ảnh nào trong mục này. Upload ảnh đầu tiên ở trên.
         </div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {images.map(img => (
-            <div key={img.id} className={cn('group relative rounded-xl overflow-hidden border bg-white', img.is_active ? 'border-gray-200' : 'border-gray-200 opacity-50')}>
+            <div key={img.id} className={cn('group relative overflow-hidden border bg-white', img.is_active ? 'border-gray-200' : 'border-gray-200 opacity-50')}>
               <div className="relative w-full aspect-[4/3]">
                 <Image src={img.url} alt={img.caption || 'Ảnh thư viện'} fill sizes="(max-width:640px) 50vw, 25vw" className="object-cover" />
               </div>

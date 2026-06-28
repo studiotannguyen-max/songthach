@@ -93,7 +93,7 @@ export default function AdminDashboard() {
             {format(new Date(), "EEEE, dd/MM/yyyy", { locale: vi })}
           </p>
         </div>
-        <div className="flex items-center gap-2 bg-green-50 border border-green-200 text-green-700 text-sm px-3 py-1.5 rounded-xl">
+        <div className="flex items-center gap-2 bg-green-50 border border-green-200 text-green-700 text-sm px-3 py-1.5">
           <CheckCircle size={14} />
           Hệ thống hoạt động bình thường
         </div>
@@ -103,7 +103,7 @@ export default function AdminDashboard() {
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
         {STATS.map((s) => (
           <div key={s.label} className="admin-card flex items-start gap-4">
-            <div className={`w-10 h-10 ${s.color} rounded-xl flex items-center justify-center shrink-0`}>
+            <div className={`w-10 h-10 ${s.color} flex items-center justify-center shrink-0`}>
               <s.icon size={18} className="text-white" />
             </div>
             <div className="min-w-0">
@@ -175,7 +175,7 @@ export default function AdminDashboard() {
               {stats.weddingLeads.map((lead) => {
                 const cfg = WEDDING_STATUS_MAP[lead.status] ?? WEDDING_STATUS_MAP.new;
                 return (
-                  <div key={lead.id} className="border border-gray-100 rounded-xl p-3 hover:border-wedding-accent/30 transition-colors">
+                  <div key={lead.id} className="border border-gray-100 p-3 hover:border-wedding-accent/30 transition-colors">
                     <div className="flex items-start justify-between gap-2 mb-1.5">
                       <p className="font-semibold text-sm text-gray-900 leading-tight">{lead.contact_name}</p>
                       <span className={`status-badge ${cfg.cls} shrink-0`}>{cfg.label}</span>
@@ -202,7 +202,7 @@ export default function AdminDashboard() {
             { label: 'Quản lý voucher', href: '/admin/vouchers',  color: 'bg-blue-50 text-blue-700 border-blue-200' },
             { label: 'Yêu cầu tiệc cưới', href: '/admin/wedding', color: 'bg-purple-50 text-purple-700 border-purple-200' },
           ].map((a) => (
-            <a key={a.label} href={a.href} className={`border rounded-xl px-4 py-3 text-sm font-medium text-center hover:opacity-80 transition-opacity ${a.color}`}>
+            <a key={a.label} href={a.href} className={`border-2 px-4 py-3 text-sm font-medium text-center hover:opacity-80 transition-opacity ${a.color}`}>
               {a.label}
             </a>
           ))}

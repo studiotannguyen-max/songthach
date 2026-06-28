@@ -1,7 +1,15 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { Barlow_Condensed } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from '@/components/providers/AuthProvider';
+
+const barlow = Barlow_Condensed({
+  subsets: ['vietnamese', 'latin'],
+  variable: '--font-bebas',
+  weight: ['800'],
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://songthach.vn'),
@@ -66,7 +74,7 @@ const LOCAL_BUSINESS_JSONLD = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="vi">
-      <body>
+      <body className={barlow.variable}>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(LOCAL_BUSINESS_JSONLD) }}

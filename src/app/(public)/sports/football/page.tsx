@@ -64,10 +64,10 @@ export default async function FootballPage() {
           <p className="sports-hero-text text-sports-accent text-sm tracking-widest mb-2">KHU THỂ THAO SONG THẠCH</p>
           <h1 className="sports-hero-text text-5xl md:text-6xl font-bold text-white">SÂN BÓNG ĐÁ</h1>
           <div className="flex gap-3 mt-3">
-            <span className="sports-hero-text text-sm font-medium bg-white/20 backdrop-blur text-white px-3 py-1 rounded-full">
+            <span className="sports-hero-text text-sm font-medium bg-white/20 text-white px-3 py-1">
               3 sân 5 người
             </span>
-            <span className="sports-hero-text text-sm font-medium bg-sports-primary text-white px-3 py-1 rounded-full">
+            <span className="sports-hero-text text-sm font-medium bg-sports-primary text-white px-3 py-1">
               1 sân 7 người
             </span>
           </div>
@@ -89,7 +89,7 @@ export default async function FootballPage() {
               {/* Sân 5 */}
               <div>
                 <h2 className="sports-hero-text text-xl font-bold text-sports-dark mb-3 flex items-center gap-2">
-                  <span className="w-6 h-6 bg-sports-accent rounded-md flex items-center justify-center text-white text-xs font-bold">5</span>
+                  <span className="w-6 h-6 bg-sports-accent flex items-center justify-center text-white text-xs font-bold">5</span>
                   Sân 5 người
                 </h2>
                 <div className="grid grid-cols-2 gap-2">
@@ -110,7 +110,7 @@ export default async function FootballPage() {
               {/* Sân 7 */}
               <div>
                 <h2 className="sports-hero-text text-xl font-bold text-sports-dark mb-3 flex items-center gap-2">
-                  <span className="w-6 h-6 bg-sports-primary rounded-md flex items-center justify-center text-white text-xs font-bold">7</span>
+                  <span className="w-6 h-6 bg-sports-primary flex items-center justify-center text-white text-xs font-bold">7</span>
                   Sân 7 người
                 </h2>
                 {COURTS_7.map((c) => (
@@ -128,7 +128,7 @@ export default async function FootballPage() {
               {/* Features */}
               <div className="grid grid-cols-2 gap-3">
                 {FEATURES.map((f) => (
-                  <div key={f.title} className="bg-card rounded-xl p-3 border border-border">
+                  <div key={f.title} className="bg-card p-3 border-2 border-[#0F3C2C]" style={{ boxShadow: '3px 3px 0 #9CE25C' }}>
                     <f.icon size={18} className="text-sports-primary mb-2" />
                     <p className="font-semibold text-xs text-foreground">{f.title}</p>
                     <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">{f.desc}</p>
@@ -137,7 +137,7 @@ export default async function FootballPage() {
               </div>
 
               {/* Price table */}
-              <div className="bg-card rounded-2xl border border-border overflow-hidden">
+              <div className="bg-card border-2 border-[#0F3C2C] overflow-hidden">
                 <div className="gradient-sports px-4 py-3">
                   <p className="sports-hero-text font-bold text-white text-sm tracking-wider">BẢNG GIÁ</p>
                 </div>
@@ -174,7 +174,7 @@ export default async function FootballPage() {
       <section id="classes" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <div className="inline-flex items-center gap-2 bg-sports-light text-sports-primary text-xs font-bold px-4 py-1.5 rounded-full mb-4 tracking-widest uppercase">
+            <div className="inline-flex items-center gap-2 bg-sports-light text-sports-primary text-xs font-bold px-4 py-1.5 mb-4 tracking-widest uppercase border-2 border-[#0F3C2C]" style={{ fontFamily: 'var(--font-bebas)' }}>
               <GraduationCap size={14} /> Chiêu sinh hè — Văn Tâm Đồng Nai (Vệ tinh PVF)
             </div>
             <h2 className="sports-hero-text text-4xl font-bold text-sports-dark mb-2">Lớp Bóng Đá Hè</h2>
@@ -192,19 +192,19 @@ export default async function FootballPage() {
                 </h3>
                 <ul className="space-y-3">
                   <li className="flex items-start gap-3">
-                    <div className="w-8 h-8 rounded-full bg-sports-light flex items-center justify-center shrink-0">
+                    <div className="w-8 h-8 bg-sports-light flex items-center justify-center shrink-0 border border-sports-primary">
                       <Building2 size={15} className="text-sports-primary" />
                     </div>
                     <span className="text-sm text-gray-700">{SUMMER_CLASS.org}</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-sports-light flex items-center justify-center shrink-0">
+                    <div className="w-8 h-8 bg-sports-light flex items-center justify-center shrink-0 border border-sports-primary">
                       <Users size={15} className="text-sports-primary" />
                     </div>
                     <span className="text-sm text-gray-700">Đối tượng: {SUMMER_CLASS.ageRange}</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-sports-light flex items-center justify-center shrink-0">
+                    <div className="w-8 h-8 bg-sports-light flex items-center justify-center shrink-0 border border-sports-primary">
                       <CalendarDays size={15} className="text-sports-primary" />
                     </div>
                     <span className="text-sm text-gray-700">Khai giảng: {SUMMER_CLASS.startDate}</span>
@@ -221,7 +221,7 @@ export default async function FootballPage() {
                       href={`tel:${c.phone}`}
                       className={i === 0
                         ? 'sports-btn flex items-center justify-center gap-2'
-                        : 'flex items-center justify-center gap-2 border border-sports-primary text-sports-primary font-semibold px-6 py-3 rounded-xl hover:bg-sports-light transition-all'}
+                        : 'flex items-center justify-center gap-2 border-2 border-sports-primary text-sports-primary font-semibold px-6 py-3 hover:bg-sports-light transition-all'}
                     >
                       <Phone size={16} /> {c.display} ({c.name})
                     </a>
@@ -232,7 +232,7 @@ export default async function FootballPage() {
 
             {/* Cột phải: lịch học, học phí, địa điểm */}
             <div className="lg:col-span-3">
-              <div className="bg-card rounded-2xl border border-border overflow-hidden">
+              <div className="bg-card border-2 border-[#0F3C2C] overflow-hidden">
                 <div className="gradient-sports px-4 py-3">
                   <p className="sports-hero-text font-bold text-white text-sm tracking-wider">THÔNG TIN LỚP HỌC</p>
                 </div>
