@@ -65,6 +65,12 @@
 .giai-page .sec-head p{margin-top:14px;color:var(--brown);font-size:1.08rem;font-weight:600}
 
 
+/* doi tuong */
+.giai-page .doi-tuong{background:var(--cream);border:2.5px solid var(--ink);border-radius:16px;padding:18px 22px;margin-bottom:28px;box-shadow:4px 4px 0 var(--ink)}
+.giai-page .dt-title{font-family:"Baloo 2";font-weight:800;font-size:1rem;letter-spacing:.04em;text-transform:uppercase;color:var(--terra-d);margin-bottom:10px}
+.giai-page .doi-tuong ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.giai-page .doi-tuong li{font-size:1rem;font-weight:600;color:var(--brown)}
+
 /* groups */
 .giai-page .groups{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .giai-page .grp{background:var(--paper);border:2.5px solid var(--ink);border-radius:22px;padding:16px;box-shadow:5px 5px 0 var(--ink);transition:transform .14s ease,box-shadow .14s ease}

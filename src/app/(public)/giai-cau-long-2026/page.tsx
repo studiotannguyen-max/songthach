@@ -15,8 +15,8 @@ function obscureName(name: string): string {
 }
 
 export const metadata: Metadata = {
-  title: 'Điều Lệ Giải Cầu Lông Song Thạch Mở Rộng 2026',
-  description: 'Điều lệ chính thức Giải Cầu Lông Song Thạch Mở Rộng 2026 — giải gây quỹ trao học bổng cho học sinh vượt khó học giỏi xã Hưng Thịnh. Thi đấu 31/07 · 01 & 02/08/2026.',
+  title: 'Điều Lệ Giải Cầu Lông Song Thạch Mở Rộng — Tranh Cúp iStudio 2026',
+  description: 'Điều lệ chính thức Giải Cầu Lông Song Thạch Mở Rộng Tranh Cúp iStudio 2026 — gây quỹ trao học bổng cho học sinh vượt khó học giỏi xã Hưng Thịnh, TP Đồng Nai. Thi đấu 31/07 · 01 & 02/08/2026.',
 };
 
 const FORM_URL = 'https://docs.google.com/forms/d/1T7WlV7UVsLfAykyDU7FwXJL_ks74St44Y2o3C_QKkvY/viewform';
@@ -83,7 +83,7 @@ export default function GiaiCauLong2026Page() {
           <div className="hero-inner">
             <span className="sticker"><span className="dot"/> Điều lệ chính thức · Giải gây quỹ từ thiện</span>
             <h1 className="title">
-              Giải Cầu Lông <span className="a">Song Thạch</span> <span className="b">Mở Rộng 2026</span>
+              Giải Cầu Lông <span className="a">Song Thạch</span> <span className="b">Mở Rộng — Tranh Cúp iStudio</span>
             </h1>
             <p className="lede">
               Giao lưu học hỏi, lan tỏa yêu thương — gây quỹ trao học bổng cho các em học sinh vượt khó học giỏi trên địa bàn xã Hưng Thịnh.
@@ -103,7 +103,7 @@ export default function GiaiCauLong2026Page() {
                     <path d="M12 21s-7-5.3-7-11a7 7 0 0114 0c0 5.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>
                   </svg>
                 </span>
-                <div><div className="k">Địa điểm</div><div className="v">Sân CL Song Thạch, xã Hưng Thịnh, Đồng Nai</div></div>
+                <div><div className="k">Địa điểm</div><div className="v">Sân CL Song Thạch, xã Hưng Thịnh, TP Đồng Nai</div></div>
               </div>
               <div className="fact">
                 <span className="ic">
@@ -133,7 +133,15 @@ export default function GiaiCauLong2026Page() {
             <div className="sec-head">
               <span className="kicker">Nội dung &amp; khen thưởng</span>
               <h2>6 nhóm thi đấu</h2>
-              <p>Mỗi nội dung chỉ tổ chức khi có từ 12 VĐV/cặp trở lên (Nhóm 5 từ 16 cặp, Nhóm 6 từ 20 cặp — tối đa 64 cặp). Cấm VĐV đã đạt thành tích quốc gia; Nhóm 5 cấm thêm VĐV đạt thành tích cấp tỉnh 2025–2026.</p>
+              <p>Mỗi nội dung chỉ tổ chức khi có từ 12 VĐV/cặp trở lên (Nhóm 5 từ 16 cặp, Nhóm 6 từ 20 cặp — tối đa 64 cặp). Tất cả VĐV đạt giải Nhất, Nhì, Ba đều được trao Huy chương, Bằng khen và Quà của nhà tài trợ.</p>
+            </div>
+            <div className="doi-tuong">
+              <div className="dt-title">Đối tượng tham dự</div>
+              <ul>
+                <li>Các CLB khách mời;</li>
+                <li>VĐV đang theo học tại các trường trên địa bàn TP Đồng Nai;</li>
+                <li>VĐV đang sinh hoạt tại các CLB Cầu lông trên địa bàn TP Đồng Nai (danh sách đăng ký phải có xác nhận của CLB).</li>
+              </ul>
             </div>
             <div className="groups">
 
@@ -145,10 +153,7 @@ export default function GiaiCauLong2026Page() {
                 <div className="content">
                   <div className="c-lbl">Nội dung</div>
                   <div className="events"><span>Đơn nam</span><span>Đơn nữ</span></div>
-                  <div className="prize-row"><MedalIcon className="pmedal g" /> Giải nhất <span className="amt">350.000đ</span></div>
-                  <div className="prize-row"><MedalIcon className="pmedal s" /> Giải nhì <span className="amt">250.000đ</span></div>
-                  <div className="prize-row"><MedalIcon className="pmedal b" /> Giải ba <span className="amt">150.000đ</span></div>
-                  <div className="prize-gift">+ Huy chương &amp; bằng khen cho mỗi giải</div>
+                  <div className="prize-gift"><GiftIcon /><span>Huy chương + Bằng khen + Quà BTC</span></div>
                 </div>
               </article>
 
@@ -202,7 +207,7 @@ export default function GiaiCauLong2026Page() {
                   <div className="events"><span>Đôi nam</span><span>Đôi nam nữ</span></div>
                   <div className="prize-row"><MedalIcon className="pmedal g" /> Giải nhất <span className="amt">800.000đ</span></div>
                   <div className="prize-row"><MedalIcon className="pmedal s" /> Giải nhì <span className="amt">600.000đ</span></div>
-                  <div className="prize-row"><MedalIcon className="pmedal b" /> Đồng giải ba <span className="amt">400.000đ</span></div>
+                  <div className="prize-row"><MedalIcon className="pmedal b" /> Giải ba <span className="amt">400.000đ</span></div>
                   <div className="prize-gift">+ Huy chương &amp; bằng khen cho mỗi giải</div>
                 </div>
               </article>
@@ -273,7 +278,7 @@ export default function GiaiCauLong2026Page() {
                   <div className="rule"><span className="ico">2</span><p>Mỗi nội dung chỉ tổ chức khi có từ <strong>12 VĐV/cặp trở lên</strong>; Nhóm 5 từ <strong>16 cặp</strong>, Nhóm 6 từ <strong>20 cặp</strong> (tối đa 64 cặp).</p></div>
                   <div className="rule"><span className="ico">3</span><p>Cầu thi đấu chính thức là <strong>cầu Bamboo tốc độ 76</strong>.</p></div>
                   <div className="rule"><span className="ico">4</span><p>VĐV mang theo <strong>CCCD / bản sao Giấy khai sinh / Hộ chiếu / Thẻ học sinh</strong> còn hiệu lực để xuất trình khi có yêu cầu.</p></div>
-                  <div className="rule"><span className="ico">5</span><p>Khiếu nại phải bằng văn bản của trưởng đoàn: trước trận đấu với vấn đề nhân sự, trong vòng 10 phút sau trận với vấn đề trong trận.</p></div>
+                  <div className="rule"><span className="ico">5</span><p>Khiếu nại phải bằng văn bản của trưởng đoàn, nộp trước khi trận đấu diễn ra. Phí khiếu nại <strong>300.000đ/lần</strong> — không hoàn lại nếu khiếu nại sai.</p></div>
                   <div className="rule"><span className="ico">6</span><p>BTC chỉ giải quyết khiếu nại <strong>trước vòng bán kết</strong>; từ bán kết trở đi không giải quyết khiếu nại về nhân sự.</p></div>
                   <div className="rule"><span className="ico">7</span><p>Sau khi đăng ký <strong>không thể thay đổi VĐV</strong> — đề nghị cân nhắc kỹ trước khi đăng ký.</p></div>
                   <div className="rule"><span className="ico">8</span><p>Ban tổ chức có quyền thay đổi hoặc bổ sung điều lệ cho phù hợp với hoàn cảnh thực tế.</p></div>
@@ -350,7 +355,7 @@ export default function GiaiCauLong2026Page() {
           <div className="inner">
             <span className="fb">
               <svg width="22" height="22" aria-hidden="true"><use href="#ic-racket-giai"/></svg>
-              Giải Cầu Lông Song Thạch Mở Rộng 2026
+              Giải Cầu Lông Song Thạch Mở Rộng — Tranh Cúp iStudio 2026
             </span>
             <span>CLB Cầu Lông Song Thạch &amp; Đoàn Thanh niên xã Hưng Thịnh · <a href="https://songthach.com">songthach.com</a></span>
           </div>
