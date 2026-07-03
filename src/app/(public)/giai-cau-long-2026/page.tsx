@@ -8,7 +8,7 @@ function obscureName(name: string): string {
   const words = name.trim().split(/\s+/);
   if (words.length < 2) return name;
   const last = words[words.length - 1];
-  const chars = [...last];
+  const chars = last.split('');
   const hidden = chars.map((c, i) => (i < 2 ? '*' : c)).join('');
   words[words.length - 1] = hidden;
   return words.join(' ');
