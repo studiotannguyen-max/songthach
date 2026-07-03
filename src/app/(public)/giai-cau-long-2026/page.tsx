@@ -132,8 +132,8 @@ export default function GiaiCauLong2026Page() {
           <div className="wrap">
             <div className="sec-head">
               <span className="kicker">Nội dung &amp; khen thưởng</span>
-              <h2>7 nhóm thi đấu</h2>
-              <p>Mỗi nội dung chỉ tổ chức khi có từ 12 VĐV/cặp trở lên (Nhóm 7 từ 20 cặp). Cấm VĐV đã đạt thành tích quốc gia; riêng Nhóm 5 cấm thêm thành tích cấp tỉnh, thành phố.</p>
+              <h2>6 nhóm thi đấu</h2>
+              <p>Mỗi nội dung chỉ tổ chức khi có từ 12 VĐV/cặp trở lên (Nhóm 5 từ 16 cặp, Nhóm 6 từ 20 cặp — tối đa 64 cặp). Cấm VĐV đã đạt thành tích quốc gia; Nhóm 5 cấm thêm VĐV đạt thành tích cấp tỉnh 2025–2026.</p>
             </div>
             <div className="groups">
 
@@ -145,37 +145,56 @@ export default function GiaiCauLong2026Page() {
                 <div className="content">
                   <div className="c-lbl">Nội dung</div>
                   <div className="events"><span>Đơn nam</span><span>Đơn nữ</span></div>
-                  <div className="prize-gift"><GiftIcon /><span>Huy chương + bằng khen + quà</span></div>
+                  <div className="prize-row"><MedalIcon className="pmedal g" /> Giải nhất <span className="amt">350.000đ</span></div>
+                  <div className="prize-row"><MedalIcon className="pmedal s" /> Giải nhì <span className="amt">250.000đ</span></div>
+                  <div className="prize-row"><MedalIcon className="pmedal b" /> Giải ba <span className="amt">150.000đ</span></div>
+                  <div className="prize-gift">+ Huy chương &amp; bằng khen cho mỗi giải</div>
                 </div>
               </article>
 
               <article className="grp">
                 <div className="top">
                   <div><span className="gnum">Nhóm 2</span><h3>12 – 13 tuổi</h3><div className="age">Thiếu niên</div></div>
-                  <span className="fee">80.000đ</span>
+                  <span className="fee">100.000đ</span>
                 </div>
                 <div className="content">
                   <div className="c-lbl">Nội dung</div>
                   <div className="events"><span>Đơn nam</span><span>Đơn nữ</span><span>Đôi nam</span></div>
-                  <div className="prize-gift"><GiftIcon /><span>Huy chương + bằng khen + quà</span></div>
+                  <div className="c-lbl" style={{ marginTop: '8px' }}>Giải đơn</div>
+                  <div className="prize-row"><MedalIcon className="pmedal g" /> Nhất <span className="amt">350.000đ</span></div>
+                  <div className="prize-row"><MedalIcon className="pmedal s" /> Nhì <span className="amt">250.000đ</span></div>
+                  <div className="prize-row"><MedalIcon className="pmedal b" /> Ba <span className="amt">150.000đ</span></div>
+                  <div className="c-lbl" style={{ marginTop: '8px' }}>Giải đôi</div>
+                  <div className="prize-row"><MedalIcon className="pmedal g" /> Nhất <span className="amt">500.000đ</span></div>
+                  <div className="prize-row"><MedalIcon className="pmedal s" /> Nhì <span className="amt">400.000đ</span></div>
+                  <div className="prize-row"><MedalIcon className="pmedal b" /> Ba <span className="amt">300.000đ</span></div>
+                  <div className="prize-gift">+ Huy chương &amp; bằng khen cho mỗi giải</div>
                 </div>
               </article>
 
               <article className="grp">
                 <div className="top">
                   <div><span className="gnum">Nhóm 3</span><h3>14 – 15 tuổi</h3><div className="age">Thiếu niên</div></div>
-                  <span className="fee">80.000đ</span>
+                  <span className="fee">100.000đ</span>
                 </div>
                 <div className="content">
                   <div className="c-lbl">Nội dung</div>
                   <div className="events"><span>Đơn nam</span><span>Đơn nữ</span><span>Đôi nam</span></div>
-                  <div className="prize-gift"><GiftIcon /><span>Huy chương + bằng khen + quà</span></div>
+                  <div className="c-lbl" style={{ marginTop: '8px' }}>Giải đơn</div>
+                  <div className="prize-row"><MedalIcon className="pmedal g" /> Nhất <span className="amt">350.000đ</span></div>
+                  <div className="prize-row"><MedalIcon className="pmedal s" /> Nhì <span className="amt">250.000đ</span></div>
+                  <div className="prize-row"><MedalIcon className="pmedal b" /> Ba <span className="amt">150.000đ</span></div>
+                  <div className="c-lbl" style={{ marginTop: '8px' }}>Giải đôi</div>
+                  <div className="prize-row"><MedalIcon className="pmedal g" /> Nhất <span className="amt">500.000đ</span></div>
+                  <div className="prize-row"><MedalIcon className="pmedal s" /> Nhì <span className="amt">400.000đ</span></div>
+                  <div className="prize-row"><MedalIcon className="pmedal b" /> Ba <span className="amt">300.000đ</span></div>
+                  <div className="prize-gift">+ Huy chương &amp; bằng khen cho mỗi giải</div>
                 </div>
               </article>
 
               <article className="grp">
                 <div className="top">
-                  <div><span className="gnum">Nhóm 4</span><h3>16 – &lt;18 tuổi</h3><div className="age">Thanh thiếu niên</div></div>
+                  <div><span className="gnum">Nhóm 4</span><h3>16 – 18 tuổi</h3><div className="age">Thanh thiếu niên</div></div>
                   <span className="fee">150.000đ</span>
                 </div>
                 <div className="content">
@@ -191,50 +210,29 @@ export default function GiaiCauLong2026Page() {
               <article className="grp">
                 <div className="top">
                   <div><span className="gnum">Nhóm 5</span><h3>Phong trào</h3><div className="age">Không phân biệt lứa tuổi</div></div>
-                  <span className="fee">200.000đ</span>
+                  <span className="fee">250.000đ</span>
                 </div>
                 <div className="content">
                   <div className="c-lbl">Nội dung</div>
-                  <div className="events"><span>Đôi nam</span><span>Đôi nam nữ</span></div>
-                  <div className="prize-row"><MedalIcon className="pmedal g" /> Giải nhất <span className="amt">2.000.000đ</span></div>
-                  <div className="prize-row"><MedalIcon className="pmedal s" /> Giải nhì <span className="amt">1.000.000đ</span></div>
-                  <div className="prize-row"><MedalIcon className="pmedal b" /> Giải ba <span className="amt">500.000đ</span></div>
+                  <div className="events"><span>Đôi nam</span><span>Đôi nữ</span><span>Đôi nam nữ</span></div>
+                  <div className="prize-row"><MedalIcon className="pmedal g" /> Giải nhất <span className="amt">3.000.000đ</span></div>
+                  <div className="prize-row"><MedalIcon className="pmedal s" /> Giải nhì <span className="amt">2.000.000đ</span></div>
+                  <div className="prize-row"><MedalIcon className="pmedal b" /> Giải ba <span className="amt">1.000.000đ</span></div>
                   <div className="prize-gift">+ Huy chương &amp; bằng khen cho mỗi giải</div>
                 </div>
               </article>
 
               <article className="grp">
                 <div className="top">
-                  <div><span className="gnum">Nhóm 6</span><h3>Phong trào nâng cao</h3><div className="age">Trình độ khá</div></div>
-                  <span className="fee">200.000đ</span>
+                  <div><span className="gnum">Nhóm 6</span><h3>Phong trào nâng cao</h3><div className="age">Tối đa 64 cặp / nội dung</div></div>
+                  <span className="fee">250.000đ</span>
                 </div>
                 <div className="content">
                   <div className="c-lbl">Nội dung</div>
-                  <div className="events"><span>Đôi nam</span><span>Đôi nam nữ</span></div>
-                  <div className="prize-row"><MedalIcon className="pmedal g" /> Giải nhất <span className="amt">2.000.000đ</span></div>
-                  <div className="prize-row"><MedalIcon className="pmedal s" /> Giải nhì <span className="amt">1.000.000đ</span></div>
-                  <div className="prize-row"><MedalIcon className="pmedal b" /> Giải ba <span className="amt">500.000đ</span></div>
-                  <div className="prize-gift">+ Huy chương &amp; bằng khen cho mỗi giải</div>
-                </div>
-              </article>
-
-              <article className="grp wide">
-                <div className="top">
-                  <div>
-                    <span className="gnum">Nhóm 7</span>
-                    <h3>Nội bộ · Tài trợ · Khách mời (hạng B)</h3>
-                    <div className="age">Không phân biệt lứa tuổi · trình độ trung bình của đội: hạng B</div>
-                  </div>
-                  <span className="fee">300.000đ</span>
-                </div>
-                <div className="content">
-                  <div className="c-lbl">Nội dung</div>
-                  <div className="events"><span>Đôi nam nữ hỗn hợp</span></div>
-                  <div style={{ display:'flex', flexWrap:'wrap', gap:'6px 40px' }}>
-                    <div className="prize-row"><MedalIcon className="pmedal g" /> Giải nhất <span className="amt">2.500.000đ</span></div>
-                    <div className="prize-row"><MedalIcon className="pmedal s" /> Giải nhì <span className="amt">1.500.000đ</span></div>
-                    <div className="prize-row"><MedalIcon className="pmedal b" /> Đồng giải ba <span className="amt">1.000.000đ</span></div>
-                  </div>
+                  <div className="events"><span>Đôi nam</span><span>Đôi nữ</span><span>Đôi nam nữ</span></div>
+                  <div className="prize-row"><MedalIcon className="pmedal g" /> Giải nhất <span className="amt">3.000.000đ</span></div>
+                  <div className="prize-row"><MedalIcon className="pmedal s" /> Giải nhì <span className="amt">2.000.000đ</span></div>
+                  <div className="prize-row"><MedalIcon className="pmedal b" /> Giải ba <span className="amt">1.000.000đ</span></div>
                   <div className="prize-gift">+ Huy chương &amp; bằng khen cho mỗi giải</div>
                 </div>
               </article>
@@ -259,10 +257,9 @@ export default function GiaiCauLong2026Page() {
                   </thead>
                   <tbody>
                     <tr><td>Nhóm 1</td><td>Tiểu học (≤ 11 tuổi)</td><td>Miễn phí</td></tr>
-                    <tr><td>Nhóm 2 &amp; 3</td><td>12 – 15 tuổi</td><td>80.000đ / VĐV / nội dung</td></tr>
-                    <tr><td>Nhóm 4</td><td>16 – &lt;18 tuổi</td><td>150.000đ / VĐV / nội dung</td></tr>
-                    <tr><td>Nhóm 5 &amp; 6</td><td>Phong trào</td><td>200.000đ / VĐV / nội dung</td></tr>
-                    <tr><td>Nhóm 7</td><td>Nội bộ / khách mời</td><td>300.000đ / VĐV / nội dung</td></tr>
+                    <tr><td>Nhóm 2 &amp; 3</td><td>12 – 15 tuổi</td><td>100.000đ / VĐV / nội dung</td></tr>
+                    <tr><td>Nhóm 4</td><td>16 – 18 tuổi</td><td>150.000đ / VĐV / nội dung</td></tr>
+                    <tr><td>Nhóm 5 &amp; 6</td><td>Phong trào</td><td>250.000đ / VĐV / nội dung</td></tr>
                   </tbody>
                 </table>
               </div>
@@ -272,8 +269,8 @@ export default function GiaiCauLong2026Page() {
                   <h2>Điều lệ thi đấu</h2>
                 </div>
                 <div className="rules-grid">
-                  <div className="rule"><span className="ico">1</span><p><strong>Luật thi đấu:</strong> Nhóm 1, 2, 3, 4 loại trực tiếp 1 set 25 điểm. Nhóm 5, 6 loại trực tiếp 3 set 15 điểm. Nhóm 7 đánh vòng tròn tính điểm ở vòng loại, các vòng trong loại trực tiếp.</p></div>
-                  <div className="rule"><span className="ico">2</span><p>Mỗi nội dung chỉ tổ chức khi có từ <strong>12 VĐV/cặp trở lên</strong>; riêng Nhóm 7 từ <strong>20 cặp trở lên</strong>.</p></div>
+                  <div className="rule"><span className="ico">1</span><p><strong>Luật thi đấu:</strong> Tất cả các nhóm thi đấu loại trực tiếp, mỗi trận 3 sét — thắng 2 sét. Mỗi sét đến <strong>15 điểm</strong>, chạm tối đa <strong>17 điểm</strong>.</p></div>
+                  <div className="rule"><span className="ico">2</span><p>Mỗi nội dung chỉ tổ chức khi có từ <strong>12 VĐV/cặp trở lên</strong>; Nhóm 5 từ <strong>16 cặp</strong>, Nhóm 6 từ <strong>20 cặp</strong> (tối đa 64 cặp).</p></div>
                   <div className="rule"><span className="ico">3</span><p>Cầu thi đấu chính thức là <strong>cầu Bamboo tốc độ 76</strong>.</p></div>
                   <div className="rule"><span className="ico">4</span><p>VĐV mang theo <strong>CCCD / bản sao Giấy khai sinh / Hộ chiếu / Thẻ học sinh</strong> còn hiệu lực để xuất trình khi có yêu cầu.</p></div>
                   <div className="rule"><span className="ico">5</span><p>Khiếu nại phải bằng văn bản của trưởng đoàn: trước trận đấu với vấn đề nhân sự, trong vòng 10 phút sau trận với vấn đề trong trận.</p></div>
@@ -307,8 +304,8 @@ export default function GiaiCauLong2026Page() {
               <div className="row"><span className="lbl">Số tài khoản</span><span className="val">0988918418</span></div>
               <div className="row"><span className="lbl">Ngân hàng</span><span className="val">VPBANK</span></div>
               <div className="row"><span className="lbl">Chủ tài khoản</span><span className="val">Nguyễn Thị Thùy Linh</span></div>
-              <div className="row"><span className="lbl">Nội dung CK</span><span className="val">Lệ phí CL + Tên + Nội dung thi đấu</span></div>
-              <p className="note">Lưu ý: sau khi đăng ký không thể thay đổi vận động viên thi đấu.</p>
+              <div className="row"><span className="lbl">Nội dung CK</span><span className="val">Le phi CL [Tên] Nhom [số]</span></div>
+              <p className="note">Chuyển khoản xong liên hệ Zalo <strong>0988918418</strong> để xác nhận. Đã đăng ký không hoàn lệ phí.</p>
             </div>
           </div>
         </section>
