@@ -123,6 +123,18 @@
 .giai-page .pay .note{margin-top:14px;font-size:.88rem;color:var(--brown);font-weight:700}
 @media(max-width:780px){.giai-page .reg-card{grid-template-columns:1fr;gap:28px}}
 
+/* học bổng section */
+.giai-page .hb-table-wrap{border:2.5px solid var(--ink);border-radius:20px;overflow:hidden;box-shadow:4px 4px 0 var(--ink)}
+.giai-page .hb-table{width:100%;border-collapse:collapse;font-size:.93rem}
+.giai-page .hb-table thead tr{background:var(--ink)}
+.giai-page .hb-table th{padding:11px 16px;text-align:left;font-family:"Baloo 2";font-weight:800;font-size:.82rem;text-transform:uppercase;letter-spacing:.05em;color:var(--mustard);white-space:nowrap}
+.giai-page .hb-table td{padding:10px 16px;vertical-align:top;border-bottom:1.5px solid var(--line)}
+.giai-page .hb-table tbody tr:last-child td{border-bottom:none}
+.giai-page .hb-table tbody tr:nth-child(even){background:var(--cream2)}
+.giai-page .hb-table .hb-stt{width:44px;text-align:center;font-weight:800;color:var(--muted);font-size:.85rem}
+.giai-page .hb-table .hb-name{font-family:"Baloo 2";font-weight:700;white-space:nowrap;color:var(--ink)}
+.giai-page .hb-table .hb-sit{color:var(--brown);font-size:.88rem;line-height:1.5}
+
 /* giai footer bar */
 .giai-page .giai-footer{background:var(--ink);color:var(--cream2);padding:32px 0;font-weight:600}
 .giai-page .giai-footer .inner{max-width:1100px;margin:0 auto;padding:0 22px;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;align-items:center}

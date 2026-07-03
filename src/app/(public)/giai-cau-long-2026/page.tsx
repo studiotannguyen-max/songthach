@@ -2,6 +2,17 @@ import type { Metadata } from 'next';
 import Navbar from '@/components/shared/Navbar';
 import Footer from '@/components/shared/Footer';
 import './giai.css';
+import { HOC_BONG_DATA } from './hoc-bong-data';
+
+function obscureName(name: string): string {
+  const words = name.trim().split(/\s+/);
+  if (words.length < 2) return name;
+  const last = words[words.length - 1];
+  const chars = [...last];
+  const hidden = chars.map((c, i) => (i < 2 ? '*' : c)).join('');
+  words[words.length - 1] = hidden;
+  return words.join(' ');
+}
 
 export const metadata: Metadata = {
   title: 'Điều Lệ Giải Cầu Lông Song Thạch Mở Rộng 2026',
@@ -298,6 +309,41 @@ export default function GiaiCauLong2026Page() {
               <div className="row"><span className="lbl">Chủ tài khoản</span><span className="val">Nguyễn Thị Thùy Linh</span></div>
               <div className="row"><span className="lbl">Nội dung CK</span><span className="val">Lệ phí CL + Tên + Nội dung thi đấu</span></div>
               <p className="note">Lưu ý: sau khi đăng ký không thể thay đổi vận động viên thi đấu.</p>
+            </div>
+          </div>
+        </section>
+
+        {/* Danh sách học sinh nhận học bổng */}
+        <section id="hoc-bong" style={{ background: 'var(--paper)' }}>
+          <div className="wrap">
+            <div className="sec-head">
+              <span className="kicker">Mục tiêu gây quỹ</span>
+              <h2>Danh sách học bổng 2026</h2>
+              <p>
+                82 học sinh vượt khó trên địa bàn xã Hưng Thịnh sẽ được trao học bổng từ quỹ giải.
+                Tên học sinh được ẩn một phần để bảo vệ quyền riêng tư.
+              </p>
+            </div>
+
+            <div className="hb-table-wrap">
+              <table className="hb-table">
+                <thead>
+                  <tr>
+                    <th className="hb-stt">STT</th>
+                    <th className="hb-name">Họ và tên</th>
+                    <th className="hb-sit">Hoàn cảnh</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {HOC_BONG_DATA.flatMap((g) => g.students).map((s) => (
+                    <tr key={s.stt}>
+                      <td className="hb-stt">{s.stt}</td>
+                      <td className="hb-name">{obscureName(s.name)}</td>
+                      <td className="hb-sit">{s.situation}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </section>
