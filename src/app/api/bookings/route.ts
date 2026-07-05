@@ -135,6 +135,23 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Ngày đặt sân không hợp lệ (chỉ nhận trong vòng 60 ngày tới)' }, { status: 400 });
     }
 
+    // Không cho đặt khung giờ đã qua trong ngày hôm nay
+    const now = new Date();
+    const todayLocalStr = [
+      now.getFullYear(),
+      String(now.getMonth() + 1).padStart(2, '0'),
+      String(now.getDate()).padStart(2, '0'),
+    ].join('-');
+    if (booking_date === todayLocalStr) {
+      const nowTimeStr = now.toTimeString().slice(0, 5); // "HH:MM"
+      if (start_time <= nowTimeStr) {
+        return NextResponse.json(
+          { error: 'Không thể đặt khung giờ đã qua trong ngày hôm nay' },
+          { status: 400 }
+        );
+      }
+    }
+
     // GIÁ TÍNH PHÍA SERVER — không tin total_price từ client
     const end_time    = addHoursToTime(start_time, duration);
     const { total: total_price } = calculateBookingPrice(start_time, duration, venue_type);

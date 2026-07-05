@@ -148,3 +148,37 @@
 .giai-page .giai-footer a{color:var(--mustard);text-decoration:none;font-weight:800}
 
 @media(prefers-reduced-motion:reduce){.giai-page *{transition:none!important}}
+
+/* ── Mobile hero thu gọn ── */
+@media(max-width:640px){
+  /* Ribbon nhỏ hơn, ẩn phần ít quan trọng */
+  .giai-page .ribbon{font-size:12px;padding:6px 14px}
+
+  /* Hero padding gọn hơn */
+  .giai-page .hero-inner{padding:22px 16px 30px}
+
+  /* Sticker nhỏ lại */
+  .giai-page .sticker{font-size:11px;padding:5px 11px;margin-bottom:14px;letter-spacing:.04em}
+
+  /* Tiêu đề nhỏ hơn — từ 2.7rem xuống 1.75rem */
+  .giai-page h1.title{font-size:1.75rem;max-width:100%}
+
+  /* Lede nhỏ hơn */
+  .giai-page .lede{font-size:.98rem;margin-top:10px}
+
+  /* Facts: cuộn ngang thay vì xuống hàng */
+  .giai-page .facts{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:14px;gap:10px;padding-bottom:4px}
+  .giai-page .fact{flex-shrink:0;padding:9px 13px}
+  .giai-page .fact .ic{width:30px;height:30px;border-radius:9px}
+  .giai-page .fact .ic svg{width:17px;height:17px}
+  .giai-page .fact .k{font-size:10px}
+  .giai-page .fact .v{font-size:13px}
+
+  /* Buttons xếp dọc */
+  .giai-page .hero-cta{flex-direction:column;align-items:flex-start;gap:10px;margin-top:16px}
+  .giai-page .btn-lg{font-size:16px;padding:13px 22px}
+
+  /* Background decor nhỏ lại cho gọn */
+  .giai-page .sunburst{width:300px;height:300px;top:-80px;right:-80px}
+  .giai-page .racket-bg{width:200px;height:200px;left:-40px;bottom:-50px}
+}

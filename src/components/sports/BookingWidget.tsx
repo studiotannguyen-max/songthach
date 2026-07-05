@@ -120,6 +120,10 @@ export default function BookingWidget({ courts, venueName }: Props) {
 
   function isBooked(slot: string)  { return bookedSlots.includes(slot); }
   function isBlocked(slot: string) { return blockedSlots.includes(slot); }
+  function isPastSlot(slot: string): boolean {
+    if (!isToday(selectedDate)) return false;
+    return slot <= new Date().toTimeString().slice(0, 5);
+  }
 
   function validateConfirm() {
     if (!guestPhone.trim()) return 'Vui lòng nhập số điện thoại';
@@ -528,7 +532,8 @@ export default function BookingWidget({ courts, venueName }: Props) {
             {slots.map((slot) => {
               const booked  = isBooked(slot);
               const blocked = isBlocked(slot);
-              const taken   = booked || blocked;
+              const past    = isPastSlot(slot);
+              const taken   = booked || blocked || past;
               const isPeak  = getPriceRules(slot, selectedCourt.type).label.includes('Giờ vàng');
               return (
                 <button
@@ -541,9 +546,11 @@ export default function BookingWidget({ courts, venueName }: Props) {
                       ? 'time-slot-booked opacity-60'
                       : booked
                         ? 'time-slot-booked'
-                        : selectedSlot === slot
-                          ? 'time-slot-selected'
-                          : 'time-slot-available',
+                        : past
+                          ? 'time-slot-booked opacity-40'
+                          : selectedSlot === slot
+                            ? 'time-slot-selected'
+                            : 'time-slot-available',
                   )}
                 >
                   <span>{slot}</span>
@@ -551,6 +558,8 @@ export default function BookingWidget({ courts, venueName }: Props) {
                     <span className="text-[9px] font-bold text-gray-400">Bảo trì</span>
                   ) : booked ? (
                     <span className="text-[9px] font-bold text-gray-400">Đã đặt</span>
+                  ) : past ? (
+                    <span className="text-[9px] font-bold text-gray-400">Đã qua</span>
                   ) : isPeak && (
                     <span className={cn('text-[9px] font-bold', selectedSlot === slot ? 'text-orange-200' : 'text-orange-500')}>
                       Giờ vàng
@@ -565,6 +574,7 @@ export default function BookingWidget({ courts, venueName }: Props) {
             <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-sports-primary" />Đã chọn</span>
             <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-gray-300" />Đã đặt</span>
             <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-gray-200 opacity-60" />Bảo trì</span>
+            <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-gray-200 opacity-40" />Đã qua</span>
           </div>
         </div>
 
