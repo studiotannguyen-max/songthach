@@ -93,6 +93,7 @@
 .giai-page .prize-gift{margin-top:12px;display:flex;align-items:center;gap:10px;color:var(--brown);font-size:.95rem;font-weight:700}
 .giai-page .prize-gift svg{width:20px;height:20px;color:var(--terra-d);flex-shrink:0;display:inline-block}
 .giai-page .grp.wide{grid-column:1/-1}
+.giai-page .grp-note{margin-top:12px;padding:9px 12px;background:var(--cream2);border:1.5px solid var(--line);border-radius:10px;font-size:.84rem;font-weight:600;color:var(--brown);line-height:1.5}
 @media(max-width:960px){.giai-page .groups{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:640px){.giai-page .groups{grid-template-columns:1fr}}
 

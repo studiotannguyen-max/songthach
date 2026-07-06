@@ -16,7 +16,7 @@ function obscureName(name: string): string {
 
 export const metadata: Metadata = {
   title: 'Điều Lệ Giải Cầu Lông Song Thạch Mở Rộng — Tranh Cúp iStudio 2026',
-  description: 'Điều lệ chính thức Giải Cầu Lông Song Thạch Mở Rộng Tranh Cúp iStudio 2026 — gây quỹ trao học bổng cho học sinh vượt khó học giỏi xã Hưng Thịnh, TP Đồng Nai. Thi đấu 31/07 · 01 & 02/08/2026.',
+  description: 'Điều lệ chính thức Giải Cầu Lông Song Thạch Mở Rộng Tranh Cúp iStudio 2026 — gây quỹ trao học bổng cho học sinh vượt khó học giỏi xã Hưng Thịnh, TP Đồng Nai. Thi đấu 07 · 08 · 09/08/2026.',
 };
 
 const FORM_URL = 'https://docs.google.com/forms/d/1T7WlV7UVsLfAykyDU7FwXJL_ks74St44Y2o3C_QKkvY/viewform';
@@ -95,7 +95,7 @@ export default function GiaiCauLong2026Page() {
                     <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>
                   </svg>
                 </span>
-                <div><div className="k">Thời gian</div><div className="v">31/07 · 01 &amp; 02/08/2026</div></div>
+                <div><div className="k">Thời gian</div><div className="v">07 · 08 · 09/08/2026</div></div>
               </div>
               <div className="fact">
                 <span className="ic">
@@ -108,10 +108,10 @@ export default function GiaiCauLong2026Page() {
               <div className="fact">
                 <span className="ic">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>
+                    <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 15h4"/>
                   </svg>
                 </span>
-                <div><div className="k">Cầu thi đấu</div><div className="v">Bamboo tốc độ 76</div></div>
+                <div><div className="k">Hạn chốt ĐK</div><div className="v">01/08/2026</div></div>
               </div>
             </div>
             <div className="hero-cta">
@@ -133,7 +133,7 @@ export default function GiaiCauLong2026Page() {
             <div className="sec-head">
               <span className="kicker">Nội dung &amp; khen thưởng</span>
               <h2>6 nhóm thi đấu</h2>
-              <p>Mỗi nội dung chỉ tổ chức khi có từ 12 VĐV/cặp trở lên (Nhóm 5 từ 16 cặp, Nhóm 6 từ 20 cặp — tối đa 64 cặp). Tất cả VĐV đạt giải Nhất, Nhì, Ba đều được trao Huy chương, Bằng khen và Quà của nhà tài trợ.</p>
+              <p>Mỗi nội dung chỉ tổ chức khi có từ 12 VĐV/cặp trở lên (Nhóm 5 &amp; 6 từ 16 cặp — tối đa 64 cặp). Tất cả VĐV đạt giải Nhất, Nhì, Ba đều được trao Huy chương, Bằng khen và Quà của nhà tài trợ.</p>
             </div>
             <div className="doi-tuong">
               <div className="dt-title">Đối tượng tham dự</div>
@@ -153,6 +153,7 @@ export default function GiaiCauLong2026Page() {
                 <div className="content">
                   <div className="c-lbl">Nội dung</div>
                   <div className="events"><span>Đơn nam</span><span>Đơn nữ</span></div>
+                  <p className="grp-note">Cấm VĐV đạt thành tích quốc gia, giải Nhất tỉnh hoặc năng khiếu 2025–2026 (buộc lên Nhóm 2).</p>
                   <div className="prize-gift"><GiftIcon /><span>Huy chương + Bằng khen + Quà BTC</span></div>
                 </div>
               </article>
@@ -165,6 +166,7 @@ export default function GiaiCauLong2026Page() {
                 <div className="content">
                   <div className="c-lbl">Nội dung</div>
                   <div className="events"><span>Đơn nam</span><span>Đơn nữ</span><span>Đôi nam</span></div>
+                  <p className="grp-note">Cấm VĐV Quốc gia, giải Nhất tỉnh/năng khiếu 2025–2026. Tổ chức khi đủ 12 VĐV/cặp — không giới hạn đăng ký.</p>
                   <div className="c-lbl" style={{ marginTop: '8px' }}>Giải đơn</div>
                   <div className="prize-row"><MedalIcon className="pmedal g" /> Nhất <span className="amt">350.000đ</span></div>
                   <div className="prize-row"><MedalIcon className="pmedal s" /> Nhì <span className="amt">250.000đ</span></div>
@@ -185,6 +187,7 @@ export default function GiaiCauLong2026Page() {
                 <div className="content">
                   <div className="c-lbl">Nội dung</div>
                   <div className="events"><span>Đơn nam</span><span>Đơn nữ</span><span>Đôi nam</span></div>
+                  <p className="grp-note">Cấm VĐV Quốc gia, giải Nhất tỉnh/năng khiếu 2025–2026. Tổ chức khi đủ 12 VĐV/cặp — không giới hạn đăng ký.</p>
                   <div className="c-lbl" style={{ marginTop: '8px' }}>Giải đơn</div>
                   <div className="prize-row"><MedalIcon className="pmedal g" /> Nhất <span className="amt">350.000đ</span></div>
                   <div className="prize-row"><MedalIcon className="pmedal s" /> Nhì <span className="amt">250.000đ</span></div>
@@ -193,7 +196,7 @@ export default function GiaiCauLong2026Page() {
                   <div className="prize-row"><MedalIcon className="pmedal g" /> Nhất <span className="amt">500.000đ</span></div>
                   <div className="prize-row"><MedalIcon className="pmedal s" /> Nhì <span className="amt">400.000đ</span></div>
                   <div className="prize-row"><MedalIcon className="pmedal b" /> Ba <span className="amt">300.000đ</span></div>
-                  <div className="prize-gift">+ Huy chương &amp; bằng khen cho mỗi giải</div>
+                  <div className="prize-gift">+ Huy chương &amp; bằng khen &amp; Quà nhà tài trợ</div>
                 </div>
               </article>
 
@@ -205,10 +208,11 @@ export default function GiaiCauLong2026Page() {
                 <div className="content">
                   <div className="c-lbl">Nội dung</div>
                   <div className="events"><span>Đôi nam</span><span>Đôi nam nữ</span></div>
+                  <p className="grp-note">Cấm VĐV QG, giải Nhất tỉnh/năng khiếu 2025–2026. Tổ chức khi đủ 12 cặp — không giới hạn đăng ký.</p>
                   <div className="prize-row"><MedalIcon className="pmedal g" /> Giải nhất <span className="amt">800.000đ</span></div>
                   <div className="prize-row"><MedalIcon className="pmedal s" /> Giải nhì <span className="amt">600.000đ</span></div>
                   <div className="prize-row"><MedalIcon className="pmedal b" /> Giải ba <span className="amt">400.000đ</span></div>
-                  <div className="prize-gift">+ Huy chương &amp; bằng khen cho mỗi giải</div>
+                  <div className="prize-gift">+ Huy chương &amp; bằng khen &amp; Quà nhà tài trợ</div>
                 </div>
               </article>
 
@@ -220,6 +224,7 @@ export default function GiaiCauLong2026Page() {
                 <div className="content">
                   <div className="c-lbl">Nội dung</div>
                   <div className="events"><span>Đôi nam</span><span>Đôi nữ</span><span>Đôi nam nữ</span></div>
+                  <p className="grp-note">Cấm VĐV đạt thành tích cấp tỉnh 2025–2026, năng khiếu. Chỉ tổ chức khi đủ 16 cặp VĐV/nội dung.</p>
                   <div className="prize-row"><MedalIcon className="pmedal g" /> Giải nhất <span className="amt">3.000.000đ</span></div>
                   <div className="prize-row"><MedalIcon className="pmedal s" /> Giải nhì <span className="amt">2.000.000đ</span></div>
                   <div className="prize-row"><MedalIcon className="pmedal b" /> Giải ba <span className="amt">1.000.000đ</span></div>
@@ -229,12 +234,13 @@ export default function GiaiCauLong2026Page() {
 
               <article className="grp">
                 <div className="top">
-                  <div><span className="gnum">Nhóm 6</span><h3>Phong trào nâng cao</h3><div className="age">Tối đa 64 cặp / nội dung</div></div>
+                  <div><span className="gnum">Nhóm 6</span><h3>Nâng cao</h3><div className="age">VĐV cấp Quốc gia</div></div>
                   <span className="fee">250.000đ</span>
                 </div>
                 <div className="content">
                   <div className="c-lbl">Nội dung</div>
                   <div className="events"><span>Đôi nam</span><span>Đôi nữ</span><span>Đôi nam nữ</span></div>
+                  <p className="grp-note">Cấm VĐV đăng cấp Quốc gia. Chỉ tổ chức khi đủ 16 cặp VĐV/nội dung. Nhận tối đa 64 cặp.</p>
                   <div className="prize-row"><MedalIcon className="pmedal g" /> Giải nhất <span className="amt">3.000.000đ</span></div>
                   <div className="prize-row"><MedalIcon className="pmedal s" /> Giải nhì <span className="amt">2.000.000đ</span></div>
                   <div className="prize-row"><MedalIcon className="pmedal b" /> Giải ba <span className="amt">1.000.000đ</span></div>
@@ -275,7 +281,7 @@ export default function GiaiCauLong2026Page() {
                 </div>
                 <div className="rules-grid">
                   <div className="rule"><span className="ico">1</span><p><strong>Luật thi đấu:</strong> Tất cả các nhóm thi đấu loại trực tiếp, mỗi trận 3 sét — thắng 2 sét. Mỗi sét đến <strong>15 điểm</strong>, chạm tối đa <strong>17 điểm</strong>.</p></div>
-                  <div className="rule"><span className="ico">2</span><p>Mỗi nội dung chỉ tổ chức khi có từ <strong>12 VĐV/cặp trở lên</strong>; Nhóm 5 từ <strong>16 cặp</strong>, Nhóm 6 từ <strong>20 cặp</strong> (tối đa 64 cặp).</p></div>
+                  <div className="rule"><span className="ico">2</span><p>Mỗi nội dung chỉ tổ chức khi có từ <strong>12 VĐV/cặp trở lên</strong>; Nhóm 5 &amp; 6 từ <strong>16 cặp</strong> (tối đa 64 cặp).</p></div>
                   <div className="rule"><span className="ico">3</span><p>Cầu thi đấu chính thức là <strong>cầu Bamboo tốc độ 76</strong>.</p></div>
                   <div className="rule"><span className="ico">4</span><p>VĐV mang theo <strong>CCCD / bản sao Giấy khai sinh / Hộ chiếu / Thẻ học sinh</strong> còn hiệu lực để xuất trình khi có yêu cầu.</p></div>
                   <div className="rule"><span className="ico">5</span><p>Khiếu nại phải bằng văn bản của trưởng đoàn, nộp trước khi trận đấu diễn ra. Phí khiếu nại <strong>300.000đ/lần</strong> — không hoàn lại nếu khiếu nại sai.</p></div>
