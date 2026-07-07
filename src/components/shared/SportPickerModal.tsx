@@ -1,23 +1,23 @@
 'use client';
 
 import { useEffect } from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { X } from 'lucide-react';
 import { useSportPicker } from '@/components/providers/SportPickerProvider';
-import { FootballArt, BadmintonArt } from '@/components/shared/ZoneArt';
 
 const SPORTS = [
   {
     label: 'Sân Bóng Đá',
     sub: '3 sân · 5 người & 7 người',
     href: '/sports/football',
-    Art: FootballArt,
+    icon: '/icon-football.png',
   },
   {
     label: 'Sân Cầu Lông',
     sub: '3 sân tiêu chuẩn BWF',
     href: '/sports/badminton',
-    Art: BadmintonArt,
+    icon: '/icon-shuttlecock.png',
   },
 ] as const;
 
@@ -87,15 +87,15 @@ export default function SportPickerModal() {
 
         {/* Sport cards */}
         <div className="grid grid-cols-2 gap-3">
-          {SPORTS.map(({ label, sub, href, Art }) => (
+          {SPORTS.map(({ label, sub, href, icon }) => (
             <button
               key={href}
               onClick={() => pick(href)}
               className="group flex flex-col rounded-xl border-2 border-transparent hover:border-sports-primary overflow-hidden transition-all active:scale-[0.97]"
               style={{ background: '#f9f7f4' }}
             >
-              <div className="w-full h-28 overflow-hidden">
-                <Art className="w-full h-full" />
+              <div className="relative w-full h-28 p-6">
+                <Image src={icon} alt="" fill className="object-contain" sizes="200px" />
               </div>
               <div className="p-3 text-left">
                 <p className="font-bold text-sm text-sports-dark leading-tight">{label}</p>
