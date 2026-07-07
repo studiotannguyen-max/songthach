@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard, Calendar, MapPin, Users,
-  Heart, Settings, LogOut, ChevronRight, FileText, Ticket, Images,
+  Heart, Settings, LogOut, ChevronRight, FileText, Ticket, Images, Wallet,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { createClient } from '@/lib/supabase/client';
@@ -12,6 +12,7 @@ import { createClient } from '@/lib/supabase/client';
 const NAV = [
   { href: '/admin',          icon: LayoutDashboard, label: 'Tổng quan'          },
   { href: '/admin/bookings', icon: Calendar,        label: 'Đặt sân'            },
+  { href: '/admin/finance',  icon: Wallet,          label: 'Tài chính'          },
   { href: '/admin/vouchers', icon: Ticket,          label: 'Voucher'            },
   { href: '/admin/posts',    icon: FileText,        label: 'Bài viết & Tin tức' },
   { href: '/admin/gallery',  icon: Images,          label: 'Thư viện ảnh'       },
