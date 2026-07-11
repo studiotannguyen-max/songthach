@@ -140,8 +140,9 @@ export default function GiaiCauLong2026Page() {
               <ul>
                 <li>Các CLB khách mời;</li>
                 <li>VĐV đang theo học tại các trường trên địa bàn TP Đồng Nai;</li>
-                <li>VĐV đang sinh hoạt tại các CLB Cầu lông trên địa bàn TP Đồng Nai (danh sách đăng ký phải có xác nhận của CLB).</li>
+                <li>VĐV đang sinh hoạt tại các CLB Cầu lông trên địa bàn TP Đồng Nai, hoặc có hộ khẩu tạm trú 6 tháng tại Đồng Nai (danh sách đăng ký phải có xác nhận của CLB).</li>
               </ul>
+              <p className="grp-note" style={{ marginTop: '8px' }}><strong>Riêng Nhóm 6</strong> mở rộng cho VĐV các tỉnh khác.</p>
             </div>
             <div className="groups">
 
@@ -218,13 +219,14 @@ export default function GiaiCauLong2026Page() {
 
               <article className="grp">
                 <div className="top">
-                  <div><span className="gnum">Nhóm 5</span><h3>Phong trào</h3><div className="age">Không phân biệt lứa tuổi</div></div>
+                  <div><span className="gnum">Nhóm 5</span><h3>Phong trào &amp; Khách mời</h3><div className="age">Không phân biệt lứa tuổi</div></div>
                   <span className="fee">250.000đ</span>
                 </div>
                 <div className="content">
                   <div className="c-lbl">Nội dung</div>
                   <div className="events"><span>Đôi nam</span><span>Đôi nữ</span><span>Đôi nam nữ</span></div>
-                  <p className="grp-note">Cấm VĐV đạt thành tích cấp tỉnh 2025–2026, năng khiếu. Chỉ tổ chức khi đủ 16 cặp VĐV/nội dung.</p>
+                  <p className="grp-note">Cấm VĐV đạt thành tích Giải vô địch cá nhân, vô địch đồng đội của TP Đồng Nai và Toàn Quốc từ năm 2024 đến nay. Cấm VĐV đạt hạng I, II các giải phong trào Ngọc Phát, Tiến Minh, Trường An, ZATA từ năm 2024 đến nay. Chỉ tổ chức khi đủ 16 cặp VĐV/nội dung.</p>
+                  <p className="grp-note"><strong>Có thể ưu tiên khách mời của BTC.</strong></p>
                   <div className="prize-row"><MedalIcon className="pmedal g" /> Giải nhất <span className="amt">3.000.000đ</span></div>
                   <div className="prize-row"><MedalIcon className="pmedal s" /> Giải nhì <span className="amt">2.000.000đ</span></div>
                   <div className="prize-row"><MedalIcon className="pmedal b" /> Giải ba <span className="amt">1.000.000đ</span></div>
@@ -234,14 +236,15 @@ export default function GiaiCauLong2026Page() {
 
               <article className="grp">
                 <div className="top">
-                  <div><span className="gnum">Nhóm 6</span><h3>Nâng cao</h3><div className="age">VĐV cấp Quốc gia</div></div>
+                  <div><span className="gnum">Nhóm 6</span><h3>Nâng cao</h3><div className="age">Không giới hạn tỉnh thành</div></div>
                   <span className="fee">250.000đ</span>
                 </div>
                 <div className="content">
                   <div className="c-lbl">Nội dung</div>
-                  <div className="events"><span>Đôi nam</span><span>Đôi nữ</span><span>Đôi nam nữ</span></div>
-                  <p className="grp-note">Cấm VĐV đăng cấp Quốc gia. Chỉ tổ chức khi đủ 16 cặp VĐV/nội dung. Nhận tối đa 64 cặp.</p>
-                  <div className="prize-row"><MedalIcon className="pmedal g" /> Giải nhất <span className="amt">3.000.000đ</span></div>
+                  <div className="events"><span>Đôi nam</span><span>Đôi nam nữ</span></div>
+                  <p className="grp-note">Cấm VĐV tham gia các giải Quốc gia. Chỉ tổ chức khi đủ 16 cặp VĐV/nội dung. Nhận tối đa 64 cặp.</p>
+                  <p className="grp-note"><strong>Nhóm 6 mở rộng các tỉnh.</strong></p>
+                  <div className="prize-row"><MedalIcon className="pmedal g" /> Giải nhất <span className="amt">3.500.000đ</span></div>
                   <div className="prize-row"><MedalIcon className="pmedal s" /> Giải nhì <span className="amt">2.000.000đ</span></div>
                   <div className="prize-row"><MedalIcon className="pmedal b" /> Giải ba <span className="amt">1.000.000đ</span></div>
                   <div className="prize-gift">+ Huy chương &amp; bằng khen cho mỗi giải</div>
