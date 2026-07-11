@@ -139,10 +139,9 @@ export default function GiaiCauLong2026Page() {
               <div className="dt-title">Đối tượng tham dự</div>
               <ul>
                 <li>Các CLB khách mời;</li>
-                <li>VĐV đang theo học tại các trường trên địa bàn TP Đồng Nai;</li>
-                <li>VĐV đang sinh hoạt tại các CLB Cầu lông trên địa bàn TP Đồng Nai, hoặc có hộ khẩu tạm trú 6 tháng tại Đồng Nai (danh sách đăng ký phải có xác nhận của CLB).</li>
+                <li>Có hộ khẩu thường trú, tạm trú 6 tháng tại Đồng Nai (danh sách đăng ký phải có xác nhận của CLB).</li>
               </ul>
-              <p className="grp-note" style={{ marginTop: '8px' }}><strong>Riêng Nhóm 6</strong> mở rộng cho VĐV các tỉnh khác.</p>
+              <p className="grp-note" style={{ marginTop: '8px' }}><strong>Nhóm 6</strong> mở rộng các tỉnh.</p>
             </div>
             <div className="groups">
 
