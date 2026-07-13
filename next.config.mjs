@@ -33,6 +33,8 @@ const nextConfig = {
   experimental: {
     // Tree-shaking tốt hơn cho các package lớn, giảm bundle size
     optimizePackageImports: ['lucide-react', '@tiptap/react', '@tiptap/starter-kit'],
+    // Bật instrumentation hook (src/instrumentation.ts) — cấu hình mạng lúc server khởi động
+    instrumentationHook: true,
   },
 
   async headers() {
