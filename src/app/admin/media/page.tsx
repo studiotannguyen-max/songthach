@@ -4,6 +4,35 @@ import Image from 'next/image';
 import { UploadCloud, Loader2, Copy, Check, Trash2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
+// Copy vào clipboard — chạy cả trên HTTP (nơi navigator.clipboard không tồn tại).
+async function copyToClipboard(text: string): Promise<boolean> {
+  // Ưu tiên Clipboard API (chỉ có trong secure context: HTTPS/localhost)
+  if (typeof navigator !== 'undefined' && navigator.clipboard && window.isSecureContext) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch {
+      // rơi xuống fallback bên dưới
+    }
+  }
+  // Fallback cũ (deprecated nhưng chạy được trên HTTP)
+  try {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    ta.setSelectionRange(0, text.length);
+    const ok = document.execCommand('copy');
+    document.body.removeChild(ta);
+    return ok;
+  } catch {
+    return false;
+  }
+}
+
 interface MediaImage {
   name: string;
   url: string;
@@ -41,9 +70,14 @@ export default function AdminMediaPage() {
   }
 
   async function copyLink(url: string, name: string) {
-    await navigator.clipboard.writeText(url);
-    setCopied(name);
-    setTimeout(() => setCopied(c => (c === name ? null : c)), 2000);
+    const ok = await copyToClipboard(url);
+    if (ok) {
+      setCopied(name);
+      setTimeout(() => setCopied(c => (c === name ? null : c)), 2000);
+    } else {
+      // Không copy tự động được (trình duyệt chặn) — cho copy tay
+      window.prompt('Copy link ảnh (Ctrl+C rồi Enter):', url);
+    }
   }
 
   async function remove(name: string) {
