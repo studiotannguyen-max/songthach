@@ -6,7 +6,7 @@ import Navbar from '@/components/shared/Navbar';
 import Footer from '@/components/shared/Footer';
 import { getPostBySlug } from '@/lib/posts';
 
-const PITCH = '#0F3C2C';
+const PITCH = '#3B2A1E';
 
 export const revalidate = 60;
 

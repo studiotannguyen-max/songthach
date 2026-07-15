@@ -94,7 +94,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           toastOptions={{
             duration: 4000,
             style: { fontFamily: 'Inter, sans-serif', fontSize: '14px' },
-            success: { iconTheme: { primary: '#1a6b3a', secondary: '#fff' } },
+            success: { iconTheme: { primary: '#A33E1F', secondary: '#fff' } },
           }}
         />
       </body>

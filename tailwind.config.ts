@@ -61,27 +61,25 @@ const config: Config = {
           '4': 'var(--chart-4)',
           '5': 'var(--chart-5)',
         },
-        // --- Sports Zone Theme (đồng bộ với trang chủ: xanh sân cỏ + lime) ---
+        // --- Tất cả khu công khai dùng chung bảng màu Giải Cầu Lông (kem/mù tạt/terracotta/nâu) ---
         sports: {
-          primary:   '#0F3C2C',   // Pitch — xanh sân cỏ đậm
-          accent:    '#9CE25C',   // Lime
-          dark:      '#10150F',   // Ink
-          light:     '#F4EEE1',   // Sand
+          primary:   '#C5532F',   // Terracotta
+          accent:    '#E3A21A',   // Mù tạt
+          dark:      '#3B2A1E',   // Ink nâu
+          light:     '#F4E9D6',   // Kem
         },
-        // --- Wedding Zone Theme (đồng bộ với trang chủ: hồng rose) ---
         wedding: {
-          primary:   '#C8746B',   // Rose
-          accent:    '#C8746B',   // Rose
-          dark:      '#10150F',   // Ink
-          cream:     '#FBFAF7',   // Paper
-          rose:      '#F6EBE9',   // Rose nhạt
+          primary:   '#C5532F',   // Terracotta
+          accent:    '#E3A21A',   // Mù tạt
+          dark:      '#3B2A1E',   // Ink nâu
+          cream:     '#FFFBF2',   // Paper
+          rose:      '#F1C9B4',   // Terra nhạt
         },
-        // --- Cafe Zone Theme (đồng bộ với trang chủ: hồng rose) ---
         cafe: {
-          primary:   '#C8746B',   // Rose
-          accent:    '#C8746B',   // Rose
-          dark:      '#10150F',   // Ink
-          light:     '#F6EBE9',   // Rose nhạt
+          primary:   '#C5532F',   // Terracotta
+          accent:    '#E3A21A',   // Mù tạt
+          dark:      '#3B2A1E',   // Ink nâu
+          light:     '#F1C9B4',   // Terra nhạt
         },
       },
       fontFamily: {

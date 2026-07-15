@@ -83,7 +83,7 @@ export default function CafePage() {
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(28,40,32,0.2) 0%, rgba(28,40,32,0.85) 100%)' }} />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(59,42,30,0.2) 0%, rgba(59,42,30,0.85) 100%)' }} />
         <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 w-full">
           <span className="cafe-tag mb-4 inline-block">Tiện ích nội khu</span>
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-3" style={{ fontFamily: 'var(--font-bricolage)' }}>
@@ -113,7 +113,7 @@ export default function CafePage() {
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-3 gap-4 h-72">
             {SPACES.map((s, i) => (
-              <div key={s.label} className={`relative overflow-hidden border-2 border-[#3B2314] ${i === 0 ? 'col-span-2' : ''}`}>
+              <div key={s.label} className={`relative overflow-hidden border-2 border-[#3B2A1E] ${i === 0 ? 'col-span-2' : ''}`}>
                 <Image
                   src={s.src}
                   alt={`${s.label} — café Lavie en Rose tại Song Thạch`}
@@ -140,7 +140,7 @@ export default function CafePage() {
           </div>
 
           {/* Thanh gọi món QR — nhỏ gọn, ngay đầu menu */}
-          <div id="order-qr" className="mb-12 border-2 border-[#3B2314] bg-cafe-light/60 p-5 flex flex-col sm:flex-row items-center justify-center gap-5 sm:gap-8" style={{ boxShadow: '4px 4px 0 #C9A96E' }}>
+          <div id="order-qr" className="mb-12 border-2 border-[#3B2A1E] bg-cafe-light/60 p-5 flex flex-col sm:flex-row items-center justify-center gap-5 sm:gap-8" style={{ boxShadow: '4px 4px 0 #C5860F' }}>
             <div className="text-center sm:text-left">
               <p className="text-cafe-primary font-semibold tracking-wide">Gọi món tại bàn qua QR</p>
               <p className="text-gray-500 text-xs mt-1 max-w-xs">Quét mã khu bạn đang ngồi bằng camera điện thoại — món gửi thẳng tới quầy.</p>
@@ -149,7 +149,7 @@ export default function CafePage() {
             <div className="flex gap-3">
               {ORDER_QR.map((qr) => (
                 <div key={qr.label} className="text-center">
-                  <div className="relative w-24 bg-white border border-[#3B2314] overflow-hidden" style={{ aspectRatio: '420 / 600' }}>
+                  <div className="relative w-24 bg-white border border-[#3B2A1E] overflow-hidden" style={{ aspectRatio: '420 / 600' }}>
                     <Image
                       src={qr.img}
                       alt={`Mã QR gọi món khu vực ${qr.label} — Café Lavie en Rose`}

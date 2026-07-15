@@ -156,7 +156,7 @@ export default async function BadmintonPage() {
                 <h2 className="sports-hero-text text-xl font-bold text-sports-dark mb-4">Tiện ích & Thiết bị</h2>
                 <div className="grid grid-cols-1 gap-3">
                   {FEATURES.map((f) => (
-                    <div key={f.title} className="flex items-start gap-3 bg-white p-4 border-2 border-[#0F3C2C]" style={{ boxShadow: '3px 3px 0 #9CE25C' }}>
+                    <div key={f.title} className="flex items-start gap-3 bg-white p-4 border-2 border-[#3B2A1E]" style={{ boxShadow: '3px 3px 0 #E3A21A' }}>
                       <div className="w-9 h-9 bg-sports-light flex items-center justify-center shrink-0 border border-sports-primary">
                         <f.icon size={18} className="text-sports-primary" />
                       </div>
@@ -170,7 +170,7 @@ export default async function BadmintonPage() {
               </div>
 
               {/* Price table */}
-              <div className="bg-white border-2 border-[#0F3C2C] overflow-hidden">
+              <div className="bg-white border-2 border-[#3B2A1E] overflow-hidden">
                 <div className="gradient-sports px-4 py-3">
                   <p className="sports-hero-text font-bold text-white text-sm tracking-wider">BẢNG GIÁ</p>
                 </div>
@@ -206,7 +206,7 @@ export default async function BadmintonPage() {
       <section id="classes" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <div className="inline-flex items-center gap-2 bg-sports-light text-sports-primary text-xs font-bold px-4 py-1.5 mb-4 tracking-widest uppercase border-2 border-[#0F3C2C]" style={{ fontFamily: 'var(--font-bebas)' }}>
+            <div className="inline-flex items-center gap-2 bg-sports-light text-sports-primary text-xs font-bold px-4 py-1.5 mb-4 tracking-widest uppercase border-2 border-[#3B2A1E]" style={{ fontFamily: 'var(--font-bebas)' }}>
               <GraduationCap size={14} /> Chiêu sinh hè — Song Thạch Badminton Club
             </div>
             <h2 className="text-4xl font-bold text-sports-dark mb-2">Lớp Cầu Lông Chất Lượng Cao</h2>
@@ -333,7 +333,7 @@ export default async function BadmintonPage() {
               Chỉ đường <ArrowRight size={16} />
             </a>
           </div>
-          <div className="overflow-hidden border-2 border-[#0F3C2C] h-[300px]">
+          <div className="overflow-hidden border-2 border-[#3B2A1E] h-[300px]">
             <iframe
               src={MAP_EMBED_SRC}
               width="100%"

@@ -92,14 +92,14 @@ export default function SportPickerModal() {
               key={href}
               onClick={() => pick(href)}
               className="group flex flex-col rounded-xl border-2 border-transparent hover:border-sports-primary overflow-hidden transition-all active:scale-[0.97]"
-              style={{ background: '#f9f7f4' }}
+              style={{ background: '#FBF4E6' }}
             >
               <div className="relative w-full h-28 p-6">
                 <Image src={icon} alt="" fill className="object-contain" sizes="200px" />
               </div>
               <div className="p-3 text-left">
                 <p className="font-bold text-sm text-sports-dark leading-tight">{label}</p>
-                <p className="text-xs text-[#6A6F66] mt-0.5">{sub}</p>
+                <p className="text-xs text-[#8A6E54] mt-0.5">{sub}</p>
               </div>
             </button>
           ))}
@@ -108,7 +108,7 @@ export default function SportPickerModal() {
         {/* Cancel */}
         <button
           onClick={close}
-          className="mt-4 w-full py-2.5 text-sm text-[#6A6F66] hover:text-sports-dark transition-colors"
+          className="mt-4 w-full py-2.5 text-sm text-[#8A6E54] hover:text-sports-dark transition-colors"
         >
           Huỷ
         </button>

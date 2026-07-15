@@ -17,17 +17,17 @@ export const metadata: Metadata = {
 // Đọc lại ảnh/bài viết từ DB mỗi 60s
 export const revalidate = 60;
 
-const PITCH      = '#0F3C2C';
-const PITCH_2    = '#0A2C20';
-const INK        = '#10150F';
-const LIME       = '#9CE25C';
-const LIME_DEEP  = '#3F8F33';
-const SAND       = '#F4EEE1';
-const PAPER      = '#FBFAF7';
+const PITCH      = '#3B2A1E';
+const PITCH_2    = '#3B2A1E';
+const INK        = '#3B2A1E';
+const LIME       = '#E3A21A';
+const LIME_DEEP  = '#A33E1F';
+const SAND       = '#F4E9D6';
+const PAPER      = '#FFFBF2';
 const LINE       = '#E6E2D6';
-const MUTED      = '#6A6F66';
-const ROSE       = '#C8746B';
-const ROSE_SOFT  = '#F6EBE9';
+const MUTED      = '#8A6E54';
+const ROSE       = '#C5532F';
+const ROSE_SOFT  = '#FBF4E6';
 
 const ADDRESS    = '9B/3 Ấp An Hoà, Xã Hưng Thịnh, TP Đồng Nai';
 const OPEN_HOURS = '06:00 – 22:00';
@@ -65,7 +65,7 @@ const SERVICES = [
 function DiagonalStripe() {
   return (
     <div className="absolute inset-0 pointer-events-none" style={{
-      backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(156,226,92,0.08) 4px, rgba(156,226,92,0.08) 8px)',
+      backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(227,162,26,0.08) 4px, rgba(227,162,26,0.08) 8px)',
     }} />
   );
 }
@@ -119,14 +119,14 @@ export default async function HomePage() {
           <div>
             <span
               className="inline-block text-xs font-semibold px-3 py-1.5 mb-5 border-2"
-              style={{ color: LIME, borderColor: 'rgba(156,226,92,.6)', fontFamily: 'var(--font-bebas)', letterSpacing: '0.1em' }}
+              style={{ color: LIME, borderColor: 'rgba(227,162,26,.6)', fontFamily: 'var(--font-bebas)', letterSpacing: '0.1em' }}
             >
               TỔ HỢP THỂ THAO · TIỆC CƯỚI · CÀ PHÊ — ĐỒNG NAI
             </span>
             <h1 style={{ fontFamily: 'var(--font-bebas)', fontSize: 'clamp(32px,4.5vw,56px)', letterSpacing: '0.04em', lineHeight: 0.95 }}>
               SONG THẠCH — COME PLAY, <span style={{ color: LIME }}>STAY, RELAX</span>
             </h1>
-            <p className="text-base mt-5 mb-7 max-w-[46ch]" style={{ color: '#d7e3da' }}>
+            <p className="text-base mt-5 mb-7 max-w-[46ch]" style={{ color: '#EDE0C4' }}>
               Sân cầu lông, sân bóng đá, lớp đào tạo thể thao, tiệc cưới sân vườn và Café Lavie en Rose — tất cả ở cùng một địa chỉ.
             </p>
             <div className="flex gap-3.5 flex-wrap">
@@ -146,30 +146,30 @@ export default async function HomePage() {
             <div className="flex gap-8 mt-10 pt-6 border-t flex-wrap" style={{ borderColor: 'rgba(255,255,255,.14)' }}>
               <div>
                 <b className="block text-2xl font-bold" style={{ fontFamily: 'var(--font-bricolage)' }}>3</b>
-                <span className="text-xs" style={{ color: '#aebfb4' }}>sân cầu lông</span>
+                <span className="text-xs" style={{ color: '#E2CFA9' }}>sân cầu lông</span>
               </div>
               <div>
                 <b className="block text-2xl font-bold" style={{ fontFamily: 'var(--font-bricolage)' }}>2</b>
-                <span className="text-xs" style={{ color: '#aebfb4' }}>sân bóng đá</span>
+                <span className="text-xs" style={{ color: '#E2CFA9' }}>sân bóng đá</span>
               </div>
               <div>
                 <b className="block text-2xl font-bold" style={{ fontFamily: 'var(--font-bricolage)' }}>2</b>
-                <span className="text-xs" style={{ color: '#aebfb4' }}>lớp đào tạo thể thao</span>
+                <span className="text-xs" style={{ color: '#E2CFA9' }}>lớp đào tạo thể thao</span>
               </div>
               <div>
                 <b className="block text-2xl font-bold" style={{ fontFamily: 'var(--font-bricolage)' }}>{OPEN_HOURS}</b>
-                <span className="text-xs" style={{ color: '#aebfb4' }}>mở cửa mỗi ngày</span>
+                <span className="text-xs" style={{ color: '#E2CFA9' }}>mở cửa mỗi ngày</span>
               </div>
             </div>
           </div>
 
           {/* Tin tức & sự kiện */}
-          <div id="tintuc" className="p-6 border-2" style={{ background: `linear-gradient(160deg,#15543d,#0c3022)`, borderColor: 'rgba(156,226,92,.4)' }}>
+          <div id="tintuc" className="p-6 border-2" style={{ background: `linear-gradient(160deg,#5A3A26,#3B2A1E)`, borderColor: 'rgba(227,162,26,.4)' }}>
             <span className="inline-block text-xs font-semibold px-2.5 py-1" style={{ background: LIME, color: INK, fontFamily: 'var(--font-bebas)', letterSpacing: '0.08em' }}>TIN TỨC &amp; SỰ KIỆN</span>
             <h3 className="mt-3.5 mb-4" style={{ fontFamily: 'var(--font-bebas)', fontSize: '1.15rem', letterSpacing: '0.04em' }}>ĐANG DIỄN RA TẠI SONG THẠCH</h3>
 
             {posts.length === 0 ? (
-              <p className="text-sm" style={{ color: '#aebfb4' }}>Chưa có tin tức nào.</p>
+              <p className="text-sm" style={{ color: '#E2CFA9' }}>Chưa có tin tức nào.</p>
             ) : (
               <div className="space-y-3">
                 {posts.map((post) => (
@@ -178,7 +178,7 @@ export default async function HomePage() {
                     href={`/tin-tuc/${post.slug}`}
                     className="flex gap-3 items-center p-2.5 transition-colors hover:bg-white/5"
                   >
-                    <div className="relative w-16 h-16 overflow-hidden shrink-0" style={{ background: '#0e3a2a' }}>
+                    <div className="relative w-16 h-16 overflow-hidden shrink-0" style={{ background: '#3B2A1E' }}>
                       {post.cover_image && (
                         <Image src={post.cover_image} alt={post.title} fill sizes="64px" className="object-cover" />
                       )}
@@ -226,8 +226,8 @@ export default async function HomePage() {
                   className="relative block border-[3px] p-6 transition-all hover:translate-x-[-2px] hover:translate-y-[-2px]"
                   style={{
                     background: '#fff',
-                    borderColor: rose ? '#C8746B' : '#0F3C2C',
-                    boxShadow: rose ? '5px 5px 0 rgba(200,116,107,0.3)' : '5px 5px 0 #9CE25C',
+                    borderColor: rose ? '#C5532F' : '#3B2A1E',
+                    boxShadow: rose ? '5px 5px 0 rgba(197,83,47,0.3)' : '5px 5px 0 #E3A21A',
                   }}
                 >
                   <span
@@ -285,15 +285,15 @@ export default async function HomePage() {
         <div className="max-w-[1180px] mx-auto px-4 sm:px-6 grid lg:grid-cols-[.9fr_1.1fr] gap-10 items-center">
           <div>
             <h2 style={{ fontFamily: 'var(--font-bebas)', fontSize: 'clamp(28px,4vw,40px)', letterSpacing: '0.04em', marginBottom: '1.25rem' }}>GHÉ SONG THẠCH</h2>
-            <div className="flex gap-3 items-start mb-4" style={{ color: '#d7e3da' }}>
+            <div className="flex gap-3 items-start mb-4" style={{ color: '#EDE0C4' }}>
               <MapPin size={20} style={{ color: LIME }} className="shrink-0 mt-0.5" />
               <span><b className="block text-white font-semibold">Địa chỉ</b>{ADDRESS}</span>
             </div>
-            <div className="flex gap-3 items-start mb-4" style={{ color: '#d7e3da' }}>
+            <div className="flex gap-3 items-start mb-4" style={{ color: '#EDE0C4' }}>
               <Clock size={20} style={{ color: LIME }} className="shrink-0 mt-0.5" />
               <span><b className="block text-white font-semibold">Giờ mở cửa</b>{OPEN_HOURS} mỗi ngày</span>
             </div>
-            <div className="flex gap-3 items-start mb-4" style={{ color: '#d7e3da' }}>
+            <div className="flex gap-3 items-start mb-4" style={{ color: '#EDE0C4' }}>
               <Phone size={20} style={{ color: LIME }} className="shrink-0 mt-0.5" />
               <span><b className="block text-white font-semibold">Đặt sân &amp; tư vấn</b>{PHONE}</span>
             </div>
@@ -308,7 +308,7 @@ export default async function HomePage() {
           </div>
           <div
             className="h-[280px] md:h-[300px] rounded-[18px] flex items-center justify-center text-sm border"
-            style={{ background: PITCH_2, borderColor: 'rgba(156,226,92,.25)', color: '#86a394' }}
+            style={{ background: PITCH_2, borderColor: 'rgba(227,162,26,.25)', color: '#C7B08C' }}
           >
             Bản đồ Google Maps
           </div>
@@ -316,7 +316,7 @@ export default async function HomePage() {
       </section>
 
       {/* ── Footer ───────────────── */}
-      <footer className="py-12 md:py-16" style={{ background: INK, color: '#cfd4cb', borderTop: '4px solid #9CE25C' }}>
+      <footer className="py-12 md:py-16" style={{ background: INK, color: '#cfd4cb', borderTop: '4px solid #E3A21A' }}>
         <div className="max-w-[1180px] mx-auto px-4 sm:px-6">
           <div className="grid sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr] gap-9 mb-11">
             <div>
@@ -328,7 +328,7 @@ export default async function HomePage() {
               </p>
             </div>
             <div>
-              <h5 style={{ fontFamily: 'var(--font-bebas)', fontSize: '1.05rem', letterSpacing: '0.15em', color: '#9CE25C', marginBottom: '1rem' }}>Thể thao</h5>
+              <h5 style={{ fontFamily: 'var(--font-bebas)', fontSize: '1.05rem', letterSpacing: '0.15em', color: '#E3A21A', marginBottom: '1rem' }}>Thể thao</h5>
               <ul className="space-y-2.5 text-sm">
                 <li><Link href="/sports/football" className="hover:text-white">Sân Bóng Đá</Link></li>
                 <li><Link href="/sports/badminton" className="hover:text-white">Sân Cầu Lông</Link></li>
@@ -337,7 +337,7 @@ export default async function HomePage() {
               </ul>
             </div>
             <div>
-              <h5 style={{ fontFamily: 'var(--font-bebas)', fontSize: '1.05rem', letterSpacing: '0.15em', color: '#9CE25C', marginBottom: '1rem' }}>Dịch vụ</h5>
+              <h5 style={{ fontFamily: 'var(--font-bebas)', fontSize: '1.05rem', letterSpacing: '0.15em', color: '#E3A21A', marginBottom: '1rem' }}>Dịch vụ</h5>
               <ul className="space-y-2.5 text-sm">
                 <li><Link href="/wedding" className="hover:text-white">Tiệc cưới</Link></li>
                 <li><Link href="/cafe" className="hover:text-white">Café Lavie en Rose</Link></li>
@@ -345,7 +345,7 @@ export default async function HomePage() {
               </ul>
             </div>
             <div>
-              <h5 style={{ fontFamily: 'var(--font-bebas)', fontSize: '1.05rem', letterSpacing: '0.15em', color: '#9CE25C', marginBottom: '1rem' }}>Liên hệ</h5>
+              <h5 style={{ fontFamily: 'var(--font-bebas)', fontSize: '1.05rem', letterSpacing: '0.15em', color: '#E3A21A', marginBottom: '1rem' }}>Liên hệ</h5>
               <ul className="space-y-2.5 text-sm">
                 <li><a href="tel:0378990979" className="hover:text-white">0378 990 979</a></li>
                 <li><a href="tel:0886798690" className="hover:text-white">0886 798 690</a></li>

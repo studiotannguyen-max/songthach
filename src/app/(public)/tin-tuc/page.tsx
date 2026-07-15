@@ -14,12 +14,12 @@ export const metadata: Metadata = {
 
 export const revalidate = 60;
 
-const PITCH      = '#0F3C2C';
-const LIME_DEEP  = '#3F8F33';
-const INK        = '#10150F';
+const PITCH      = '#3B2A1E';
+const LIME_DEEP  = '#A33E1F';
+const INK        = '#3B2A1E';
 const LINE       = '#E6E2D6';
-const MUTED      = '#6A6F66';
-const PAPER      = '#FBFAF7';
+const MUTED      = '#8A6E54';
+const PAPER      = '#FFFBF2';
 
 export default async function NewsListPage() {
   const posts = await getPublishedPosts(50);

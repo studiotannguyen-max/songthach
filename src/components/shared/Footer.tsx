@@ -2,14 +2,14 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Phone, MapPin, Clock, Facebook, Instagram } from 'lucide-react';
 
-const GREEN  = '#0D4428';
-const YELLOW = '#FBD043';
+const GREEN  = '#3B2A1E';
+const YELLOW = '#E3A21A';
 
 export default function Footer() {
   return (
     <footer aria-label="Thông tin Song Thạch" className="pb-24 sm:pb-0">
       {/* Mobile footer — chỉ địa chỉ + SĐT, giữ nguyên gọn nhẹ */}
-      <div className="sm:hidden px-4 py-6 space-y-2.5" style={{ background: GREEN, color: '#fff', borderTop: '4px solid #9CE25C' }}>
+      <div className="sm:hidden px-4 py-6 space-y-2.5" style={{ background: GREEN, color: '#fff', borderTop: '4px solid #E3A21A' }}>
         <a href="https://maps.google.com/?q=9B/3+Ấp+An+Hoà,+Xã+Hưng+Thịnh,+TP+Đồng+Nai" target="_blank" rel="noopener noreferrer"
            className="flex items-start gap-2.5">
           <MapPin size={14} style={{ color: YELLOW }} className="shrink-0 mt-0.5" />
@@ -26,7 +26,7 @@ export default function Footer() {
       </div>
 
       {/* Desktop footer — nền xanh rêu, logo + social ở giữa, 2 cột link 2 bên */}
-      <div className="hidden sm:block" style={{ background: GREEN, color: 'rgba(255,255,255,.75)', borderTop: '4px solid #9CE25C' }}>
+      <div className="hidden sm:block" style={{ background: GREEN, color: 'rgba(255,255,255,.75)', borderTop: '4px solid #E3A21A' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
           {/* Logo + tagline + social — hàng trên, full chiều ngang */}
           <div className="flex flex-col items-center text-center pb-10 border-b border-white/15">
@@ -47,7 +47,7 @@ export default function Footer() {
           {/* 3 cột thông tin — hàng dưới */}
           <div className="grid sm:grid-cols-3 gap-10 items-start mt-10">
             <div>
-              <h4 style={{ fontFamily: 'var(--font-bebas)', fontSize: '1.1rem', letterSpacing: '0.15em', color: '#9CE25C', marginBottom: '1rem' }}>Khu Thể thao</h4>
+              <h4 style={{ fontFamily: 'var(--font-bebas)', fontSize: '1.1rem', letterSpacing: '0.15em', color: '#E3A21A', marginBottom: '1rem' }}>Khu Thể thao</h4>
               <ul className="space-y-2.5 text-sm">
                 <li><Link href="/sports/football" className="hover:text-white transition-colors">Sân Bóng Đá 5 người</Link></li>
                 <li><Link href="/sports/football" className="hover:text-white transition-colors">Sân Bóng Đá 7 người</Link></li>
@@ -57,7 +57,7 @@ export default function Footer() {
             </div>
 
             <div>
-              <h4 style={{ fontFamily: 'var(--font-bebas)', fontSize: '1.1rem', letterSpacing: '0.15em', color: '#9CE25C', marginBottom: '1rem' }}>Nhà hàng Tiệc cưới</h4>
+              <h4 style={{ fontFamily: 'var(--font-bebas)', fontSize: '1.1rem', letterSpacing: '0.15em', color: '#E3A21A', marginBottom: '1rem' }}>Nhà hàng Tiệc cưới</h4>
               <ul className="space-y-2.5 text-sm">
                 <li><Link href="/wedding" className="hover:text-white transition-colors">Giới thiệu sảnh</Link></li>
                 <li><Link href="/wedding#gallery" className="hover:text-white transition-colors">Thư viện ảnh</Link></li>
@@ -66,7 +66,7 @@ export default function Footer() {
             </div>
 
             <div>
-              <h4 style={{ fontFamily: 'var(--font-bebas)', fontSize: '1.1rem', letterSpacing: '0.15em', color: '#9CE25C', marginBottom: '1rem' }}>Liên hệ</h4>
+              <h4 style={{ fontFamily: 'var(--font-bebas)', fontSize: '1.1rem', letterSpacing: '0.15em', color: '#E3A21A', marginBottom: '1rem' }}>Liên hệ</h4>
               <ul className="space-y-3 text-sm">
                 <li className="flex items-start gap-2.5">
                   <MapPin size={15} style={{ color: YELLOW }} className="mt-0.5 shrink-0" />
@@ -90,7 +90,7 @@ export default function Footer() {
       </div>
 
       {/* Bottom bar — vàng, copyright + pháp lý */}
-      <div className="hidden sm:block" style={{ background: '#9CE25C', color: GREEN }}>
+      <div className="hidden sm:block" style={{ background: '#E3A21A', color: GREEN }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-medium">
           <p>© {new Date().getFullYear()} Song Thạch. Bảo lưu mọi quyền.</p>
           <div className="flex gap-6">

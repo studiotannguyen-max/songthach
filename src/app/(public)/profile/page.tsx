@@ -7,7 +7,7 @@ import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { getUserPointsBalance } from '@/lib/points';
 
-const PITCH = '#0F3C2C';
+const PITCH = '#3B2A1E';
 
 export default async function ProfilePage() {
   const supabase = createClient();
@@ -34,7 +34,7 @@ export default async function ProfilePage() {
         <h1 className="text-2xl font-bold" style={{ color: PITCH }}>Xin chào, {displayName}</h1>
         <p className="text-sm text-muted-foreground mt-1">{user.email}</p>
 
-        <div className="mt-6 rounded-2xl border p-6" style={{ borderColor: '#E6E2D6', background: '#F4EEE1' }}>
+        <div className="mt-6 rounded-2xl border p-6" style={{ borderColor: '#E6E2D6', background: '#F4E9D6' }}>
           <p className="text-sm text-muted-foreground">Điểm tích lũy hiện có</p>
           <p className="text-3xl font-bold mt-1" style={{ color: PITCH }}>{balance} điểm</p>
           <p className="text-xs text-muted-foreground mt-1">Tương đương {(balance * 1000).toLocaleString('vi-VN')}đ — dùng để giảm giá khi đặt sân.</p>

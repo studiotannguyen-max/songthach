@@ -17,7 +17,7 @@ const ZONE_LINKS = [
   { label: 'Lavie en Rose', href: '/cafe', icon: Coffee },
 ];
 
-const ZONE_IDLE = 'border-[#c1922f]/40 text-[#292723]/80 hover:border-primary hover:text-primary';
+const ZONE_IDLE = 'border-[#C5860F]/40 text-[#3B2A1E]/80 hover:border-primary hover:text-primary';
 const ZONE_ACTIVE = 'bg-primary text-primary-foreground border-primary';
 
 export default function Navbar() {
@@ -52,7 +52,7 @@ export default function Navbar() {
   const solid = scrolled || isHome || (!isSports && !isWedding);
 
   const navBg = solid
-    ? 'bg-background border-b-[3px] border-[#0F3C2C]'
+    ? 'bg-background border-b-[3px] border-[#3B2A1E]'
     : 'bg-transparent';
 
   const textColor = solid ? 'text-foreground' : 'text-white';
@@ -60,7 +60,7 @@ export default function Navbar() {
   // Link khu vực kiểu chữ gọn (không khung/pill), sát logo — giống mẫu Olipop
   // Lưu ý: KHÔNG dùng opacity modifier (vd /70) với màu CSS-var dạng hex — sẽ ra CSS lỗi.
   const zoneIdle = solid
-    ? 'text-[#292723]/80 hover:text-primary'
+    ? 'text-[#3B2A1E]/80 hover:text-primary'
     : 'text-white/85 hover:text-white';
   const zoneActive = solid
     ? 'text-primary'
@@ -152,7 +152,7 @@ export default function Navbar() {
                 </button>
 
                 {userMenu && (
-                  <div className="absolute right-0 top-full mt-2 w-52 bg-card border-2 border-[#0F3C2C] overflow-hidden py-1" role="menu">
+                  <div className="absolute right-0 top-full mt-2 w-52 bg-card border-2 border-[#3B2A1E] overflow-hidden py-1" role="menu">
                     <div className="px-4 py-3 border-b border-border">
                       <p className="text-xs text-muted-foreground">Đăng nhập với</p>
                       <p className="text-sm font-semibold text-foreground truncate">{user.email}</p>
@@ -177,8 +177,8 @@ export default function Navbar() {
               </div>
               <button
                 onClick={openSportPicker}
-                className="flex items-center gap-1.5 bg-[#0F3C2C] text-white px-5 py-2.5 hover:translate-x-[-2px] hover:translate-y-[-2px] active:translate-x-[1px] active:translate-y-[1px] transition-all duration-150"
-              style={{ fontFamily: 'var(--font-bebas)', fontSize: '0.95rem', letterSpacing: '0.08em', borderRadius: 0, border: '2px solid #0A2C20', boxShadow: '3px 3px 0 #3F8F33' }}
+                className="flex items-center gap-1.5 bg-[#3B2A1E] text-white px-5 py-2.5 hover:translate-x-[-2px] hover:translate-y-[-2px] active:translate-x-[1px] active:translate-y-[1px] transition-all duration-150"
+              style={{ fontFamily: 'var(--font-bebas)', fontSize: '0.95rem', letterSpacing: '0.08em', borderRadius: 0, border: '2px solid #3B2A1E', boxShadow: '3px 3px 0 #A33E1F' }}
               >
                 Đặt sân
               </button>
@@ -194,8 +194,8 @@ export default function Navbar() {
                 </Link>
                 <button
                   onClick={openSportPicker}
-                  className="flex items-center gap-1.5 bg-[#0F3C2C] text-white px-5 py-2.5 hover:translate-x-[-2px] hover:translate-y-[-2px] active:translate-x-[1px] active:translate-y-[1px] transition-all duration-150"
-              style={{ fontFamily: 'var(--font-bebas)', fontSize: '0.95rem', letterSpacing: '0.08em', borderRadius: 0, border: '2px solid #0A2C20', boxShadow: '3px 3px 0 #3F8F33' }}
+                  className="flex items-center gap-1.5 bg-[#3B2A1E] text-white px-5 py-2.5 hover:translate-x-[-2px] hover:translate-y-[-2px] active:translate-x-[1px] active:translate-y-[1px] transition-all duration-150"
+              style={{ fontFamily: 'var(--font-bebas)', fontSize: '0.95rem', letterSpacing: '0.08em', borderRadius: 0, border: '2px solid #3B2A1E', boxShadow: '3px 3px 0 #A33E1F' }}
                 >
                   Đặt sân ngay
                 </button>
@@ -240,14 +240,14 @@ export default function Navbar() {
               </div>
             ) : (
               <div className="flex flex-col gap-2">
-                <Link href="/login" className="py-2.5 text-center text-sm text-foreground/80 border-2 border-[#0F3C2C]" onClick={() => setMobileOpen(false)}>
+                <Link href="/login" className="py-2.5 text-center text-sm text-foreground/80 border-2 border-[#3B2A1E]" onClick={() => setMobileOpen(false)}>
                   Đăng nhập
                 </Link>
                 <div className="flex gap-2">
-                  <Link href="/sports/football" className="flex-1 flex items-center justify-center gap-1.5 py-2.5 text-sm bg-[#0F3C2C] text-white font-semibold" style={{ fontFamily: 'var(--font-bebas)', letterSpacing: '0.06em' }} onClick={() => setMobileOpen(false)}>
+                  <Link href="/sports/football" className="flex-1 flex items-center justify-center gap-1.5 py-2.5 text-sm bg-[#3B2A1E] text-white font-semibold" style={{ fontFamily: 'var(--font-bebas)', letterSpacing: '0.06em' }} onClick={() => setMobileOpen(false)}>
                     <Goal size={14} aria-hidden="true" /> SÂN BÓNG ĐÁ
                   </Link>
-                  <Link href="/sports/badminton" className="flex-1 flex items-center justify-center gap-1.5 py-2.5 text-sm bg-[#0F3C2C] text-white font-semibold" style={{ fontFamily: 'var(--font-bebas)', letterSpacing: '0.06em' }} onClick={() => setMobileOpen(false)}>
+                  <Link href="/sports/badminton" className="flex-1 flex items-center justify-center gap-1.5 py-2.5 text-sm bg-[#3B2A1E] text-white font-semibold" style={{ fontFamily: 'var(--font-bebas)', letterSpacing: '0.06em' }} onClick={() => setMobileOpen(false)}>
                     <Feather size={14} aria-hidden="true" /> SÂN CẦU LÔNG
                   </Link>
                 </div>
