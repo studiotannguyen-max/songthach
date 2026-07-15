@@ -183,3 +183,35 @@
   .giai-page .sunburst{width:300px;height:300px;top:-80px;right:-80px}
   .giai-page .racket-bg{width:200px;height:200px;left:-40px;bottom:-50px}
 }
+
+/* ===== Bộ quà tặng ===== */
+.giai-page .qt-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.giai-page .qt-card{background:var(--paper);border:2.5px solid var(--ink);border-radius:22px;padding:16px;box-shadow:5px 5px 0 var(--ink);display:flex;flex-direction:column;transition:transform .14s ease,box-shadow .14s ease}
+.giai-page .qt-card:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--ink)}
+.giai-page .qt-card.reward{background:var(--mustard-soft)}
+.giai-page .qt-top{display:flex;gap:12px;align-items:flex-start}
+.giai-page .qt-top svg{width:26px;height:26px;color:var(--terra-d);flex-shrink:0;display:inline-block}
+.giai-page .qt-card h3{font-family:"Baloo 2";font-size:1.1rem;color:var(--ink);line-height:1.1}
+.giai-page .qt-group{color:var(--muted);font-size:.9rem;font-weight:700;margin-top:3px}
+.giai-page .qt-note{margin-top:12px;color:var(--brown);font-size:.85rem;font-weight:600;line-height:1.5;flex:1}
+.giai-page .qt-meta{margin-top:14px;padding-top:12px;border-top:2.5px dashed var(--line)}
+.giai-page .qt-meta .row{display:flex;justify-content:space-between;gap:10px;padding:5px 0;font-size:.9rem;font-weight:700}
+.giai-page .qt-meta .row span{color:var(--muted)}
+.giai-page .qt-meta .row b{font-family:"Baloo 2"}
+.giai-page .qt-meta .row.total b{color:var(--terra)}
+.giai-page .qt-total{margin-top:22px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;background:var(--ink);color:var(--cream2);border-radius:18px;padding:16px 24px;box-shadow:5px 5px 0 var(--terra)}
+.giai-page .qt-total span{font-family:"Baloo 2";font-weight:700;font-size:1.05rem}
+.giai-page .qt-total b{font-family:"Baloo 2";font-size:1.5rem;color:var(--mustard)}
+.giai-page .qt-foot{margin-top:14px;font-size:.85rem;color:var(--brown);font-weight:600;line-height:1.5}
+@media(max-width:960px){.giai-page .qt-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.giai-page .qt-grid{grid-template-columns:1fr}}
+
+/* ===== Đồng hành / Tài trợ ===== */
+.giai-page .donate-goal{margin-top:20px;display:flex;flex-direction:column;gap:10px}
+.giai-page .donate-goal>div{display:flex;flex-direction:column;background:rgba(255,255,255,.12);border:2px solid rgba(255,246,236,.35);border-radius:14px;padding:10px 16px}
+.giai-page .donate-goal .k{font-size:.8rem;font-weight:700;color:rgba(255,246,236,.85);text-transform:uppercase;letter-spacing:.04em}
+.giai-page .donate-goal .v{font-family:"Baloo 2";font-weight:700;font-size:1.08rem;color:#FFF6EC;margin-top:2px}
+.giai-page .donate-forms{margin-top:18px;display:flex;flex-wrap:wrap;gap:10px}
+.giai-page .donate-forms span{background:var(--mustard);color:var(--ink);border:2.5px solid var(--ink);border-radius:999px;padding:7px 15px;font-family:"Baloo 2";font-weight:700;font-size:.88rem;box-shadow:3px 3px 0 var(--ink)}
+.giai-page .pay.donate h4{color:var(--terra)}
+.giai-page .pay.donate .val{text-align:right;max-width:62%}
