@@ -88,7 +88,7 @@ export default async function HomePage() {
       <nav className="sticky top-0 z-50" style={{ background: PAPER, borderBottom: `3px solid ${PITCH}` }}>
         <div className="max-w-[1180px] mx-auto px-4 sm:px-6 flex items-center gap-7 h-16">
           <Link href="/" aria-label="Song Thạch — Trang chủ">
-            <Image src="/logo.jpg" alt="Song Thạch" width={80} height={40} className="object-contain" style={{ maxHeight: '38px', width: 'auto' }} />
+            <Image src="/logo.png" alt="Song Thạch" width={90} height={42} className="object-contain" style={{ maxHeight: '42px', width: 'auto' }} />
           </Link>
           <div className="hidden md:flex items-center gap-6 ml-2 text-sm font-semibold uppercase" style={{ fontFamily: 'var(--font-oswald)', color: '#2c322a' }}>
             <a href="#dichvu" className="hover:opacity-70">Dịch vụ</a>
@@ -321,7 +321,7 @@ export default async function HomePage() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr] gap-9 mb-11">
             <div>
               <div className="mb-3.5">
-                <Image src="/logo.jpg" alt="Song Thạch" width={120} height={60} className="object-contain" style={{ maxHeight: '50px', width: 'auto', filter: 'brightness(0) invert(1)' }} />
+                <Image src="/logo.png" alt="Song Thạch" width={108} height={50} className="object-contain" style={{ maxHeight: '50px', width: 'auto' }} />
               </div>
               <p className="text-[13.5px] max-w-[34ch]" style={{ color: '#9aa098' }}>
                 Tổ hợp dịch vụ thể thao, tiệc cưới và café — nơi mọi khoảnh khắc đều trở nên đáng nhớ.

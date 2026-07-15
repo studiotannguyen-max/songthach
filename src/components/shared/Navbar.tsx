@@ -82,7 +82,7 @@ export default function Navbar() {
 
           {/* Logo — đứng giữa, các nhóm menu nằm sát 2 bên */}
           <Link href="/" className="flex items-center group" aria-label="Song Thạch — Trang chủ">
-            <Image src="/logo.jpg" alt="Song Thạch" width={80} height={40} className="object-contain" style={{ maxHeight: '40px', width: 'auto' }} />
+            <Image src="/logo.png" alt="Song Thạch" width={95} height={44} className="object-contain" style={{ maxHeight: '44px', width: 'auto' }} />
           </Link>
 
           {/* Desktop nav — trái: Bóng đá, Cầu lông, Giải CL 2026 */}

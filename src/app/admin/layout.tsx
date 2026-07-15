@@ -38,7 +38,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <aside className="w-64 bg-gray-950 flex flex-col shrink-0">
         <div className="px-6 py-5 border-b border-gray-800">
           <div className="flex items-center gap-2">
-            <Image src="/logo.jpg" alt="Song Thạch" width={72} height={36} className="object-contain" style={{ maxHeight: '32px', width: 'auto', filter: 'brightness(0) invert(1)' }} />
+            <Image src="/logo.png" alt="Song Thạch" width={69} height={32} className="object-contain" style={{ maxHeight: '32px', width: 'auto' }} />
             <p className="text-gray-500 text-xs">Admin</p>
           </div>
         </div>

@@ -30,7 +30,7 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
           {/* Logo + tagline + social — hàng trên, full chiều ngang */}
           <div className="flex flex-col items-center text-center pb-10 border-b border-white/15">
-            <Image src="/logo.jpg" alt="Song Thạch" width={160} height={80} className="object-contain" style={{ maxHeight: '64px', width: 'auto', filter: 'brightness(0) invert(1)' }} />
+            <Image src="/logo.png" alt="Song Thạch" width={138} height={64} className="object-contain" style={{ maxHeight: '64px', width: 'auto' }} />
             <p className="text-sm leading-relaxed mt-3 max-w-md">
               Tổ hợp dịch vụ thể thao, tiệc cưới và café — nơi mọi khoảnh khắc đều trở nên đáng nhớ.
             </p>
