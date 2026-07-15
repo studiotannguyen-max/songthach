@@ -121,8 +121,8 @@ export default async function BadmintonPage() {
       </section>
 
       {/* Main content */}
-      <section className="bg-gray-50 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="bg-background py-6 sm:py-12">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
 
             {/* Right: booking widget — first in HTML = first on mobile */}
@@ -316,7 +316,7 @@ export default async function BadmintonPage() {
       </section>
 
       {/* ─── Vị trí ──────────────────────────────────────── */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-8 items-center">
           <div>
             <h2 className="sports-hero-text text-3xl font-bold text-sports-dark mb-4">Vị trí Sân Cầu lông</h2>
