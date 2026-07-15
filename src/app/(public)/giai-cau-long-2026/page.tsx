@@ -3,6 +3,7 @@ import Navbar from '@/components/shared/Navbar';
 import Footer from '@/components/shared/Footer';
 import './giai.css';
 import { HOC_BONG_DATA } from './hoc-bong-data';
+import { QUA_TANG_DATA, QUA_TANG_TONG } from './qua-tang-data';
 
 function obscureName(name: string): string {
   const words = name.trim().split(/\s+/);
@@ -40,6 +41,8 @@ const ArrowIcon = () => (
     <path d="M5 12h14M13 6l6 6-6 6"/>
   </svg>
 );
+
+const formatVND = (n: number) => n.toLocaleString('vi-VN') + 'đ';
 
 export default function GiaiCauLong2026Page() {
   return (
@@ -354,6 +357,77 @@ export default function GiaiCauLong2026Page() {
                   ))}
                 </tbody>
               </table>
+            </div>
+          </div>
+        </section>
+
+        {/* Bộ quà trao tận tay các em */}
+        <section id="qua-tang" style={{ background: 'var(--cream2)' }}>
+          <div className="wrap">
+            <div className="sec-head">
+              <span className="kicker">Quỹ giải dùng vào đâu</span>
+              <h2>Bộ quà trao tận tay các em</h2>
+              <p>Bên cạnh học bổng, mỗi em còn nhận bộ quà học tập thiết thực. Toàn bộ chi phí được công khai minh bạch.</p>
+            </div>
+            <div className="qt-grid">
+              {QUA_TANG_DATA.map((b) => (
+                <article key={b.bundle} className={`qt-card${b.isReward ? ' reward' : ''}`}>
+                  <div className="qt-top">
+                    <GiftIcon />
+                    <div>
+                      <h3>{b.bundle}</h3>
+                      <div className="qt-group">{b.group}</div>
+                    </div>
+                  </div>
+                  <p className="qt-note">{b.note}</p>
+                  <div className="qt-meta">
+                    <div className="row"><span>{b.isReward ? 'Số lượng' : 'Số học sinh'}</span><b>{b.count}{b.isReward ? ' xe' : ' em'}</b></div>
+                    <div className="row"><span>Đơn giá/phần</span><b>{formatVND(b.unitPrice)}</b></div>
+                    <div className="row total"><span>Thành tiền</span><b>{formatVND(b.total)}</b></div>
+                  </div>
+                </article>
+              ))}
+            </div>
+            <div className="qt-total">
+              <span>Tổng giá trị quà tặng &amp; phần thưởng</span>
+              <b>{formatVND(QUA_TANG_TONG)}</b>
+            </div>
+            <p className="qt-foot">Chi tiết từng món (vở, bút, thước, máy tính Casio…) theo bảng báo giá VPP. Phần quà mầm non gồm sữa tươi, sữa chua &amp; bánh dinh dưỡng.</p>
+          </div>
+        </section>
+
+        {/* Đồng hành cùng chương trình — kêu gọi tài trợ */}
+        <section className="register" id="tai-tro">
+          <svg className="rays" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <g fill="currentColor">
+              <path d="M100 0l6 60h-12zM100 200l6-60h-12zM0 100l60 6v-12zM200 100l-60 6v-12zM26 26l44 32-10 10zM174 174l-44-32 10-10zM174 26l-32 44-10-10zM26 174l32-44 10 10z"/>
+            </g>
+          </svg>
+          <div className="wrap reg-card" style={{ paddingTop: '36px', paddingBottom: '36px' }}>
+            <div>
+              <span className="kicker">Tiếp Bước Em Đến Trường 2026</span>
+              <h2>Đồng hành cùng chương trình</h2>
+              <p className="lede">Toàn bộ nguồn quỹ vận động được dành trọn để trao học bổng cho các em học sinh mồ côi cha mẹ, sống cùng ông bà già yếu, gia đình hộ nghèo – cận nghèo nhưng vẫn kiên trì đến trường và học tốt.</p>
+              <div className="donate-goal">
+                <div><span className="k">Mục tiêu học bổng 2026</span><span className="v">82 suất × 800.000đ = 65.650.000đ</span></div>
+                <div><span className="k">Năm 2025 đã trao</span><span className="v">67 suất · 40.000.000đ + nhiều hiện vật</span></div>
+              </div>
+              <div className="donate-forms">
+                <span>💰 Tài trợ tiền mặt</span>
+                <span>🎁 Tài trợ hiện vật</span>
+                <span>🎓 Trao học bổng trực tiếp</span>
+              </div>
+            </div>
+            <div className="pay donate">
+              <h4>Thông tin nhận ủng hộ</h4>
+              <div className="row"><span className="lbl">Chủ tài khoản</span><span className="val">Hộ Kinh Doanh Song Thạch</span></div>
+              <div className="row"><span className="lbl">Số tài khoản</span><span className="val">165099</span></div>
+              <div className="row"><span className="lbl">Nội dung CK</span><span className="val">Ho tro hoc bong Song Thach 2026 - [Tên nhà tài trợ]</span></div>
+              <div className="row"><span className="lbl">Người phụ trách</span><span className="val">Nguyễn Nhật Tân</span></div>
+              <a className="g-btn btn-mustard btn-lg" href="https://zalo.me/0378990979" target="_blank" rel="noopener" style={{ marginTop: '16px' }}>
+                Liên hệ tài trợ · Zalo 0378.99.09.79 <ArrowIcon />
+              </a>
+              <p className="note">BTC cam kết sử dụng nguồn tài trợ đúng mục đích, minh bạch và công khai danh sách sau chương trình. Xin trân trọng cảm ơn!</p>
             </div>
           </div>
         </section>
