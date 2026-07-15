@@ -369,28 +369,35 @@ export default function GiaiCauLong2026Page() {
               <h2>Bộ quà trao tận tay các em</h2>
               <p>Bên cạnh học bổng, mỗi em còn nhận bộ quà học tập thiết thực. Toàn bộ chi phí được công khai minh bạch.</p>
             </div>
-            <div className="qt-grid">
-              {QUA_TANG_DATA.map((b) => (
-                <article key={b.bundle} className={`qt-card${b.isReward ? ' reward' : ''}`}>
-                  <div className="qt-top">
-                    <GiftIcon />
-                    <div>
-                      <h3>{b.bundle}</h3>
-                      <div className="qt-group">{b.group}</div>
-                    </div>
-                  </div>
-                  <p className="qt-note">{b.note}</p>
-                  <div className="qt-meta">
-                    <div className="row"><span>{b.isReward ? 'Số lượng' : 'Số học sinh'}</span><b>{b.count}{b.isReward ? ' xe' : ' em'}</b></div>
-                    <div className="row"><span>Đơn giá/phần</span><b>{formatVND(b.unitPrice)}</b></div>
-                    <div className="row total"><span>Thành tiền</span><b>{formatVND(b.total)}</b></div>
-                  </div>
-                </article>
-              ))}
-            </div>
-            <div className="qt-total">
-              <span>Tổng giá trị quà tặng &amp; phần thưởng</span>
-              <b>{formatVND(QUA_TANG_TONG)}</b>
+            <div className="qt-table-wrap">
+              <table className="qt-table">
+                <thead>
+                  <tr>
+                    <th>Nhóm</th>
+                    <th>Bộ quà / phần thưởng</th>
+                    <th className="num">Số lượng</th>
+                    <th className="num">Đơn giá/phần</th>
+                    <th className="num">Thành tiền</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {QUA_TANG_DATA.map((b) => (
+                    <tr key={b.bundle} className={b.isReward ? 'reward' : undefined}>
+                      <td className="qt-grp">{b.group}</td>
+                      <td><b>{b.bundle}</b><span className="qt-note">{b.note}</span></td>
+                      <td className="num">{b.count}{b.isReward ? ' xe' : ' em'}</td>
+                      <td className="num">{formatVND(b.unitPrice)}</td>
+                      <td className="num strong">{formatVND(b.total)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colSpan={4}>Tổng giá trị quà tặng &amp; phần thưởng</td>
+                    <td className="num">{formatVND(QUA_TANG_TONG)}</td>
+                  </tr>
+                </tfoot>
+              </table>
             </div>
             <p className="qt-foot">Chi tiết từng món (vở, bút, thước, máy tính Casio…) theo bảng báo giá VPP. Phần quà mầm non gồm sữa tươi, sữa chua &amp; bánh dinh dưỡng.</p>
           </div>
