@@ -120,7 +120,7 @@ export default function Navbar() {
                     href={link.href}
                     role="listitem"
                     className={cn(
-                      'flex items-center gap-1 text-xs font-semibold tracking-wide transition-colors whitespace-nowrap',
+                      'flex items-center gap-1 text-xs font-semibold tracking-wide transition-colors whitespace-nowrap uppercase',
                       active ? zoneActive : zoneIdle,
                     )}
                   >
