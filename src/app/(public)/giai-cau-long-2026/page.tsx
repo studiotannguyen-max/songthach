@@ -373,11 +373,11 @@ export default function GiaiCauLong2026Page() {
               <table className="qt-table">
                 <thead>
                   <tr>
-                    <th>Nhóm</th>
-                    <th>Bộ quà / phần thưởng</th>
-                    <th className="num">Số lượng</th>
-                    <th className="num">Đơn giá/phần</th>
-                    <th className="num">Thành tiền</th>
+                    <th scope="col">Nhóm</th>
+                    <th scope="col">Bộ quà / phần thưởng</th>
+                    <th scope="col" className="num">Số lượng</th>
+                    <th scope="col" className="num">Đơn giá/phần</th>
+                    <th scope="col" className="num">Thành tiền</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -416,7 +416,7 @@ export default function GiaiCauLong2026Page() {
               <h2>Đồng hành cùng chương trình</h2>
               <p className="lede">Toàn bộ nguồn quỹ vận động được dành trọn để trao học bổng cho các em học sinh mồ côi cha mẹ, sống cùng ông bà già yếu, gia đình hộ nghèo – cận nghèo nhưng vẫn kiên trì đến trường và học tốt.</p>
               <div className="donate-goal">
-                <div><span className="k">Mục tiêu học bổng 2026</span><span className="v">82 suất × 800.000đ = 65.650.000đ</span></div>
+                <div><span className="k">Mục tiêu học bổng 2026</span><span className="v">82 suất × 800.000đ = 65.600.000đ</span></div>
                 <div><span className="k">Năm 2025 đã trao</span><span className="v">67 suất · 40.000.000đ + nhiều hiện vật</span></div>
               </div>
               <div className="donate-forms">

@@ -197,7 +197,7 @@
 .giai-page .qt-table td b{font-family:"Baloo 2";font-weight:700;color:var(--ink)}
 .giai-page .qt-table td .qt-note{display:block;font-size:.8rem;color:var(--muted);font-weight:600;margin-top:2px;line-height:1.4}
 .giai-page .qt-table tbody tr:nth-child(even){background:var(--cream2)}
-.giai-page .qt-table tbody tr.reward{background:var(--mustard-soft)}
+.giai-page .qt-table-wrap .qt-table tbody tr.reward{background:var(--mustard-soft)}
 .giai-page .qt-table tbody tr:last-child td{border-bottom:none}
 .giai-page .qt-table tfoot td{padding:13px 16px;background:var(--ink);color:var(--cream2);font-family:"Baloo 2";font-weight:700;border-bottom:none}
 .giai-page .qt-table tfoot td.num{color:var(--mustard);font-size:1.2rem}
