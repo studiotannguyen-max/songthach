@@ -348,13 +348,24 @@ export default function GiaiCauLong2026Page() {
                   </tr>
                 </thead>
                 <tbody>
-                  {HOC_BONG_DATA.flatMap((g) => g.students).map((s) => (
-                    <tr key={s.stt}>
-                      <td className="hb-stt">{s.stt}</td>
-                      <td className="hb-name">{obscureName(s.name)}</td>
-                      <td className="hb-sit">{s.situation}</td>
-                    </tr>
-                  ))}
+                  {HOC_BONG_DATA.flatMap((g) => g.students).map((s) => {
+                    const cls = s.cls?.trim() ?? '';
+                    const showCls = cls && (/\d/.test(cls) || /Mầm|Chồi|Lá/.test(cls));
+                    return (
+                      <tr key={s.stt}>
+                        <td className="hb-stt">{s.stt}</td>
+                        <td className="hb-name">
+                          {obscureName(s.name)}
+                          {showCls && <span className="hb-cls">{cls.replace(/^Lớp\s*/i, '')}</span>}
+                        </td>
+                        <td className="hb-sit">
+                          <input type="checkbox" id={`sit-${s.stt}`} className="hb-more-cb" aria-hidden="true" tabIndex={-1} />
+                          <span className="hb-sit-text">{s.situation}</span>
+                          <label htmlFor={`sit-${s.stt}`} className="hb-more-btn" aria-hidden="true" />
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>

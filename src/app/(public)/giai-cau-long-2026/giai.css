@@ -141,6 +141,34 @@
 .giai-page .hb-table .hb-stt{width:44px;text-align:center;font-weight:800;color:var(--muted);font-size:.85rem}
 .giai-page .hb-table .hb-name{font-family:"Baloo 2";font-weight:700;white-space:nowrap;color:var(--ink)}
 .giai-page .hb-table .hb-sit{color:var(--brown);font-size:.88rem;line-height:1.5}
+/* Chip lớp + nút "xem thêm": chỉ dùng trên mobile, ẩn ở desktop */
+.giai-page .hb-table .hb-cls{display:none}
+.giai-page .hb-more-cb,.giai-page .hb-more-btn{display:none}
+
+/* ===== Bảng học bổng trên mobile: dạng thẻ, hoàn cảnh rút gọn 2 dòng ===== */
+@media(max-width:640px){
+  .giai-page .hb-table-wrap{border-radius:16px}
+  .giai-page .hb-table{font-size:1rem;display:block}
+  .giai-page .hb-table thead{display:none}
+  .giai-page .hb-table tbody{display:block}
+  .giai-page .hb-table tbody tr{display:block;padding:13px 15px;border-bottom:1.5px solid var(--line)}
+  .giai-page .hb-table tbody tr:last-child{border-bottom:none}
+  .giai-page .hb-table td{display:block;padding:0;border:none}
+
+  /* Dòng đầu: STT · Tên  + chip lớp */
+  .giai-page .hb-table .hb-stt{display:inline;width:auto;text-align:left;color:var(--terra);font-size:.95rem}
+  .giai-page .hb-table .hb-stt::after{content:"·";margin:0 6px;color:var(--muted)}
+  .giai-page .hb-table .hb-name{display:inline;white-space:normal;font-size:1rem;line-height:1.35}
+  .giai-page .hb-table .hb-cls{display:inline-block;margin-left:8px;vertical-align:middle;font-family:"Baloo 2";font-weight:700;font-size:.72rem;color:var(--brown);background:var(--mustard-soft);border-radius:999px;padding:2px 9px;white-space:nowrap}
+
+  /* Hoàn cảnh: mặc định rút gọn 2 dòng */
+  .giai-page .hb-table .hb-sit{margin-top:7px}
+  .giai-page .hb-sit-text{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;color:var(--brown);font-size:.92rem;line-height:1.55}
+  .giai-page .hb-more-cb:checked ~ .hb-sit-text{display:block;-webkit-line-clamp:unset;overflow:visible}
+  .giai-page .hb-more-btn{display:inline-block;margin-top:5px;font-family:"Baloo 2";font-weight:700;font-size:.82rem;color:var(--terra);cursor:pointer;user-select:none}
+  .giai-page .hb-more-btn::after{content:"Xem thêm ▾"}
+  .giai-page .hb-more-cb:checked ~ .hb-more-btn::after{content:"Thu gọn ▴"}
+}
 
 /* giai footer bar */
 .giai-page .giai-footer{background:var(--ink);color:var(--cream2);padding:32px 0;font-weight:600}
