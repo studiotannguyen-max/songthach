@@ -59,6 +59,7 @@ export default function AdminUsersPage() {
         ) : filtered.length === 0 ? (
           <p className="text-center text-gray-400 py-16 text-sm">Chưa có khách hàng nào.</p>
         ) : (
+          <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-gray-100">
@@ -102,6 +103,7 @@ export default function AdminUsersPage() {
               ))}
             </tbody>
           </table>
+          </div>
         )}
       </div>
     </div>

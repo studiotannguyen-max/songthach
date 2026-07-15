@@ -44,6 +44,8 @@ const ArrowIcon = () => (
 
 const formatVND = (n: number) => n.toLocaleString('vi-VN') + 'đ';
 
+const TONG_HOC_BONG = HOC_BONG_DATA.reduce((n, g) => n + g.students.length, 0);
+
 export default function GiaiCauLong2026Page() {
   return (
     <>
@@ -129,6 +131,48 @@ export default function GiaiCauLong2026Page() {
         <svg className="wave" viewBox="0 0 1200 46" preserveAspectRatio="none" aria-hidden="true">
           <path fill="#FBF4E6" d="M0,30 C150,6 300,6 450,24 C600,42 750,42 900,24 C1050,6 1150,6 1200,18 L1200,46 L0,46 Z"/>
         </svg>
+
+        {/* Bộ quà trao tận tay các em — đưa lên ngay dưới hero để thấy mục tiêu gây quỹ sớm */}
+        <section id="qua-tang" style={{ background: 'var(--cream2)' }}>
+          <div className="wrap">
+            <div className="sec-head">
+              <span className="kicker">Quỹ giải dùng vào đâu</span>
+              <h2>Bộ quà trao tận tay các em</h2>
+              <p>Bên cạnh học bổng, mỗi em còn nhận bộ quà học tập thiết thực. Toàn bộ chi phí được công khai minh bạch.</p>
+            </div>
+            <div className="qt-table-wrap">
+              <table className="qt-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Nhóm</th>
+                    <th scope="col">Bộ quà / phần thưởng</th>
+                    <th scope="col" className="num">Số lượng</th>
+                    <th scope="col" className="num">Đơn giá/phần</th>
+                    <th scope="col" className="num">Thành tiền</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {QUA_TANG_DATA.map((b) => (
+                    <tr key={b.bundle} className={b.isReward ? 'reward' : undefined}>
+                      <td className="qt-grp">{b.group}</td>
+                      <td><b>{b.bundle}</b><span className="qt-note">{b.note}</span></td>
+                      <td className="num">{b.count}{b.isReward ? ' xe' : ' em'}</td>
+                      <td className="num">{formatVND(b.unitPrice)}</td>
+                      <td className="num strong">{formatVND(b.total)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colSpan={4}>Tổng giá trị quà tặng &amp; phần thưởng</td>
+                    <td className="num">{formatVND(QUA_TANG_TONG)}</td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+            <p className="qt-foot">Chi tiết từng món (vở, bút, thước, máy tính Casio…) theo bảng báo giá VPP. Phần quà mầm non gồm sữa tươi, sữa chua &amp; bánh dinh dưỡng.</p>
+          </div>
+        </section>
 
         {/* Groups */}
         <section id="noidung">
@@ -338,79 +382,46 @@ export default function GiaiCauLong2026Page() {
               </p>
             </div>
 
-            <div className="hb-table-wrap">
-              <table className="hb-table">
-                <thead>
-                  <tr>
-                    <th className="hb-stt">STT</th>
-                    <th className="hb-name">Họ và tên</th>
-                    <th className="hb-sit">Hoàn cảnh</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {HOC_BONG_DATA.flatMap((g) => g.students).map((s) => {
-                    const cls = s.cls?.trim() ?? '';
-                    const showCls = cls && (/\d/.test(cls) || /Mầm|Chồi|Lá/.test(cls));
-                    return (
-                      <tr key={s.stt}>
-                        <td className="hb-stt">{s.stt}</td>
-                        <td className="hb-name">
-                          {obscureName(s.name)}
-                          {showCls && <span className="hb-cls">{cls.replace(/^Lớp\s*/i, '')}</span>}
-                        </td>
-                        <td className="hb-sit">
-                          <input type="checkbox" id={`sit-${s.stt}`} className="hb-more-cb" aria-hidden="true" tabIndex={-1} />
-                          <span className="hb-sit-text">{s.situation}</span>
-                          <label htmlFor={`sit-${s.stt}`} className="hb-more-btn" aria-hidden="true" />
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </section>
+            {/* Thu gọn mặc định — bấm nút để mở toàn bộ danh sách */}
+            <input type="checkbox" id="hb-toggle" className="hb-toggle-cb" />
+            <label htmlFor="hb-toggle" className="g-btn btn-cream hb-toggle-btn">
+              <span className="hb-toggle-open">Xem danh sách {TONG_HOC_BONG} học sinh ▾</span>
+              <span className="hb-toggle-close">Thu gọn danh sách ▴</span>
+            </label>
 
-        {/* Bộ quà trao tận tay các em */}
-        <section id="qua-tang" style={{ background: 'var(--cream2)' }}>
-          <div className="wrap">
-            <div className="sec-head">
-              <span className="kicker">Quỹ giải dùng vào đâu</span>
-              <h2>Bộ quà trao tận tay các em</h2>
-              <p>Bên cạnh học bổng, mỗi em còn nhận bộ quà học tập thiết thực. Toàn bộ chi phí được công khai minh bạch.</p>
-            </div>
-            <div className="qt-table-wrap">
-              <table className="qt-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Nhóm</th>
-                    <th scope="col">Bộ quà / phần thưởng</th>
-                    <th scope="col" className="num">Số lượng</th>
-                    <th scope="col" className="num">Đơn giá/phần</th>
-                    <th scope="col" className="num">Thành tiền</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {QUA_TANG_DATA.map((b) => (
-                    <tr key={b.bundle} className={b.isReward ? 'reward' : undefined}>
-                      <td className="qt-grp">{b.group}</td>
-                      <td><b>{b.bundle}</b><span className="qt-note">{b.note}</span></td>
-                      <td className="num">{b.count}{b.isReward ? ' xe' : ' em'}</td>
-                      <td className="num">{formatVND(b.unitPrice)}</td>
-                      <td className="num strong">{formatVND(b.total)}</td>
+            <div className="hb-collapsible">
+              <div className="hb-table-wrap">
+                <table className="hb-table">
+                  <thead>
+                    <tr>
+                      <th className="hb-stt">STT</th>
+                      <th className="hb-name">Họ và tên</th>
+                      <th className="hb-sit">Hoàn cảnh</th>
                     </tr>
-                  ))}
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <td colSpan={4}>Tổng giá trị quà tặng &amp; phần thưởng</td>
-                    <td className="num">{formatVND(QUA_TANG_TONG)}</td>
-                  </tr>
-                </tfoot>
-              </table>
+                  </thead>
+                  <tbody>
+                    {HOC_BONG_DATA.flatMap((g) => g.students).map((s) => {
+                      const cls = s.cls?.trim() ?? '';
+                      const showCls = cls && (/\d/.test(cls) || /Mầm|Chồi|Lá/.test(cls));
+                      return (
+                        <tr key={s.stt}>
+                          <td className="hb-stt">{s.stt}</td>
+                          <td className="hb-name">
+                            {obscureName(s.name)}
+                            {showCls && <span className="hb-cls">{cls.replace(/^Lớp\s*/i, '')}</span>}
+                          </td>
+                          <td className="hb-sit">
+                            <input type="checkbox" id={`sit-${s.stt}`} className="hb-more-cb" aria-hidden="true" tabIndex={-1} />
+                            <span className="hb-sit-text">{s.situation}</span>
+                            <label htmlFor={`sit-${s.stt}`} className="hb-more-btn" aria-hidden="true" />
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
             </div>
-            <p className="qt-foot">Chi tiết từng món (vở, bút, thước, máy tính Casio…) theo bảng báo giá VPP. Phần quà mầm non gồm sữa tươi, sữa chua &amp; bánh dinh dưỡng.</p>
           </div>
         </section>
 
