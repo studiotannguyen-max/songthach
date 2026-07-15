@@ -44,6 +44,8 @@ const ArrowIcon = () => (
 
 const formatVND = (n: number) => n.toLocaleString('vi-VN') + 'đ';
 
+const TONG_HOC_BONG = HOC_BONG_DATA.reduce((n, g) => n + g.students.length, 0);
+
 export default function GiaiCauLong2026Page() {
   return (
     <>
@@ -380,36 +382,45 @@ export default function GiaiCauLong2026Page() {
               </p>
             </div>
 
-            <div className="hb-table-wrap">
-              <table className="hb-table">
-                <thead>
-                  <tr>
-                    <th className="hb-stt">STT</th>
-                    <th className="hb-name">Họ và tên</th>
-                    <th className="hb-sit">Hoàn cảnh</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {HOC_BONG_DATA.flatMap((g) => g.students).map((s) => {
-                    const cls = s.cls?.trim() ?? '';
-                    const showCls = cls && (/\d/.test(cls) || /Mầm|Chồi|Lá/.test(cls));
-                    return (
-                      <tr key={s.stt}>
-                        <td className="hb-stt">{s.stt}</td>
-                        <td className="hb-name">
-                          {obscureName(s.name)}
-                          {showCls && <span className="hb-cls">{cls.replace(/^Lớp\s*/i, '')}</span>}
-                        </td>
-                        <td className="hb-sit">
-                          <input type="checkbox" id={`sit-${s.stt}`} className="hb-more-cb" aria-hidden="true" tabIndex={-1} />
-                          <span className="hb-sit-text">{s.situation}</span>
-                          <label htmlFor={`sit-${s.stt}`} className="hb-more-btn" aria-hidden="true" />
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+            {/* Thu gọn mặc định — bấm nút để mở toàn bộ danh sách */}
+            <input type="checkbox" id="hb-toggle" className="hb-toggle-cb" />
+            <label htmlFor="hb-toggle" className="g-btn btn-cream hb-toggle-btn">
+              <span className="hb-toggle-open">Xem danh sách {TONG_HOC_BONG} học sinh ▾</span>
+              <span className="hb-toggle-close">Thu gọn danh sách ▴</span>
+            </label>
+
+            <div className="hb-collapsible">
+              <div className="hb-table-wrap">
+                <table className="hb-table">
+                  <thead>
+                    <tr>
+                      <th className="hb-stt">STT</th>
+                      <th className="hb-name">Họ và tên</th>
+                      <th className="hb-sit">Hoàn cảnh</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {HOC_BONG_DATA.flatMap((g) => g.students).map((s) => {
+                      const cls = s.cls?.trim() ?? '';
+                      const showCls = cls && (/\d/.test(cls) || /Mầm|Chồi|Lá/.test(cls));
+                      return (
+                        <tr key={s.stt}>
+                          <td className="hb-stt">{s.stt}</td>
+                          <td className="hb-name">
+                            {obscureName(s.name)}
+                            {showCls && <span className="hb-cls">{cls.replace(/^Lớp\s*/i, '')}</span>}
+                          </td>
+                          <td className="hb-sit">
+                            <input type="checkbox" id={`sit-${s.stt}`} className="hb-more-cb" aria-hidden="true" tabIndex={-1} />
+                            <span className="hb-sit-text">{s.situation}</span>
+                            <label htmlFor={`sit-${s.stt}`} className="hb-more-btn" aria-hidden="true" />
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </section>

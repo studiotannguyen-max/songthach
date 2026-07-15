@@ -141,6 +141,16 @@
 .giai-page .hb-table .hb-stt{width:44px;text-align:center;font-weight:800;color:var(--muted);font-size:.85rem}
 .giai-page .hb-table .hb-name{font-family:"Baloo 2";font-weight:700;white-space:nowrap;color:var(--ink)}
 .giai-page .hb-table .hb-sit{color:var(--brown);font-size:.88rem;line-height:1.5}
+/* Thu gọn cả danh sách học bổng — bấm nút mới mở */
+.giai-page .hb-toggle-cb{position:absolute;opacity:0;width:0;height:0;pointer-events:none}
+.giai-page .hb-toggle-btn{margin-top:6px}
+.giai-page .hb-toggle-close{display:none}
+.giai-page .hb-toggle-cb:checked ~ .hb-toggle-btn .hb-toggle-open{display:none}
+.giai-page .hb-toggle-cb:checked ~ .hb-toggle-btn .hb-toggle-close{display:inline}
+.giai-page .hb-collapsible{display:none;margin-top:18px}
+.giai-page .hb-toggle-cb:checked ~ .hb-collapsible{display:block}
+.giai-page .hb-toggle-cb:focus-visible ~ .hb-toggle-btn{outline:3px solid var(--terra);outline-offset:3px}
+
 /* Chip lớp + nút "xem thêm": chỉ dùng trên mobile, ẩn ở desktop */
 .giai-page .hb-table .hb-cls{display:none}
 .giai-page .hb-more-cb,.giai-page .hb-more-btn{display:none}
