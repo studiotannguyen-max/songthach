@@ -242,7 +242,8 @@
 .giai-page .pay.donate .val{text-align:right;max-width:62%}
 
 /* ===== Thanh xổ danh sách học bổng (trong khu quà tặng) ===== */
-.giai-page .hb-acc{margin-top:22px;border:2.5px solid var(--ink);border-radius:18px;overflow:hidden;box-shadow:4px 4px 0 var(--ink);background:var(--paper)}
+/* scroll-margin: chừa chỗ cho navbar cố định (83px) khi vào bằng link #hoc-bong */
+.giai-page .hb-acc{margin-top:22px;scroll-margin-top:100px;border:2.5px solid var(--ink);border-radius:18px;overflow:hidden;box-shadow:4px 4px 0 var(--ink);background:var(--paper)}
 .giai-page .hb-acc>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 20px;background:var(--ink);color:var(--cream2);font-family:"Baloo 2";font-weight:700;font-size:1rem;cursor:pointer;list-style:none;user-select:none}
 .giai-page .hb-acc>summary::-webkit-details-marker{display:none}
 .giai-page .hb-acc>summary .hb-acc-ttl{display:flex;align-items:center;gap:10px;min-width:0}

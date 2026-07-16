@@ -42,6 +42,12 @@ const ArrowIcon = () => (
   </svg>
 );
 
+const ChevronIcon = () => (
+  <svg className="hb-acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M6 9l6 6 6-6"/>
+  </svg>
+);
+
 const formatVND = (n: number) => n.toLocaleString('vi-VN') + 'đ';
 
 export default function GiaiCauLong2026Page() {
@@ -326,52 +332,6 @@ export default function GiaiCauLong2026Page() {
           </div>
         </section>
 
-        {/* Danh sách học sinh nhận học bổng */}
-        <section id="hoc-bong" style={{ background: 'var(--paper)' }}>
-          <div className="wrap">
-            <div className="sec-head">
-              <span className="kicker">Mục tiêu gây quỹ</span>
-              <h2>Danh sách học bổng 2026</h2>
-              <p>
-                82 học sinh vượt khó trên địa bàn xã Hưng Thịnh sẽ được trao học bổng từ quỹ giải.
-                Tên học sinh được ẩn một phần để bảo vệ quyền riêng tư.
-              </p>
-            </div>
-
-            <div className="hb-table-wrap">
-              <table className="hb-table">
-                <thead>
-                  <tr>
-                    <th className="hb-stt">STT</th>
-                    <th className="hb-name">Họ và tên</th>
-                    <th className="hb-sit">Hoàn cảnh</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {HOC_BONG_DATA.flatMap((g) => g.students).map((s) => {
-                    const cls = s.cls?.trim() ?? '';
-                    const showCls = cls && (/\d/.test(cls) || /Mầm|Chồi|Lá/.test(cls));
-                    return (
-                      <tr key={s.stt}>
-                        <td className="hb-stt">{s.stt}</td>
-                        <td className="hb-name">
-                          {obscureName(s.name)}
-                          {showCls && <span className="hb-cls">{cls.replace(/^Lớp\s*/i, '')}</span>}
-                        </td>
-                        <td className="hb-sit">
-                          <input type="checkbox" id={`sit-${s.stt}`} className="hb-more-cb" aria-hidden="true" tabIndex={-1} />
-                          <span className="hb-sit-text">{s.situation}</span>
-                          <label htmlFor={`sit-${s.stt}`} className="hb-more-btn" aria-hidden="true" />
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-
         {/* Bộ quà trao tận tay các em */}
         <section id="qua-tang" style={{ background: 'var(--cream2)' }}>
           <div className="wrap">
@@ -410,7 +370,52 @@ export default function GiaiCauLong2026Page() {
                 </tfoot>
               </table>
             </div>
-            <p className="qt-foot">Chi tiết từng món (vở, bút, thước, máy tính Casio…) theo bảng báo giá VPP. Phần quà mầm non gồm sữa tươi, sữa chua &amp; bánh dinh dưỡng.</p>
+            <p className="qt-foot">Chi tiết từng món (vở, bút, thước…) theo bảng báo giá VPP. Phần quà mầm non gồm sữa tươi, sữa chua &amp; bánh dinh dưỡng.</p>
+
+            <details className="hb-acc" id="hoc-bong">
+              <summary>
+                <span className="hb-acc-ttl">
+                  Danh sách 82 em nhận học bổng 2026
+                  <span className="hb-acc-badge">82 suất</span>
+                </span>
+                <ChevronIcon />
+              </summary>
+              <p className="hb-acc-intro">
+                82 học sinh vượt khó trên địa bàn xã Hưng Thịnh sẽ được trao học bổng từ quỹ giải.
+                Tên học sinh được ẩn một phần để bảo vệ quyền riêng tư.
+              </p>
+              <div className="hb-table-wrap">
+                <table className="hb-table">
+                  <thead>
+                    <tr>
+                      <th className="hb-stt">STT</th>
+                      <th className="hb-name">Họ và tên</th>
+                      <th className="hb-sit">Hoàn cảnh</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {HOC_BONG_DATA.flatMap((g) => g.students).map((s) => {
+                      const cls = s.cls?.trim() ?? '';
+                      const showCls = cls && (/\d/.test(cls) || /Mầm|Chồi|Lá/.test(cls));
+                      return (
+                        <tr key={s.stt}>
+                          <td className="hb-stt">{s.stt}</td>
+                          <td className="hb-name">
+                            {obscureName(s.name)}
+                            {showCls && <span className="hb-cls">{cls.replace(/^Lớp\s*/i, '')}</span>}
+                          </td>
+                          <td className="hb-sit">
+                            <input type="checkbox" id={`sit-${s.stt}`} className="hb-more-cb" aria-hidden="true" tabIndex={-1} />
+                            <span className="hb-sit-text">{s.situation}</span>
+                            <label htmlFor={`sit-${s.stt}`} className="hb-more-btn" aria-hidden="true" />
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </details>
           </div>
         </section>
 
