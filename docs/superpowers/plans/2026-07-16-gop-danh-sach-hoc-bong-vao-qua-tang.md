@@ -30,7 +30,7 @@
 **Interfaces:**
 - Produces: các class `.hb-acc` (thẻ `<details>`), `.hb-acc > summary`, `.hb-acc .hb-acc-badge`, `.hb-acc .hb-acc-chevron`, `.hb-acc-intro`. Task 2 dùng đúng các tên này.
 
-- [ ] **Step 1: Append CSS vào cuối `giai.css`**
+- [x] **Step 1: Append CSS vào cuối `giai.css`**
 
 ```css
 
@@ -53,7 +53,7 @@
 }
 ```
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
 
 ```bash
 git add "src/app/(public)/giai-cau-long-2026/giai.css"
@@ -75,7 +75,7 @@ CSS này chưa có markup dùng tới nên chưa kiểm được trực quan —
 **Interfaces:**
 - Consumes: `.hb-acc`, `.hb-acc-ttl`, `.hb-acc-badge`, `.hb-acc-chevron`, `.hb-acc-intro` (Task 1); `HOC_BONG_DATA` + `obscureName` (đã có sẵn trong `page.tsx`); `.hb-table-wrap`/`.hb-table`/`hb-*` (CSS sẵn có, không sửa).
 
-- [ ] **Step 1: Thêm `ChevronIcon`**
+- [x] **Step 1: Thêm `ChevronIcon`**
 
 Trong `page.tsx`, ngay sau khối `const ArrowIcon = () => (…);` (kết thúc quanh dòng 43), thêm:
 
@@ -87,13 +87,13 @@ const ChevronIcon = () => (
 );
 ```
 
-- [ ] **Step 2: Xoá section `#hoc-bong`**
+- [x] **Step 2: Xoá section `#hoc-bong`**
 
 Xoá **toàn bộ** khối từ dòng `{/* Danh sách học sinh nhận học bổng */}` tới `</section>` ngay trước `{/* Bộ quà trao tận tay các em */}` (dòng 329–373 hiện tại). Sau khi xoá, `</section>` của `#dangky` phải nối thẳng tới comment `{/* Bộ quà trao tận tay các em */}`.
 
 Không xoá `import { HOC_BONG_DATA }` và hàm `obscureName` — Step 3 dùng lại.
 
-- [ ] **Step 3: Thêm khối `<details>` vào cuối `#qua-tang`**
+- [x] **Step 3: Thêm khối `<details>` vào cuối `#qua-tang`**
 
 Trong section `#qua-tang`, ngay **sau** dòng `<p className="qt-foot">…</p>` và **trước** `</div>` đóng `.wrap`, thêm:
 
@@ -146,19 +146,19 @@ Trong section `#qua-tang`, ngay **sau** dòng `<p className="qt-foot">…</p>` v
 
 Bảng bên trong copy **nguyên si** từ section cũ — giữ nguyên cơ chế checkbox-CSS `hb-more-cb` (nút "Xem thêm/Thu gọn" trên mobile).
 
-- [ ] **Step 4: Kiểm type**
+- [x] **Step 4: Kiểm type**
 
 Run: `npx tsc --noEmit`
 Expected: không lỗi.
 
-- [ ] **Step 5: Build**
+- [x] **Step 5: Build**
 
 **Trước khi chạy: hỏi user tắt dev server** (xem Global Constraints).
 
 Run: `npm run build`
 Expected: build thành công, 29/29 static pages, không lỗi type/JSX.
 
-- [ ] **Step 6: Xác minh trực quan desktop**
+- [x] **Step 6: Xác minh trực quan desktop**
 
 Run: `npm run dev`, mở `http://localhost:3000/giai-cau-long-2026`.
 Dùng Playwright: `browser_navigate`, cuộn tới khu "Quỹ giải dùng vào đâu", `browser_take_screenshot`.
@@ -170,7 +170,7 @@ Kiểm:
 - Bấm thanh xổ → chevron xoay 180°, hiện câu giới thiệu + đủ 82 dòng, STT chạy 1→82.
 - Mở ra **không có khung lồng khung**: bảng nằm liền trong khung thanh xổ, không có viền/bóng thứ hai.
 
-- [ ] **Step 7: Xác minh trực quan mobile**
+- [x] **Step 7: Xác minh trực quan mobile**
 
 Playwright `browser_resize` về `390 × 844`, reload, chụp lại.
 
@@ -178,12 +178,12 @@ Kiểm:
 - Thanh xổ không tràn ngang; chữ dài không đẩy chip/chevron ra ngoài.
 - Mở ra: bảng vẫn ở dạng thẻ (STT · Tên + chip lớp), hoàn cảnh rút gọn 2 dòng, bấm "Xem thêm ▾" của một em → xổ đủ chữ, đổi thành "Thu gọn ▴".
 
-- [ ] **Step 8: Kiểm anchor cũ**
+- [x] **Step 8: Kiểm anchor cũ**
 
 Mở `http://localhost:3000/giai-cau-long-2026#hoc-bong`.
 Expected: trang cuộn tới thanh xổ (id đã chuyển sang `<details>`).
 
-- [ ] **Step 9: Commit**
+- [x] **Step 9: Commit**
 
 ```bash
 git add "src/app/(public)/giai-cau-long-2026/page.tsx"
