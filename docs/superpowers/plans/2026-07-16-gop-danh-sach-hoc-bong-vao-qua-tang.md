@@ -25,7 +25,7 @@
 ### Task 1: CSS cho thanh xổ danh sách học bổng
 
 **Files:**
-- Modify: `src/app/(public)/giai-cau-long-2026/giai.css` (append vào cuối file, sau dòng cuối `.giai-page .pay.donate .val{...}` — file hiện 212 dòng)
+- Modify: `src/app/(public)/giai-cau-long-2026/giai.css` (append vào cuối file, sau dòng cuối `.giai-page .pay.donate .val{...}` — file hiện 242 dòng, line ending LF)
 
 **Interfaces:**
 - Produces: các class `.hb-acc` (thẻ `<details>`), `.hb-acc > summary`, `.hb-acc .hb-acc-badge`, `.hb-acc .hb-acc-chevron`, `.hb-acc-intro`. Task 2 dùng đúng các tên này.
