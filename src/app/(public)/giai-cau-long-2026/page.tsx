@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   description: 'Điều lệ chính thức Giải Cầu Lông Song Thạch Mở Rộng Tranh Cúp iStudio 2026 — gây quỹ trao học bổng cho học sinh vượt khó học giỏi xã Hưng Thịnh, TP Đồng Nai. Thi đấu 07 · 08 · 09/08/2026.',
 };
 
-const FORM_URL = 'https://docs.google.com/forms/d/1T7WlV7UVsLfAykyDU7FwXJL_ks74St44Y2o3C_QKkvY/viewform';
+const FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfWFb6mTuQLMMa8Tr_ZuXBWzkL4Ao28J44266m9KzD57upZYw/viewform';
 
 const MedalIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
@@ -42,13 +42,9 @@ const ArrowIcon = () => (
   </svg>
 );
 
-const ChevronIcon = () => (
-  <svg className="hb-acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="M6 9l6 6 6-6"/>
-  </svg>
-);
-
 const formatVND = (n: number) => n.toLocaleString('vi-VN') + 'đ';
+
+const TONG_HOC_BONG = HOC_BONG_DATA.reduce((n, g) => n + g.students.length, 0);
 
 export default function GiaiCauLong2026Page() {
   return (
@@ -135,6 +131,48 @@ export default function GiaiCauLong2026Page() {
         <svg className="wave" viewBox="0 0 1200 46" preserveAspectRatio="none" aria-hidden="true">
           <path fill="#FBF4E6" d="M0,30 C150,6 300,6 450,24 C600,42 750,42 900,24 C1050,6 1150,6 1200,18 L1200,46 L0,46 Z"/>
         </svg>
+
+        {/* Bộ quà trao tận tay các em — đưa lên ngay dưới hero để thấy mục tiêu gây quỹ sớm */}
+        <section id="qua-tang" style={{ background: 'var(--cream2)' }}>
+          <div className="wrap">
+            <div className="sec-head">
+              <span className="kicker">Quỹ giải dùng vào đâu</span>
+              <h2>Bộ quà trao tận tay các em</h2>
+              <p>Bên cạnh học bổng, mỗi em còn nhận bộ quà học tập thiết thực. Toàn bộ chi phí được công khai minh bạch.</p>
+            </div>
+            <div className="qt-table-wrap">
+              <table className="qt-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Nhóm</th>
+                    <th scope="col">Bộ quà / phần thưởng</th>
+                    <th scope="col" className="num">Số lượng</th>
+                    <th scope="col" className="num">Đơn giá/phần</th>
+                    <th scope="col" className="num">Thành tiền</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {QUA_TANG_DATA.map((b) => (
+                    <tr key={b.bundle} className={b.isReward ? 'reward' : undefined}>
+                      <td className="qt-grp">{b.group}</td>
+                      <td><b>{b.bundle}</b><span className="qt-note">{b.note}</span></td>
+                      <td className="num">{b.count}{b.isReward ? ' xe' : ' em'}</td>
+                      <td className="num">{formatVND(b.unitPrice)}</td>
+                      <td className="num strong">{formatVND(b.total)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colSpan={4}>Tổng giá trị quà tặng &amp; phần thưởng</td>
+                    <td className="num">{formatVND(QUA_TANG_TONG)}</td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+            <p className="qt-foot">Chi tiết từng món (vở, bút, thước…) theo bảng báo giá VPP. Phần quà mầm non gồm sữa tươi, sữa chua &amp; bánh dinh dưỡng.</p>
+          </div>
+        </section>
 
         {/* Groups */}
         <section id="noidung">
@@ -332,58 +370,26 @@ export default function GiaiCauLong2026Page() {
           </div>
         </section>
 
-        {/* Bộ quà trao tận tay các em */}
-        <section id="qua-tang" style={{ background: 'var(--cream2)' }}>
+        {/* Danh sách học sinh nhận học bổng */}
+        <section id="hoc-bong" style={{ background: 'var(--paper)' }}>
           <div className="wrap">
             <div className="sec-head">
-              <span className="kicker">Quỹ giải dùng vào đâu</span>
-              <h2>Bộ quà trao tận tay các em</h2>
-              <p>Bên cạnh học bổng, mỗi em còn nhận bộ quà học tập thiết thực. Toàn bộ chi phí được công khai minh bạch.</p>
-            </div>
-            <div className="qt-table-wrap">
-              <table className="qt-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Nhóm</th>
-                    <th scope="col">Bộ quà / phần thưởng</th>
-                    <th scope="col" className="num">Số lượng</th>
-                    <th scope="col" className="num">Đơn giá/phần</th>
-                    <th scope="col" className="num">Thành tiền</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {QUA_TANG_DATA.map((b) => (
-                    <tr key={b.bundle} className={b.isReward ? 'reward' : undefined}>
-                      <td className="qt-grp">{b.group}</td>
-                      <td><b>{b.bundle}</b><span className="qt-note">{b.note}</span></td>
-                      <td className="num">{b.count}{b.isReward ? ' xe' : ' em'}</td>
-                      <td className="num">{formatVND(b.unitPrice)}</td>
-                      <td className="num strong">{formatVND(b.total)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <td colSpan={4}>Tổng giá trị quà tặng &amp; phần thưởng</td>
-                    <td className="num">{formatVND(QUA_TANG_TONG)}</td>
-                  </tr>
-                </tfoot>
-              </table>
-            </div>
-            <p className="qt-foot">Chi tiết từng món (vở, bút, thước…) theo bảng báo giá VPP. Phần quà mầm non gồm sữa tươi, sữa chua &amp; bánh dinh dưỡng.</p>
-
-            <details className="hb-acc" id="hoc-bong">
-              <summary>
-                <span className="hb-acc-ttl">
-                  Danh sách 82 em nhận học bổng 2026
-                  <span className="hb-acc-badge">82 suất</span>
-                </span>
-                <ChevronIcon />
-              </summary>
-              <p className="hb-acc-intro">
+              <span className="kicker">Mục tiêu gây quỹ</span>
+              <h2>Danh sách học bổng 2026</h2>
+              <p>
                 82 học sinh vượt khó trên địa bàn xã Hưng Thịnh sẽ được trao học bổng từ quỹ giải.
                 Tên học sinh được ẩn một phần để bảo vệ quyền riêng tư.
               </p>
+            </div>
+
+            {/* Thu gọn mặc định — bấm nút để mở toàn bộ danh sách */}
+            <input type="checkbox" id="hb-toggle" className="hb-toggle-cb" />
+            <label htmlFor="hb-toggle" className="g-btn btn-cream hb-toggle-btn">
+              <span className="hb-toggle-open">Xem danh sách {TONG_HOC_BONG} học sinh ▾</span>
+              <span className="hb-toggle-close">Thu gọn danh sách ▴</span>
+            </label>
+
+            <div className="hb-collapsible">
               <div className="hb-table-wrap">
                 <table className="hb-table">
                   <thead>
@@ -415,7 +421,7 @@ export default function GiaiCauLong2026Page() {
                   </tbody>
                 </table>
               </div>
-            </details>
+            </div>
           </div>
         </section>
 

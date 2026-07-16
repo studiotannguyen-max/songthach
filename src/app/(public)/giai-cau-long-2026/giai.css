@@ -141,6 +141,16 @@
 .giai-page .hb-table .hb-stt{width:44px;text-align:center;font-weight:800;color:var(--muted);font-size:.85rem}
 .giai-page .hb-table .hb-name{font-family:"Baloo 2";font-weight:700;white-space:nowrap;color:var(--ink)}
 .giai-page .hb-table .hb-sit{color:var(--brown);font-size:.88rem;line-height:1.5}
+/* Thu gọn cả danh sách học bổng — bấm nút mới mở */
+.giai-page .hb-toggle-cb{position:absolute;opacity:0;width:0;height:0;pointer-events:none}
+.giai-page .hb-toggle-btn{margin-top:6px}
+.giai-page .hb-toggle-close{display:none}
+.giai-page .hb-toggle-cb:checked ~ .hb-toggle-btn .hb-toggle-open{display:none}
+.giai-page .hb-toggle-cb:checked ~ .hb-toggle-btn .hb-toggle-close{display:inline}
+.giai-page .hb-collapsible{display:none;margin-top:18px}
+.giai-page .hb-toggle-cb:checked ~ .hb-collapsible{display:block}
+.giai-page .hb-toggle-cb:focus-visible ~ .hb-toggle-btn{outline:3px solid var(--terra);outline-offset:3px}
+
 /* Chip lớp + nút "xem thêm": chỉ dùng trên mobile, ẩn ở desktop */
 .giai-page .hb-table .hb-cls{display:none}
 .giai-page .hb-more-cb,.giai-page .hb-more-btn{display:none}
@@ -240,22 +250,3 @@
 .giai-page .donate-forms span{background:var(--mustard);color:var(--ink);border:2.5px solid var(--ink);border-radius:999px;padding:7px 15px;font-family:"Baloo 2";font-weight:700;font-size:.88rem;box-shadow:3px 3px 0 var(--ink)}
 .giai-page .pay.donate h4{color:var(--terra)}
 .giai-page .pay.donate .val{text-align:right;max-width:62%}
-
-/* ===== Thanh xổ danh sách học bổng (trong khu quà tặng) ===== */
-/* scroll-margin: chừa chỗ cho navbar cố định (83px) khi vào bằng link #hoc-bong */
-.giai-page .hb-acc{margin-top:22px;scroll-margin-top:100px;border:2.5px solid var(--ink);border-radius:18px;overflow:hidden;box-shadow:4px 4px 0 var(--ink);background:var(--paper)}
-.giai-page .hb-acc>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 20px;background:var(--ink);color:var(--cream2);font-family:"Baloo 2";font-weight:700;font-size:1rem;cursor:pointer;list-style:none;user-select:none}
-.giai-page .hb-acc>summary::-webkit-details-marker{display:none}
-.giai-page .hb-acc>summary .hb-acc-ttl{display:flex;align-items:center;gap:10px;min-width:0}
-.giai-page .hb-acc-badge{flex-shrink:0;background:var(--mustard);color:var(--ink);border-radius:999px;padding:2px 11px;font-size:.82rem;font-weight:800}
-.giai-page .hb-acc-chevron{flex-shrink:0;width:20px;height:20px;transition:transform .2s ease}
-.giai-page .hb-acc[open] .hb-acc-chevron{transform:rotate(180deg)}
-.giai-page .hb-acc-intro{padding:14px 20px 0;color:var(--brown);font-size:.9rem;font-weight:600;line-height:1.55}
-/* Bảng bên trong bỏ khung riêng để không lồng khung trong khung */
-.giai-page .hb-acc .hb-table-wrap{border:none;border-radius:0;box-shadow:none;margin-top:14px}
-@media(max-width:640px){
-  .giai-page .hb-acc{border-radius:16px}
-  .giai-page .hb-acc>summary{padding:13px 15px;font-size:.95rem;gap:8px}
-  .giai-page .hb-acc-intro{padding:13px 15px 0}
-  .giai-page .hb-acc .hb-table-wrap{border-radius:0}
-}
