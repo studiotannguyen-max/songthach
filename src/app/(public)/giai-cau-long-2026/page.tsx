@@ -450,6 +450,7 @@ export default function GiaiCauLong2026Page() {
             <div className="pay donate">
               <h4>Thông tin nhận ủng hộ</h4>
               <div className="row"><span className="lbl">Chủ tài khoản</span><span className="val">Hộ Kinh Doanh Song Thạch</span></div>
+              <div className="row"><span className="lbl">Ngân hàng</span><span className="val">VIB</span></div>
               <div className="row"><span className="lbl">Số tài khoản</span><span className="val">165099</span></div>
               <div className="row"><span className="lbl">Nội dung CK</span><span className="val">Ho tro hoc bong Song Thach 2026 - [Tên nhà tài trợ]</span></div>
               <div className="row"><span className="lbl">Người phụ trách</span><span className="val">Nguyễn Nhật Tân</span></div>
