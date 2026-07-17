@@ -18,8 +18,8 @@ export const metadata: Metadata = {
     template: '%s | Song Thạch',
   },
   description:
-    'Tổ hợp dịch vụ Song Thạch — Sân bóng đá, Sân cầu lông, Nhà hàng tiệc cưới và Café Lavie en Rose tại một địa điểm tại TP.HCM.',
-  keywords: ['sân bóng đá', 'sân cầu lông', 'tiệc cưới', 'nhà hàng', 'song thạch', 'đặt sân', 'tp hcm'],
+    'Tổ hợp dịch vụ Song Thạch — Sân bóng đá, Sân cầu lông, Nhà hàng tiệc cưới và Café Lavie en Rose tại một địa điểm tại Đồng Nai.',
+  keywords: ['sân bóng đá', 'sân cầu lông', 'tiệc cưới', 'nhà hàng', 'song thạch', 'đặt sân', 'đồng nai'],
   authors: [{ name: 'Song Thạch' }],
   robots: { index: true, follow: true },
   openGraph: {
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     locale: 'vi_VN',
     siteName: 'Song Thạch',
     title: 'Song Thạch — Tổ hợp Thể thao & Tiệc cưới',
-    description: 'Sân bóng đá, Sân cầu lông, Nhà hàng tiệc cưới và Café Lavie en Rose tại một địa điểm tại TP.HCM.',
+    description: 'Sân bóng đá, Sân cầu lông, Nhà hàng tiệc cưới và Café Lavie en Rose tại một địa điểm tại Đồng Nai.',
   },
 };
 
@@ -39,17 +39,17 @@ const LOCAL_BUSINESS_JSONLD = {
       name: 'Song Thạch',
       description: 'Tổ hợp dịch vụ Song Thạch — Sân bóng đá, Sân cầu lông, Nhà hàng tiệc cưới và Café Lavie en Rose.',
       url: 'https://songthach.vn',
-      telephone: '+84901234567',
+      telephone: '+84378990979',
       address: {
         '@type': 'PostalAddress',
-        streetAddress: '123 Đường Song Thạch, Phường X, Quận Y',
-        addressLocality: 'Thành phố Hồ Chí Minh',
+        streetAddress: '9B/3 Ấp An Hoà, Xã Hưng Thịnh',
+        addressLocality: 'Đồng Nai',
         addressCountry: 'VN',
       },
       geo: {
         '@type': 'GeoCoordinates',
-        latitude: 10.7769,
-        longitude: 106.7009,
+        latitude: 10.950334,
+        longitude: 107.045569,
       },
       openingHoursSpecification: [
         {
@@ -62,7 +62,7 @@ const LOCAL_BUSINESS_JSONLD = {
       priceRange: '₫₫',
       currenciesAccepted: 'VND',
       paymentAccepted: 'Cash, Bank Transfer',
-      hasMap: 'https://maps.google.com',
+      hasMap: 'https://maps.app.goo.gl/As3cSj4JTF49MsLVA',
       sameAs: [
         'https://www.facebook.com/songthach',
         'https://www.instagram.com/songthach',
