@@ -129,8 +129,100 @@ export default function GiaiCauLong2026Page() {
         </section>
 
         <svg className="wave" viewBox="0 0 1200 46" preserveAspectRatio="none" aria-hidden="true">
-          <path fill="#FBF4E6" d="M0,30 C150,6 300,6 450,24 C600,42 750,42 900,24 C1050,6 1150,6 1200,18 L1200,46 L0,46 Z"/>
+          <path fill="#C5532F" d="M0,30 C150,6 300,6 450,24 C600,42 750,42 900,24 C1050,6 1150,6 1200,18 L1200,46 L0,46 Z"/>
         </svg>
+
+        {/* Đồng hành cùng chương trình — kêu gọi tài trợ (đưa lên đầu để nêu mục tiêu gây quỹ ngay) */}
+        <section className="register" id="tai-tro">
+          <svg className="rays" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <g fill="currentColor">
+              <path d="M100 0l6 60h-12zM100 200l6-60h-12zM0 100l60 6v-12zM200 100l-60 6v-12zM26 26l44 32-10 10zM174 174l-44-32 10-10zM174 26l-32 44-10-10zM26 174l32-44 10 10z"/>
+            </g>
+          </svg>
+          <div className="wrap reg-card" style={{ paddingTop: '36px', paddingBottom: '36px' }}>
+            <div>
+              <span className="kicker">Tiếp Bước Em Đến Trường 2026</span>
+              <h2>Đồng hành cùng chương trình</h2>
+              <p className="lede">Toàn bộ nguồn quỹ vận động được dành trọn để trao học bổng cho các em học sinh mồ côi cha mẹ, sống cùng ông bà già yếu, gia đình hộ nghèo – cận nghèo nhưng vẫn kiên trì đến trường và học tốt.</p>
+              <div className="donate-goal">
+                <div><span className="k">Mục tiêu học bổng 2026</span><span className="v">82 suất × 800.000đ = 65.600.000đ</span></div>
+                <div><span className="k">Năm 2025 đã trao</span><span className="v">67 suất · 40.000.000đ + nhiều hiện vật</span></div>
+              </div>
+              <div className="donate-forms">
+                <span>💰 Tài trợ tiền mặt</span>
+                <span>🎁 Tài trợ hiện vật</span>
+                <span>🎓 Trao học bổng trực tiếp</span>
+              </div>
+            </div>
+            <div className="pay donate">
+              <h4>Thông tin nhận ủng hộ</h4>
+              <div className="row"><span className="lbl">Chủ tài khoản</span><span className="val">Hộ Kinh Doanh Song Thạch</span></div>
+              <div className="row"><span className="lbl">Ngân hàng</span><span className="val">VIB</span></div>
+              <div className="row"><span className="lbl">Số tài khoản</span><span className="val">165099</span></div>
+              <div className="row"><span className="lbl">Nội dung CK</span><span className="val">Ho tro hoc bong Song Thach 2026 - [Tên nhà tài trợ]</span></div>
+              <div className="row"><span className="lbl">Người phụ trách</span><span className="val">Nguyễn Nhật Tân</span></div>
+              <a className="g-btn btn-mustard btn-lg" href="https://zalo.me/0378990979" target="_blank" rel="noopener" style={{ marginTop: '16px' }}>
+                Liên hệ tài trợ · Zalo 0378.99.09.79 <ArrowIcon />
+              </a>
+              <p className="note">BTC cam kết sử dụng nguồn tài trợ đúng mục đích, minh bạch và công khai danh sách sau chương trình. Xin trân trọng cảm ơn!</p>
+            </div>
+          </div>
+        </section>
+
+        {/* Danh sách học sinh nhận học bổng */}
+        <section id="hoc-bong" style={{ background: 'var(--paper)' }}>
+          <div className="wrap">
+            <div className="sec-head">
+              <span className="kicker">Mục tiêu gây quỹ</span>
+              <h2>Danh sách học bổng 2026</h2>
+              <p>
+                82 học sinh vượt khó trên địa bàn xã Hưng Thịnh sẽ được trao học bổng từ quỹ giải.
+                Tên học sinh được ẩn một phần để bảo vệ quyền riêng tư.
+              </p>
+            </div>
+
+            {/* Thu gọn mặc định — bấm nút để mở toàn bộ danh sách */}
+            <input type="checkbox" id="hb-toggle" className="hb-toggle-cb" />
+            <label htmlFor="hb-toggle" className="g-btn btn-cream hb-toggle-btn">
+              <span className="hb-toggle-open">Xem danh sách {TONG_HOC_BONG} học sinh ▾</span>
+              <span className="hb-toggle-close">Thu gọn danh sách ▴</span>
+            </label>
+
+            <div className="hb-collapsible">
+              <div className="hb-table-wrap">
+                <table className="hb-table">
+                  <thead>
+                    <tr>
+                      <th className="hb-stt">STT</th>
+                      <th className="hb-name">Họ và tên</th>
+                      <th className="hb-sit">Hoàn cảnh</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {HOC_BONG_DATA.flatMap((g) => g.students).map((s) => {
+                      const cls = s.cls?.trim() ?? '';
+                      const showCls = cls && (/\d/.test(cls) || /Mầm|Chồi|Lá/.test(cls));
+                      return (
+                        <tr key={s.stt}>
+                          <td className="hb-stt">{s.stt}</td>
+                          <td className="hb-name">
+                            {obscureName(s.name)}
+                            {showCls && <span className="hb-cls">{cls.replace(/^Lớp\s*/i, '')}</span>}
+                          </td>
+                          <td className="hb-sit">
+                            <input type="checkbox" id={`sit-${s.stt}`} className="hb-more-cb" aria-hidden="true" tabIndex={-1} />
+                            <span className="hb-sit-text">{s.situation}</span>
+                            <label htmlFor={`sit-${s.stt}`} className="hb-more-btn" aria-hidden="true" />
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* Bộ quà trao tận tay các em — đưa lên ngay dưới hero để thấy mục tiêu gây quỹ sớm */}
         <section id="qua-tang" style={{ background: 'var(--cream2)' }}>
@@ -366,98 +458,6 @@ export default function GiaiCauLong2026Page() {
               <div className="row"><span className="lbl">Chủ tài khoản</span><span className="val">Nguyễn Thị Thùy Linh</span></div>
               <div className="row"><span className="lbl">Nội dung CK</span><span className="val">Le phi CL [Tên] Nhom [số]</span></div>
               <p className="note">Chuyển khoản xong liên hệ Zalo <strong>0988918418</strong> để xác nhận. Đã đăng ký không hoàn lệ phí.</p>
-            </div>
-          </div>
-        </section>
-
-        {/* Danh sách học sinh nhận học bổng */}
-        <section id="hoc-bong" style={{ background: 'var(--paper)' }}>
-          <div className="wrap">
-            <div className="sec-head">
-              <span className="kicker">Mục tiêu gây quỹ</span>
-              <h2>Danh sách học bổng 2026</h2>
-              <p>
-                82 học sinh vượt khó trên địa bàn xã Hưng Thịnh sẽ được trao học bổng từ quỹ giải.
-                Tên học sinh được ẩn một phần để bảo vệ quyền riêng tư.
-              </p>
-            </div>
-
-            {/* Thu gọn mặc định — bấm nút để mở toàn bộ danh sách */}
-            <input type="checkbox" id="hb-toggle" className="hb-toggle-cb" />
-            <label htmlFor="hb-toggle" className="g-btn btn-cream hb-toggle-btn">
-              <span className="hb-toggle-open">Xem danh sách {TONG_HOC_BONG} học sinh ▾</span>
-              <span className="hb-toggle-close">Thu gọn danh sách ▴</span>
-            </label>
-
-            <div className="hb-collapsible">
-              <div className="hb-table-wrap">
-                <table className="hb-table">
-                  <thead>
-                    <tr>
-                      <th className="hb-stt">STT</th>
-                      <th className="hb-name">Họ và tên</th>
-                      <th className="hb-sit">Hoàn cảnh</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {HOC_BONG_DATA.flatMap((g) => g.students).map((s) => {
-                      const cls = s.cls?.trim() ?? '';
-                      const showCls = cls && (/\d/.test(cls) || /Mầm|Chồi|Lá/.test(cls));
-                      return (
-                        <tr key={s.stt}>
-                          <td className="hb-stt">{s.stt}</td>
-                          <td className="hb-name">
-                            {obscureName(s.name)}
-                            {showCls && <span className="hb-cls">{cls.replace(/^Lớp\s*/i, '')}</span>}
-                          </td>
-                          <td className="hb-sit">
-                            <input type="checkbox" id={`sit-${s.stt}`} className="hb-more-cb" aria-hidden="true" tabIndex={-1} />
-                            <span className="hb-sit-text">{s.situation}</span>
-                            <label htmlFor={`sit-${s.stt}`} className="hb-more-btn" aria-hidden="true" />
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Đồng hành cùng chương trình — kêu gọi tài trợ */}
-        <section className="register" id="tai-tro">
-          <svg className="rays" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-            <g fill="currentColor">
-              <path d="M100 0l6 60h-12zM100 200l6-60h-12zM0 100l60 6v-12zM200 100l-60 6v-12zM26 26l44 32-10 10zM174 174l-44-32 10-10zM174 26l-32 44-10-10zM26 174l32-44 10 10z"/>
-            </g>
-          </svg>
-          <div className="wrap reg-card" style={{ paddingTop: '36px', paddingBottom: '36px' }}>
-            <div>
-              <span className="kicker">Tiếp Bước Em Đến Trường 2026</span>
-              <h2>Đồng hành cùng chương trình</h2>
-              <p className="lede">Toàn bộ nguồn quỹ vận động được dành trọn để trao học bổng cho các em học sinh mồ côi cha mẹ, sống cùng ông bà già yếu, gia đình hộ nghèo – cận nghèo nhưng vẫn kiên trì đến trường và học tốt.</p>
-              <div className="donate-goal">
-                <div><span className="k">Mục tiêu học bổng 2026</span><span className="v">82 suất × 800.000đ = 65.600.000đ</span></div>
-                <div><span className="k">Năm 2025 đã trao</span><span className="v">67 suất · 40.000.000đ + nhiều hiện vật</span></div>
-              </div>
-              <div className="donate-forms">
-                <span>💰 Tài trợ tiền mặt</span>
-                <span>🎁 Tài trợ hiện vật</span>
-                <span>🎓 Trao học bổng trực tiếp</span>
-              </div>
-            </div>
-            <div className="pay donate">
-              <h4>Thông tin nhận ủng hộ</h4>
-              <div className="row"><span className="lbl">Chủ tài khoản</span><span className="val">Hộ Kinh Doanh Song Thạch</span></div>
-              <div className="row"><span className="lbl">Ngân hàng</span><span className="val">VIB</span></div>
-              <div className="row"><span className="lbl">Số tài khoản</span><span className="val">165099</span></div>
-              <div className="row"><span className="lbl">Nội dung CK</span><span className="val">Ho tro hoc bong Song Thach 2026 - [Tên nhà tài trợ]</span></div>
-              <div className="row"><span className="lbl">Người phụ trách</span><span className="val">Nguyễn Nhật Tân</span></div>
-              <a className="g-btn btn-mustard btn-lg" href="https://zalo.me/0378990979" target="_blank" rel="noopener" style={{ marginTop: '16px' }}>
-                Liên hệ tài trợ · Zalo 0378.99.09.79 <ArrowIcon />
-              </a>
-              <p className="note">BTC cam kết sử dụng nguồn tài trợ đúng mục đích, minh bạch và công khai danh sách sau chương trình. Xin trân trọng cảm ơn!</p>
             </div>
           </div>
         </section>

@@ -118,6 +118,8 @@
 /* register */
 .giai-page .register{background:var(--terra);color:#FFF6EC;border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);position:relative;overflow:hidden}
 .giai-page .register .rays{position:absolute;inset:0;color:rgba(255,255,255,.08);display:block;width:100%;height:100%}
+/* #tai-tro nằm ngay dưới đường sóng terra của hero — bỏ viền trên để nối liền */
+.giai-page #tai-tro{border-top:none}
 .giai-page .reg-card{position:relative;display:grid;grid-template-columns:1fr .85fr;gap:42px;align-items:center;z-index:1}
 .giai-page .register .kicker{background:var(--mustard);color:var(--ink)}
 .giai-page .reg-card h2{color:#FFF6EC}
