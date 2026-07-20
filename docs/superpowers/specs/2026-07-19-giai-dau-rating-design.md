@@ -31,6 +31,7 @@ riêng sau**. Spec này cố ý thiết kế sao cho phần đó gắn vào đư
 | Trần A500 | Không có A600. `progress_points` tiếp tục tăng để xếp hạng nội bộ nhóm mạnh |
 | Hiển thị công khai | Tên/biệt danh + band + điểm + ảnh. **KHÔNG hiện SĐT** |
 | Cộng điểm ở giai đoạn này | Admin nhập tay, bắt buộc kèm lý do, luôn ghi vào sổ |
+| Nhập hàng loạt | Có — từ file Excel/CSV, khớp theo SĐT, admin chọn từng dòng trùng |
 
 ---
 
@@ -152,6 +153,81 @@ xem trước.
 
 **Không có nút xoá VĐV** — chỉ bật/tắt `is_active`.
 
+**Nhập từ Excel** — nút ở thanh công cụ danh sách, dẫn sang màn riêng (mục dưới).
+
+**Bản dựng giao diện** đã duyệt: `public/mockup-giai-dau-rating.html` — dữ liệu giả, dùng làm
+tham chiếu khi code. **Xoá file này trước khi deploy.**
+
+---
+
+## Nhập danh sách từ Excel
+
+Route `/admin/players/nhap-excel`. Dùng khi chuyển sổ tay/Excel sẵn có sang, hoặc thêm nhiều
+người một lần. Thư viện đọc file: `xlsx` (SheetJS) — thêm vào `package.json`.
+
+### Cột trong file
+
+Dòng đầu tiên là tên cột. Cột thừa bị bỏ qua, không báo lỗi.
+
+| Cột | Bắt buộc | Ghi chú |
+|---|---|---|
+| Họ và tên | ✔ | |
+| Mức trình | ✔ | `A100`–`A500`, chấp nhận cả `100`–`500` |
+| Số điện thoại | | **khoá đối chiếu**; thiếu thì dòng luôn tính là người mới |
+| Biệt danh | | |
+| Điểm tiến độ | | trống = 0 |
+| Ngày test | | `dd/mm/yyyy` |
+| Ghi chú test | | |
+
+Có nút **tải file mẫu** sinh sẵn đúng tên cột.
+
+### Ba bước
+
+**1. Tải file** — nhận `.xlsx` và `.csv`.
+
+**2. Đối chiếu** — khớp theo SĐT đã chuẩn hoá (bỏ khoảng trắng, dấu chấm, tiền tố `+84` →
+`0`). Mỗi dòng rơi vào đúng một trong bốn nhóm:
+
+| Nhóm | Xử lý |
+|---|---|
+| **Người mới** | tích sẵn, sẽ tạo hồ sơ |
+| **Đã có, khác dữ liệu** | admin **tích chọn từng dòng**; bảng hiện cả giá trị cũ (gạch ngang) lẫn mới |
+| **Đã có, y hệt** | tự bỏ qua, không cho tích |
+| **Dòng lỗi** | không cho tích, nêu rõ lỗi |
+
+Mặc định tích sẵn dòng trùng, **trừ khi** thay đổi làm **mất dữ liệu mà không thêm gì** — ví dụ
+file có `Điểm tiến độ` trống trong khi hệ thống đang có 50. Những dòng đó để trống ô tích, buộc
+admin chủ động chọn. Đây là kiểu mất dữ liệu âm thầm nguy hiểm nhất khi nhập hàng loạt.
+
+Thanh tổng kết cuối trang cập nhật theo ô tích: *"Sẽ ghi: 18 hồ sơ mới + 2 hồ sơ cập nhật ·
+bỏ qua 2 · không ghi 2 dòng lỗi"*.
+
+**3. Ghi** — chạy trong một transaction. Hỏng giữa chừng thì rollback toàn bộ, không để lại
+dữ liệu ghi dở.
+
+### Luật kiểm tra từng dòng
+
+| Lỗi | Thông báo |
+|---|---|
+| Thiếu họ tên | Thiếu họ tên |
+| Mức trình không thuộc A100–A500 | Mức trình phải là A100, A200, A300, A400 hoặc A500 |
+| Tiến độ ≥ 100 khi band < 500 | Tiến độ vượt mốc 100 khi chưa phải A500 |
+| Tiến độ âm hoặc không phải số | Điểm tiến độ phải là số không âm |
+| Ngày test sai định dạng | Ngày test phải dạng dd/mm/yyyy |
+| Hai dòng trong cùng file trùng SĐT | Trùng số điện thoại với dòng thứ N |
+
+**Không cho sửa dòng lỗi trên web.** Admin sửa trong file Excel rồi tải lên lại, để file gốc
+và dữ liệu trên web luôn khớp nhau — nếu cho sửa trên web thì lần nhập sau file cũ sẽ ghi đè
+mất phần đã sửa.
+
+### Ghi vào sổ điểm
+
+Hồ sơ tạo mới sinh một dòng `rating_events`: `reason = 'initial'`, note ghi kèm tên file —
+*"Nhập từ Excel danh-sach-clb.xlsx — A200 · 200 điểm"*.
+
+Hồ sơ cập nhật mà **đổi điểm** sinh một dòng `manual_adjust` bằng đúng phần chênh lệch, note
+cũng ghi tên file. Cập nhật mà chỉ đổi tên/SĐT/ghi chú thì không đụng sổ điểm.
+
 ---
 
 ## Trang công khai
@@ -181,6 +257,10 @@ này A500 chỉ hiển thị như một band bình thường.
 | Nhập band ngoài 100–500 | CHECK ở CSDL + validate ở API |
 | Trừ điểm quá tay thành âm | `applyPoints` hạ band khi cần, kẹp sàn ở `band = 100, progress = 0`; CHECK `progress_points >= 0` giữ CSDL sạch |
 | Trùng tên VĐV | Cho phép trùng `full_name`; admin phân biệt bằng SĐT và biệt danh. Cảnh báo (không chặn) khi tạo trùng tên |
+| Nhập Excel hỏng giữa chừng | Ghi trong một transaction; lỗi thì rollback toàn bộ |
+| Nhập Excel xoá mất điểm đang có | Dòng làm mất dữ liệu mà không thêm gì thì **không tích sẵn**, buộc admin chủ động chọn |
+| Nhập cùng một file hai lần | Lần hai mọi dòng rơi vào nhóm "đã có, y hệt" → tự bỏ qua, không nhân đôi hồ sơ hay điểm |
+| SĐT viết khác nhau giữa file và hệ thống | Chuẩn hoá trước khi khớp: bỏ khoảng trắng/dấu chấm, `+84` → `0` |
 
 ---
 
@@ -192,6 +272,16 @@ trong bảng "Ví dụ kiểm chứng" ở trên thành test case, cộng thêm:
 - Cộng 0 điểm → không đổi gì
 - Trừ quá sàn (A100 tiến độ 0, −50) → vẫn A100 tiến độ 0
 - `replayLedger` cộng dồn nhiều sự kiện ra đúng kết quả cuối
+
+**Test cho bộ đối chiếu Excel** (`src/lib/player-import.ts`) — hàm thuần, nhận mảng dòng đã
+đọc từ file + danh sách VĐV hiện có, trả về phân loại. Không đụng CSDL nên test thẳng được:
+
+- Phân loại đúng bốn nhóm: mới / khác dữ liệu / y hệt / lỗi
+- Chuẩn hoá SĐT: `+84 988 918 418`, `0988.918.418`, `0988918418` khớp vào cùng một người
+- Từng luật lỗi ở bảng trên, mỗi luật một test
+- Hai dòng trong cùng file trùng SĐT → dòng sau báo lỗi
+- Dòng làm mất điểm tiến độ mà không thêm gì → trả cờ `autoSelect: false`
+- Nhập lại đúng file vừa nhập → toàn bộ rơi vào "y hệt", không sinh thay đổi nào
 
 **Các trang UI:** kiểm tra bằng preview trên trình duyệt.
 
@@ -205,9 +295,15 @@ Mỗi bước chạy được độc lập.
 2. `src/lib/players.ts` + API route quản trị
 3. Admin: danh sách + thêm/sửa VĐV — **nhập được dữ liệu thật vào**
 4. Admin: cộng/trừ điểm có xem trước
-5. Công khai: bảng xếp hạng
-6. Công khai: hồ sơ VĐV + lịch sử điểm
-7. Công khai: trang chủ + trang thể lệ
+5. `src/lib/player-import.ts` + test bộ đối chiếu Excel
+6. Admin: màn nhập Excel 3 bước — **đưa được cả danh sách CLB vào một lần**
+7. Công khai: bảng xếp hạng
+8. Công khai: hồ sơ VĐV + lịch sử điểm
+9. Công khai: trang chủ + trang thể lệ
+
+Bước 5–6 đứng sau bước 3 vì bộ đối chiếu cần biết dữ liệu hiện có trông thế nào. Nhưng nếu
+CLB muốn đổ danh sách vào ngay từ đầu thì đảo lên trước bước 4 cũng được — bước 4 không phải
+điều kiện của bước 5.
 
 ---
 
@@ -219,4 +315,6 @@ Mỗi bước chạy được độc lập.
 - Tài khoản đăng nhập cho VĐV
 - Giải "Song Thạch Mở Rộng 2026" phân theo nhóm tuổi
 - Điểm giảm, hạ hạng qua thi đấu
+- Xuất danh sách ra Excel (chỉ nhập vào, chưa xuất ra)
+- Sửa dòng lỗi trực tiếp trên màn nhập Excel — phải sửa trong file rồi tải lại
 - Ứng dụng di động
