@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { requireAdmin } from '@/lib/auth';
-import { updatePlayer, setActive } from '@/lib/players';
+import { updatePlayer, setActive, type PlayerInput } from '@/lib/players';
 
 export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
   const { response: authError } = await requireAdmin();
@@ -21,18 +21,28 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   const { response: authError } = await requireAdmin();
   if (authError) return authError;
 
-  const body = await req.json();
+  let body: Record<string, unknown>;
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: 'Dữ liệu không hợp lệ' }, { status: 400 });
+  }
+
   const admin = createAdminClient();
   try {
     if (typeof body.is_active === 'boolean') await setActive(admin, params.id, body.is_active);
-    await updatePlayer(admin, params.id, {
-      full_name:  body.full_name?.trim(),
-      nickname:   body.nickname?.trim() || null,
-      phone:      body.phone?.trim() || null,
-      avatar_url: body.avatar_url ?? undefined,
-      tested_at:  body.tested_at || null,
-      test_note:  body.test_note?.trim() || null,
-    });
+
+    // Chỉ đưa vào patch những trường thực sự có trong request — tránh ghi đè null
+    // lên các cột không gửi lên (updatePlayer chỉ cập nhật key nào có mặt).
+    const patch: Partial<PlayerInput> = {};
+    if ('full_name'  in body) patch.full_name  = String(body.full_name ?? '').trim();
+    if ('nickname'   in body) patch.nickname   = (body.nickname   as string)?.trim() || null;
+    if ('phone'      in body) patch.phone      = (body.phone      as string)?.trim() || null;
+    if ('avatar_url' in body) patch.avatar_url = (body.avatar_url as string) || null;
+    if ('tested_at'  in body) patch.tested_at  = (body.tested_at  as string) || null;
+    if ('test_note'  in body) patch.test_note  = (body.test_note  as string)?.trim() || null;
+    await updatePlayer(admin, params.id, patch);
+
     return NextResponse.json({ ok: true });
   } catch (e) {
     return NextResponse.json({ error: (e as Error).message }, { status: 500 });

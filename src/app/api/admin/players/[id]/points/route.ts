@@ -8,12 +8,18 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   const { response: authError } = await requireAdmin();
   if (authError) return authError;
 
-  const body = await req.json();
-  const delta = Number(body.delta);
-  const note  = (body.note ?? '').trim();
-  if (!Number.isInteger(delta) || delta === 0) {
+  let body: Record<string, unknown>;
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: 'Dữ liệu không hợp lệ' }, { status: 400 });
+  }
+
+  const delta = body.delta;
+  if (typeof delta !== 'number' || !Number.isInteger(delta) || delta === 0) {
     return NextResponse.json({ error: 'Số điểm phải là số nguyên khác 0' }, { status: 400 });
   }
+  const note = typeof body.note === 'string' ? body.note.trim() : '';
   if (!note) return NextResponse.json({ error: 'Bắt buộc nhập lý do' }, { status: 400 });
 
   const admin = createAdminClient();
