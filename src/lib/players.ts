@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { applyPoints, effectivePoints } from './rating';
+import { applyPoints, effectivePoints, BANDS } from './rating';
 import type { Reconciled } from './player-import';
 
 export type PlayerInput = {
@@ -99,21 +99,27 @@ export async function adjustPoints(
 export async function commitImport(admin: SupabaseClient, rows: Reconciled[]): Promise<{ created: number; updated: number }> {
   let created = 0, updated = 0;
   for (const row of rows) {
+    // Chốt chặn phía server — PUT gửi lại dữ liệu client, không tin tuyệt đối.
+    const { band, progress_points } = row.parsed;
+    if (!(BANDS as number[]).includes(band) || progress_points < 0 || (band < 500 && progress_points >= 100)) {
+      throw new Error(`Dòng ${row.rowNum}: mức trình/tiến độ không hợp lệ`);
+    }
     if (row.kind === 'new') {
       await createPlayer(admin, {
         full_name: row.parsed.full_name, nickname: row.parsed.nickname, phone: row.parsed.phone,
-        band: row.parsed.band, progress_points: row.parsed.progress_points,
+        band, progress_points,
         tested_at: row.parsed.tested_at, test_note: row.parsed.test_note,
       });
       created++;
     } else if (row.kind === 'update' && row.existingId) {
-      const { data: cur } = await admin.from('players').select('band, progress_points').eq('id', row.existingId).single();
+      const { data: cur, error: curErr } = await admin.from('players').select('band, progress_points').eq('id', row.existingId).single();
+      if (curErr || !cur) throw new Error(`Dòng ${row.rowNum}: không đọc được hồ sơ hiện tại để cập nhật`);
       await updatePlayer(admin, row.existingId, {
         full_name: row.parsed.full_name, nickname: row.parsed.nickname,
         phone: row.parsed.phone, tested_at: row.parsed.tested_at, test_note: row.parsed.test_note,
       });
-      const oldEff = cur ? effectivePoints(cur) : 0;
-      const newEff = effectivePoints({ band: row.parsed.band, progress_points: row.parsed.progress_points });
+      const oldEff = effectivePoints(cur);
+      const newEff = effectivePoints({ band, progress_points });
       if (newEff !== oldEff) {
         await adjustPoints(admin, row.existingId, newEff - oldEff, 'Nhập từ Excel — cập nhật điểm');
       }

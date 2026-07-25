@@ -19,6 +19,19 @@ function norm(s: string): string {
   return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd').replace(/\s+/g, ' ').trim();
 }
 
+// exceljs trả value nhiều kiểu: Date cho ô ngày, {result} cho công thức, {text} cho rich text.
+// Chuẩn hoá về chuỗi; riêng ngày trả yyyy-mm-dd để cột DATE nhận đúng, không lệ thuộc chuỗi múi giờ.
+function cellToStr(v: unknown): string {
+  if (v == null) return '';
+  if (v instanceof Date) return v.toISOString().slice(0, 10);
+  if (typeof v === 'object') {
+    const o = v as { result?: unknown; text?: unknown };
+    if (o.text != null) return String(o.text).trim();
+    if (o.result != null) return String(o.result).trim();
+  }
+  return String(v).trim();
+}
+
 // POST — đọc file (.xlsx hoặc .csv), trả phân loại (chưa ghi gì)
 export async function POST(req: NextRequest) {
   const { response: authError } = await requireAdmin();
@@ -28,12 +41,15 @@ export async function POST(req: NextRequest) {
   const file = form.get('file') as File | null;
   if (!file) return NextResponse.json({ error: 'Không có file' }, { status: 400 });
 
-  // Đọc file → lưới ô dạng chuỗi (hàng 0 = tiêu đề). Hỗ trợ cả .xlsx lẫn .csv.
+  // Đọc file → danh sách hàng kèm SỐ DÒNG THẬT trong file (hàng đầu = tiêu đề). Hỗ trợ .xlsx và .csv.
   const name = (file.name || '').toLowerCase();
-  let grid: string[][] = [];
+  const fileRows: { rowNum: number; cells: string[] }[] = [];
   if (name.endsWith('.csv')) {
     const text = Buffer.from(await file.arrayBuffer()).toString('utf-8').replace(/^﻿/, '');
-    grid = text.split(/\r?\n/).filter((l) => l.trim() !== '').map((l) => l.split(',').map((c) => c.trim()));
+    text.split(/\r?\n/).forEach((line, i) => {
+      if (line.trim() === '') return;
+      fileRows.push({ rowNum: i + 1, cells: line.split(',').map((c) => c.trim()) });
+    });
   } else {
     const wb = new ExcelJS.Workbook();
     // exceljs khai kiểu tham số `load` bằng `Buffer` không tham số hoá; bản @types/node hiện tại
@@ -44,25 +60,22 @@ export async function POST(req: NextRequest) {
     if (!ws) return NextResponse.json({ error: 'File không có sheet nào' }, { status: 400 });
     ws.eachRow({ includeEmpty: false }, (row) => {
       const cells: string[] = [];
-      row.eachCell({ includeEmpty: true }, (cell) => {
-        cells.push(cell.value == null ? '' : String(cell.value).trim());
-      });
-      grid.push(cells);
+      row.eachCell({ includeEmpty: true }, (cell) => { cells.push(cellToStr(cell.value)); });
+      fileRows.push({ rowNum: row.number, cells });
     });
   }
-  if (grid.length < 2) {
+  if (fileRows.length < 2) {
     return NextResponse.json({ error: 'File cần ít nhất 1 dòng tiêu đề và 1 dòng dữ liệu' }, { status: 400 });
   }
 
-  // Hàng 0 = tên cột → ánh xạ chỉ số cột sang khoá RawRow
-  const header = grid[0];
+  const header = fileRows[0].cells;
   const colIndex = new Map<number, keyof RawRow>();
   header.forEach((h, idx) => { const key = COL[norm(h)]; if (key) colIndex.set(idx, key); });
 
   const rows: RawRow[] = [];
-  for (let i = 1; i < grid.length; i++) {
-    const cells = grid[i];
-    const raw: RawRow = { rowNum: i + 1 };
+  for (let i = 1; i < fileRows.length; i++) {
+    const { rowNum, cells } = fileRows[i];
+    const raw: RawRow = { rowNum };
     let hasAny = false;
     colIndex.forEach((key, idx) => {
       const v = cells[idx];
@@ -72,7 +85,8 @@ export async function POST(req: NextRequest) {
   }
 
   const admin = createAdminClient();
-  const { data: existing } = await admin.from('players').select('id, full_name, phone, band, progress_points');
+  const { data: existing, error: exErr } = await admin.from('players').select('id, full_name, phone, band, progress_points');
+  if (exErr) return NextResponse.json({ error: exErr.message }, { status: 500 });
   const reconciled = reconcileImport(rows, (existing ?? []) as ExistingPlayer[]);
   return NextResponse.json({ rows: reconciled });
 }

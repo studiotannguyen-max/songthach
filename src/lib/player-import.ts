@@ -45,6 +45,22 @@ function parseProgress(raw: unknown): number | null {
   return n;
 }
 
+/** '25/07/2026' | '25-07-2026' | '2026-07-25' | '' → { value: 'yyyy-mm-dd'|null, ok }. Sai định dạng → ok:false. */
+export function parseDate(raw: string | null | undefined): { value: string | null; ok: boolean } {
+  if (raw == null || String(raw).trim() === '') return { value: null, ok: true };
+  const s = String(raw).trim();
+  let m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (m) return { value: `${m[1]}-${m[2]}-${m[3]}`, ok: true };
+  m = s.match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{4})$/);
+  if (m) {
+    const d = +m[1], mo = +m[2];
+    if (d >= 1 && d <= 31 && mo >= 1 && mo <= 12) {
+      return { value: `${m[3]}-${String(mo).padStart(2, '0')}-${String(d).padStart(2, '0')}`, ok: true };
+    }
+  }
+  return { value: null, ok: false };
+}
+
 function sameData(p: ParsedRow, e: ExistingPlayer): boolean {
   return p.full_name.trim() === e.full_name.trim() && p.band === e.band && p.progress_points === e.progress_points;
 }
@@ -72,10 +88,13 @@ export function reconcileImport(rows: RawRow[], existing: ExistingPlayer[]): Rec
     if (phoneKey && seenInFile.has(phoneKey)) errors.push('Trùng số điện thoại với dòng khác trong file');
     if (phoneKey) seenInFile.add(phoneKey);
 
+    const dateParsed = parseDate(row.tested_at);
+    if (!dateParsed.ok) errors.push('Ngày test phải dạng dd/mm/yyyy');
+
     const parsed: ParsedRow = {
       full_name: full, nickname: row.nickname?.trim() || null, phone: row.phone?.trim() || null,
       band: band ?? 100, progress_points: progress ?? 0,
-      tested_at: row.tested_at?.trim() || null, test_note: row.test_note?.trim() || null,
+      tested_at: dateParsed.value, test_note: row.test_note?.trim() || null,
     };
 
     if (errors.length) { out.push({ rowNum: row.rowNum, kind: 'error', errors, autoSelect: false, parsed }); continue; }

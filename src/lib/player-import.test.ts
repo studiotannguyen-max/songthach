@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { normalizePhone, parseBand, reconcileImport, type RawRow, type ExistingPlayer } from './player-import';
+import { parseDate } from './player-import';
 
 describe('normalizePhone', () => {
   it('chuẩn hoá các cách viết về cùng một số', () => {
@@ -30,6 +31,26 @@ describe('parseBand', () => {
     expect(parseBand('A250')).toBe(null);
     expect(parseBand('abc')).toBe(null);
     expect(parseBand('')).toBe(null);
+  });
+});
+
+describe('parseDate', () => {
+  it('dd/mm/yyyy → yyyy-mm-dd', () => {
+    expect(parseDate('25/07/2026')).toEqual({ value: '2026-07-25', ok: true });
+  });
+  it('nhận cả dd-mm-yyyy', () => {
+    expect(parseDate('05-03-2026')).toEqual({ value: '2026-03-05', ok: true });
+  });
+  it('nhận sẵn dạng ISO yyyy-mm-dd (từ ô ngày Excel)', () => {
+    expect(parseDate('2026-07-25')).toEqual({ value: '2026-07-25', ok: true });
+  });
+  it('trống → null, hợp lệ', () => {
+    expect(parseDate('')).toEqual({ value: null, ok: true });
+    expect(parseDate(null)).toEqual({ value: null, ok: true });
+  });
+  it('sai định dạng → ok:false', () => {
+    expect(parseDate('25 tháng 7')).toEqual({ value: null, ok: false });
+    expect(parseDate('32/01/2026')).toEqual({ value: null, ok: false });
   });
 });
 
@@ -95,6 +116,13 @@ describe('reconcileImport', () => {
     expect(r[0].kind).toBe('update');
     expect(r[0].autoSelect).toBe(false);
     expect(r[0].warning).toMatch(/mất|xoá|giảm/i);
+  });
+
+  it('ngày test sai định dạng → dòng lỗi', () => {
+    const rows: RawRow[] = [{ rowNum: 4, full_name: 'Z', band: 'A100', phone: '0900000009', tested_at: '25 tháng 7' }];
+    const r = reconcileImport(rows, existing);
+    expect(r[0].kind).toBe('error');
+    expect(r[0].errors.join(' ')).toMatch(/ngày test/i);
   });
 
   it('hai dòng cùng file trùng SĐT → dòng sau lỗi', () => {
