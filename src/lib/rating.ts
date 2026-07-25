@@ -15,3 +15,28 @@ export function deriveBandProgress(effective: number): { band: Band; progress: n
   const band = (Math.floor(e / 100) * 100) as Band;
   return { band, progress: e - band };
 }
+
+/** Điểm hiệu dụng = band + tiến độ. */
+export function effectivePoints(p: { band: number; progress_points: number }): number {
+  return p.band + p.progress_points;
+}
+
+/** Nhãn hiển thị: 300 → "A300". */
+export function bandLabel(band: number): string {
+  return `A${band}`;
+}
+
+/**
+ * Áp một khoản điểm (dương hoặc âm) lên (band, progress) hiện tại.
+ * Delta bất kỳ — spec giải đấu sau này truyền +50; điều chỉnh tay truyền số admin nhập.
+ */
+export function applyPoints(band: number, progress: number, delta: number): { band: Band; progress: number } {
+  return deriveBandProgress(band + progress + delta);
+}
+
+/** Chạy lại toàn bộ sổ điểm từ đầu — dùng để đối soát với cột đã lưu. */
+export function replayLedger(events: { points: number }[]): { band: Band; progress: number; effective: number } {
+  const sum = events.reduce((s, e) => s + e.points, 0);
+  const { band, progress } = deriveBandProgress(sum);
+  return { band, progress, effective: band + progress };
+}
