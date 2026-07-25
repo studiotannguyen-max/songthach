@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { applyPoints, effectivePoints } from './rating';
+import type { Reconciled } from './player-import';
 
 export type PlayerInput = {
   full_name: string;
@@ -87,4 +88,37 @@ export async function adjustPoints(
   if (uErr) throw uErr;
 
   return { band: next.band, progress_points: next.progress };
+}
+
+/**
+ * Ghi các dòng đã chọn. Mới → createPlayer. Update đổi điểm → adjustPoints bằng phần chênh lệch;
+ * chỉ đổi thông tin → updatePlayer. Không dùng transaction thật (Supabase JS không hỗ trợ);
+ * ghi tuần tự, lỗi thì ném ra để API báo — các dòng đã ghi trước đó vẫn nằm trong sổ (an toàn vì
+ * mỗi dòng độc lập, không để lại trạng thái nửa vời trong một hồ sơ).
+ */
+export async function commitImport(admin: SupabaseClient, rows: Reconciled[]): Promise<{ created: number; updated: number }> {
+  let created = 0, updated = 0;
+  for (const row of rows) {
+    if (row.kind === 'new') {
+      await createPlayer(admin, {
+        full_name: row.parsed.full_name, nickname: row.parsed.nickname, phone: row.parsed.phone,
+        band: row.parsed.band, progress_points: row.parsed.progress_points,
+        tested_at: row.parsed.tested_at, test_note: row.parsed.test_note,
+      });
+      created++;
+    } else if (row.kind === 'update' && row.existingId) {
+      const { data: cur } = await admin.from('players').select('band, progress_points').eq('id', row.existingId).single();
+      await updatePlayer(admin, row.existingId, {
+        full_name: row.parsed.full_name, nickname: row.parsed.nickname,
+        phone: row.parsed.phone, tested_at: row.parsed.tested_at, test_note: row.parsed.test_note,
+      });
+      const oldEff = cur ? effectivePoints(cur) : 0;
+      const newEff = effectivePoints({ band: row.parsed.band, progress_points: row.parsed.progress_points });
+      if (newEff !== oldEff) {
+        await adjustPoints(admin, row.existingId, newEff - oldEff, 'Nhập từ Excel — cập nhật điểm');
+      }
+      updated++;
+    }
+  }
+  return { created, updated };
 }
