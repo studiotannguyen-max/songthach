@@ -3,14 +3,13 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import PlayerForm, { type PlayerRecord } from '../PlayerForm';
 import AdjustPointsPanel from '../AdjustPointsPanel';
-
-interface Ev { id: string; points: number; reason: string; note: string | null; created_at: string; }
+import { RatingEvent } from '@/lib/player-display';
 
 export default function EditPlayerPage() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const [player, setPlayer] = useState<PlayerRecord | null>(null);
-  const [events, setEvents] = useState<Ev[]>([]);
+  const [events, setEvents] = useState<RatingEvent[]>([]);
   const [loading, setLoading] = useState(true);
 
   function reload() {
