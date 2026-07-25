@@ -9,6 +9,15 @@ describe('normalizePhone', () => {
     expect(normalizePhone('')).toBe('');
     expect(normalizePhone(null)).toBe('');
   });
+
+  it('không cắt nhầm số nội địa 084 bị rớt số 0 đầu', () => {
+    // 841234567 (9 số) là 0841234567 bị Excel rớt số 0, KHÔNG phải mã quốc gia
+    expect(normalizePhone('841234567')).toBe('841234567');
+  });
+
+  it('vẫn chuẩn hoá đúng dạng quốc tế đủ 11 số', () => {
+    expect(normalizePhone('84841234567')).toBe('0841234567');
+  });
 });
 
 describe('parseBand', () => {
@@ -69,6 +78,14 @@ describe('reconcileImport', () => {
     const r = reconcileImport(rows, existing);
     expect(r[0].kind).toBe('same');
     expect(r[0].autoSelect).toBe(false);
+  });
+
+  it('cập nhật chỉ đổi thông tin, điểm hiệu dụng không đổi → vẫn tự tích', () => {
+    const rows: RawRow[] = [{ rowNum: 9, full_name: 'Lê Đăng Khoa (biệt danh mới)', band: 'A400', progress_points: '60', phone: '0938771209' }];
+    const r = reconcileImport(rows, existing);
+    expect(r[0].kind).toBe('update');
+    expect(r[0].autoSelect).toBe(true);
+    expect(r[0].warning).toBeUndefined();
   });
 
   it('cập nhật làm mất điểm mà không thêm gì → không tự tích', () => {

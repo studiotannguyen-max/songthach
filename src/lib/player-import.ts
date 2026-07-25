@@ -20,11 +20,13 @@ export type Reconciled = {
   warning?: string;
 };
 
-/** Chuẩn hoá SĐT: bỏ ký tự không phải số, +84/84 → 0. */
+/** Chuẩn hoá SĐT: bỏ ký tự không phải số, +84 (dạng quốc tế đủ 11 số) → 0. */
 export function normalizePhone(raw: string | null | undefined): string {
   if (!raw) return '';
   const digits = String(raw).replace(/\D/g, '');
-  if (digits.startsWith('84')) return '0' + digits.slice(2);
+  // Chỉ coi '84' là mã quốc gia khi ở dạng quốc tế đủ 11 số (84 + 9 số trong nước);
+  // tránh cắt nhầm số nội địa đầu 084... khi Excel làm rớt số 0 ở đầu.
+  if (digits.startsWith('84') && digits.length === 11) return '0' + digits.slice(2);
   return digits;
 }
 
@@ -33,7 +35,7 @@ export function parseBand(raw: unknown): number | null {
   if (raw == null) return null;
   const s = String(raw).trim().toUpperCase().replace(/^A/, '');
   const n = Number(s);
-  return BANDS.includes(n as never) ? n : null;
+  return (BANDS as number[]).includes(n) ? n : null;
 }
 
 function parseProgress(raw: unknown): number | null {
