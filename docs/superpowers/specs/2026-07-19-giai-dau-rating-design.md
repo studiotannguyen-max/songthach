@@ -53,9 +53,13 @@ lịch sử).
 ví dụ A300 tiến độ 10, trừ 50 → A200 tiến độ 60. Đây là hành vi đúng vì bút toán âm chỉ dùng
 để hoàn tác một lần cộng sai. Sàn tuyệt đối là **A100 tiến độ 0** — trừ quá thì dừng ở đó.
 
-**Luật cộng điểm khi vô địch** (+100 người band cao, +50 người band thấp, cùng band thì cả hai
-+100) đã chốt nhưng **thuộc spec giải đấu**. Giai đoạn này admin tự nhập con số tương ứng.
-Hàm thăng hạng viết ở đây sẽ được spec đó dùng lại nguyên vẹn.
+**Luật cộng điểm khi vô địch** thuộc **spec giải đấu**, không nằm trong phạm vi spec này.
+Con số đã chốt lại (2026-07-19): **vô địch thì mỗi người trong cặp +50**, không phân biệt
+trình cao/thấp — tức phải vô địch **2 lần** mới đủ 100 điểm để lên hạng. (Thay cho phương án
+cũ +100/+50 theo vai trò.) Giai đoạn này admin tự nhập con số khi cộng điểm tay.
+
+Thay đổi này **không đụng tới cấu trúc** spec hiện tại: hàm `applyPoints(band, progress, points)`
+nhận số điểm bất kỳ, spec giải đấu chỉ việc truyền `50` vào. Mốc lên hạng vẫn là 100.
 
 ### Ví dụ kiểm chứng (dùng làm test case)
 
