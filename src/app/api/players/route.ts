@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 
+// Dữ liệu xếp hạng đổi mỗi khi admin cộng điểm — luôn render động, không cache tĩnh.
+export const dynamic = 'force-dynamic';
+
 // GET /api/players — công khai, đọc view players_public (KHÔNG có phone)
 export async function GET() {
   const admin = createAdminClient();
