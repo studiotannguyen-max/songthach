@@ -63,21 +63,29 @@ export default function PlayerForm({ initial, onSaved }: { initial?: PlayerRecor
         </div>
 
         <div className="admin-card p-5 space-y-4">
-          <h3 className="font-bold">Chấm mức trình ban đầu</h3>
-          <div className="flex flex-wrap gap-2">
-            {BANDS.map(b => (
-              <label key={b} className="cursor-pointer">
-                <input type="radio" name="band" className="sr-only peer" checked={f.band === b} onChange={() => set('band', b)} />
-                <span className={`flex flex-col items-center gap-0.5 px-4 py-2.5 rounded-xl border-2 border-gray-300 peer-checked:border-[#3B2A1E] peer-checked:shadow-[3px_3px_0_#3B2A1E] ${f.band === b ? BAND_BG[b] : 'bg-white'}`}>
-                  <span className="font-extrabold">A{b}</span><span className="text-[11px] text-gray-500 peer-checked:text-inherit">{b} điểm</span>
-                </span>
-              </label>
-            ))}
-          </div>
-          <div className="grid sm:grid-cols-2 gap-4">
-            <Field label="Ngày test trình"><input type="date" className="inp tabular-nums" value={f.tested_at ?? ''} onChange={e => set('tested_at', e.target.value || null)} /></Field>
-            <Field label="Điểm tiến độ khởi đầu" hint="Để 0 trừ khi chuyển dữ liệu cũ"><input type="number" min={0} className="inp tabular-nums" value={f.progress_points} onChange={e => set('progress_points', Math.max(0, Number(e.target.value) || 0))} /></Field>
-          </div>
+          <h3 className="font-bold">{isEdit ? 'Mức trình hiện tại' : 'Chấm mức trình ban đầu'}</h3>
+          {isEdit ? (
+            <div className="flex items-center gap-3 flex-wrap">
+              <span className={`inline-flex items-center px-4 py-2 rounded-xl border-2 border-[#3B2A1E] font-extrabold ${BAND_BG[f.band]}`}>{bandLabel(f.band)}</span>
+              <span className="text-sm text-gray-600">tiến độ <b className="tabular-nums">{f.progress_points}</b> · hiệu dụng <b className="tabular-nums">{effective}</b></span>
+              <span className="w-full text-xs text-gray-500">Đổi trình qua mục <b>Cộng / trừ điểm</b> bên dưới — điểm luôn đi qua sổ để không sai lệch.</span>
+            </div>
+          ) : (
+            <>
+              <div className="flex flex-wrap gap-2">
+                {BANDS.map(b => (
+                  <label key={b} className="cursor-pointer">
+                    <input type="radio" name="band" className="sr-only peer" checked={f.band === b} onChange={() => set('band', b)} />
+                    <span className={`flex flex-col items-center gap-0.5 px-4 py-2.5 rounded-xl border-2 border-gray-300 peer-checked:border-[#3B2A1E] peer-checked:shadow-[3px_3px_0_#3B2A1E] ${f.band === b ? BAND_BG[b] : 'bg-white'}`}>
+                      <span className="font-extrabold">A{b}</span><span className="text-[11px] text-gray-500 peer-checked:text-inherit">{b} điểm</span>
+                    </span>
+                  </label>
+                ))}
+              </div>
+              <Field label="Điểm tiến độ khởi đầu" hint="Để 0 trừ khi chuyển dữ liệu cũ"><input type="number" min={0} className="inp tabular-nums" value={f.progress_points} onChange={e => set('progress_points', Math.max(0, Number(e.target.value) || 0))} /></Field>
+            </>
+          )}
+          <Field label="Ngày test trình"><input type="date" className="inp tabular-nums" value={f.tested_at ?? ''} onChange={e => set('tested_at', e.target.value || null)} /></Field>
           <Field label="Ghi chú buổi test"><textarea className="inp min-h-[74px]" value={f.test_note ?? ''} onChange={e => set('test_note', e.target.value || null)} /></Field>
         </div>
 
