@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 
 // Hồ sơ đổi mỗi khi admin cộng điểm — luôn render động, không cache tĩnh.
+// force-no-store: chặn Next cache lại phản hồi fetch của supabase-js (xem chú thích ở /api/players).
 export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
 
 export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
   const admin = createAdminClient();

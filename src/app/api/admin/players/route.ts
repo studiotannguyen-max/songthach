@@ -4,6 +4,10 @@ import { requireAdmin } from '@/lib/auth';
 import { createPlayer } from '@/lib/players';
 import { BANDS, type Band } from '@/lib/rating';
 
+// Danh sách quản trị phải luôn tươi — chặn Next cache lại phản hồi fetch của supabase-js.
+export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
+
 // GET /api/admin/players — danh sách đầy đủ (có phone) cho khu quản trị
 export async function GET() {
   const { response: authError } = await requireAdmin();

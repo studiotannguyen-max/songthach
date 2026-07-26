@@ -3,6 +3,10 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import { requireAdmin } from '@/lib/auth';
 import { updatePlayer, setActive, type PlayerInput } from '@/lib/players';
 
+// Hồ sơ quản trị phải luôn tươi — chặn Next cache lại phản hồi fetch của supabase-js.
+export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
+
 export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
   const { response: authError } = await requireAdmin();
   if (authError) return authError;
