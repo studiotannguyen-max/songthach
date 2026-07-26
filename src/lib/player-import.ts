@@ -5,7 +5,10 @@ export type RawRow = {
   full_name?: string; nickname?: string; phone?: string;
   band?: string; progress_points?: string; tested_at?: string; test_note?: string;
 };
-export type ExistingPlayer = { id: string; full_name: string; phone: string | null; band: number; progress_points: number };
+export type ExistingPlayer = {
+  id: string; full_name: string; phone: string | null; band: number; progress_points: number;
+  nickname: string | null; tested_at: string | null; test_note: string | null;
+};
 export type ParsedRow = {
   full_name: string; nickname: string | null; phone: string | null;
   band: number; progress_points: number; tested_at: string | null; test_note: string | null;
@@ -62,7 +65,30 @@ export function parseDate(raw: string | null | undefined): { value: string | nul
 }
 
 function sameData(p: ParsedRow, e: ExistingPlayer): boolean {
-  return p.full_name.trim() === e.full_name.trim() && p.band === e.band && p.progress_points === e.progress_points;
+  return p.full_name.trim() === e.full_name.trim()
+    && p.band === e.band
+    && p.progress_points === e.progress_points
+    && (p.nickname ?? '') === (e.nickname ?? '')
+    && (p.tested_at ?? '') === (e.tested_at ?? '')
+    && (p.test_note ?? '') === (e.test_note ?? '');
+}
+
+/** Tách một dòng CSV, tôn trọng ô có dấu ngoặc kép và dấu phẩy/ngoặc kép escape bên trong. */
+export function parseCsvLine(line: string): string[] {
+  const out: string[] = [];
+  let cur = '', inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (inQuotes) {
+      if (c === '"') {
+        if (line[i + 1] === '"') { cur += '"'; i++; } else inQuotes = false;
+      } else cur += c;
+    } else if (c === '"') { inQuotes = true; }
+    else if (c === ',') { out.push(cur); cur = ''; }
+    else cur += c;
+  }
+  out.push(cur);
+  return out.map((s) => s.trim());
 }
 
 export function reconcileImport(rows: RawRow[], existing: ExistingPlayer[]): Reconciled[] {

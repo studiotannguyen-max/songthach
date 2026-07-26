@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { normalizePhone, parseBand, reconcileImport, type RawRow, type ExistingPlayer } from './player-import';
+import { normalizePhone, parseBand, reconcileImport, parseCsvLine, type RawRow, type ExistingPlayer } from './player-import';
 import { parseDate } from './player-import';
 
 describe('normalizePhone', () => {
@@ -56,8 +56,8 @@ describe('parseDate', () => {
 
 describe('reconcileImport', () => {
   const existing: ExistingPlayer[] = [
-    { id: 'p1', full_name: 'Lê Đăng Khoa', phone: '0938771209', band: 400, progress_points: 60 },
-    { id: 'p2', full_name: 'Bùi Thị Tú Anh', phone: '0356882470', band: 200, progress_points: 50 },
+    { id: 'p1', full_name: 'Lê Đăng Khoa', phone: '0938771209', band: 400, progress_points: 60, nickname: null, tested_at: null, test_note: null },
+    { id: 'p2', full_name: 'Bùi Thị Tú Anh', phone: '0356882470', band: 200, progress_points: 50, nickname: null, tested_at: null, test_note: null },
   ];
 
   it('người mới (SĐT chưa có)', () => {
@@ -143,4 +143,16 @@ describe('reconcileImport', () => {
     const r = reconcileImport(rows, existing);
     expect(r.every(x => x.kind === 'same')).toBe(true);
   });
+
+  it('chỉ đổi biệt danh (điểm không đổi) → update, không phải same', () => {
+    const rows: RawRow[] = [{ rowNum: 5, full_name: 'Lê Đăng Khoa', band: 'A400', progress_points: '60', nickname: 'Khoa lốp', phone: '0938771209' }];
+    const r = reconcileImport(rows, existing);
+    expect(r[0].kind).toBe('update');
+  });
+});
+
+describe('parseCsvLine', () => {
+  it('tách ô thường', () => { expect(parseCsvLine('a,b,c')).toEqual(['a', 'b', 'c']); });
+  it('giữ dấu phẩy trong ô có ngoặc kép', () => { expect(parseCsvLine('Hậu,"khá, cần cải thiện",A300')).toEqual(['Hậu', 'khá, cần cải thiện', 'A300']); });
+  it('ngoặc kép escape ""', () => { expect(parseCsvLine('"anh ""Hậu""",x')).toEqual(['anh "Hậu"', 'x']); });
 });

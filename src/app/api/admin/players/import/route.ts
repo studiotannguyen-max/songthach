@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import ExcelJS from 'exceljs';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { requireAdmin } from '@/lib/auth';
-import { reconcileImport, type RawRow, type ExistingPlayer, type Reconciled } from '@/lib/player-import';
+import { reconcileImport, parseCsvLine, type RawRow, type ExistingPlayer, type Reconciled } from '@/lib/player-import';
 import { commitImport } from '@/lib/players';
 
 // Ánh xạ tên cột (không phân biệt hoa thường / dấu cách) → khoá RawRow
@@ -19,13 +19,15 @@ function norm(s: string): string {
   return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd').replace(/\s+/g, ' ').trim();
 }
 
-// exceljs trả value nhiều kiểu: Date cho ô ngày, {result} cho công thức, {text} cho rich text.
-// Chuẩn hoá về chuỗi; riêng ngày trả yyyy-mm-dd để cột DATE nhận đúng, không lệ thuộc chuỗi múi giờ.
+// exceljs trả value nhiều kiểu: Date cho ô ngày, {result} cho công thức, {text} cho hyperlink,
+// {richText} cho rich text. Chuẩn hoá về chuỗi; riêng ngày trả yyyy-mm-dd để cột DATE nhận đúng,
+// không lệ thuộc chuỗi múi giờ.
 function cellToStr(v: unknown): string {
   if (v == null) return '';
   if (v instanceof Date) return v.toISOString().slice(0, 10);
   if (typeof v === 'object') {
-    const o = v as { result?: unknown; text?: unknown };
+    const o = v as { result?: unknown; text?: unknown; richText?: { text?: string }[] };
+    if (Array.isArray(o.richText)) return o.richText.map((r) => r.text ?? '').join('').trim();
     if (o.text != null) return String(o.text).trim();
     if (o.result != null) return String(o.result).trim();
   }
@@ -48,7 +50,7 @@ export async function POST(req: NextRequest) {
     const text = Buffer.from(await file.arrayBuffer()).toString('utf-8').replace(/^﻿/, '');
     text.split(/\r?\n/).forEach((line, i) => {
       if (line.trim() === '') return;
-      fileRows.push({ rowNum: i + 1, cells: line.split(',').map((c) => c.trim()) });
+      fileRows.push({ rowNum: i + 1, cells: parseCsvLine(line) });
     });
   } else {
     const wb = new ExcelJS.Workbook();
@@ -85,7 +87,7 @@ export async function POST(req: NextRequest) {
   }
 
   const admin = createAdminClient();
-  const { data: existing, error: exErr } = await admin.from('players').select('id, full_name, phone, band, progress_points');
+  const { data: existing, error: exErr } = await admin.from('players').select('id, full_name, nickname, phone, band, progress_points, tested_at, test_note');
   if (exErr) return NextResponse.json({ error: exErr.message }, { status: 500 });
   const reconciled = reconcileImport(rows, (existing ?? []) as ExistingPlayer[]);
   return NextResponse.json({ rows: reconciled });
