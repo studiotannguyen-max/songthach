@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
   if (authError) return authError;
 
   const body = await req.json();
-  const { title, content, excerpt, cover_image, category, status, author_name } = body;
+  const { title, content, content_format, excerpt, cover_image, category, status, author_name } = body;
 
   if (!title?.trim()) return NextResponse.json({ error: 'Tiêu đề không được bỏ trống' }, { status: 400 });
 
@@ -52,15 +52,16 @@ export async function POST(req: NextRequest) {
   const { data, error } = await supabase
     .from('posts')
     .insert({
-      title:       title.trim(),
-      slug:        generateSlug(title),
-      content:     content ?? '',
-      excerpt:     excerpt ?? '',
-      cover_image: cover_image ?? null,
-      category:    category ?? 'general',
-      status:      status ?? 'draft',
-      author_name: author_name ?? 'Admin',
-      published_at: status === 'published' ? new Date().toISOString() : null,
+      title:          title.trim(),
+      slug:           generateSlug(title),
+      content:        content ?? '',
+      content_format: content_format === 'html' ? 'html' : 'richtext',
+      excerpt:        excerpt ?? '',
+      cover_image:    cover_image ?? null,
+      category:       category ?? 'general',
+      status:         status ?? 'draft',
+      author_name:    author_name ?? 'Admin',
+      published_at:   status === 'published' ? new Date().toISOString() : null,
     })
     .select('id')
     .single();

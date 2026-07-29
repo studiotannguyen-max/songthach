@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import {
-  Save, Send, ArrowLeft, ImagePlus, X, Loader2, ChevronDown,
+  Save, Send, ArrowLeft, ImagePlus, X, Loader2, ChevronDown, Pencil, Code2,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -15,6 +15,7 @@ interface PostData {
   title: string;
   excerpt: string;
   content: string;
+  content_format: string;
   cover_image: string;
   category: string;
   status: string;
@@ -36,13 +37,14 @@ export default function PostForm({ initial }: { initial?: Partial<PostData> }) {
   const isEdit   = !!initial?.id;
 
   const [form, setForm] = useState<PostData>({
-    title:       initial?.title       ?? '',
-    excerpt:     initial?.excerpt     ?? '',
-    content:     initial?.content     ?? '',
-    cover_image: initial?.cover_image ?? '',
-    category:    initial?.category    ?? 'general',
-    status:      initial?.status      ?? 'draft',
-    author_name: initial?.author_name ?? 'Admin',
+    title:          initial?.title          ?? '',
+    excerpt:        initial?.excerpt        ?? '',
+    content:        initial?.content        ?? '',
+    content_format: initial?.content_format ?? 'richtext',
+    cover_image:    initial?.cover_image    ?? '',
+    category:       initial?.category       ?? 'general',
+    status:         initial?.status         ?? 'draft',
+    author_name:    initial?.author_name    ?? 'Admin',
   });
 
   const [saving,          setSaving]          = useState(false);
@@ -150,11 +152,59 @@ export default function PostForm({ initial }: { initial?: Partial<PostData> }) {
             className="w-full text-sm text-gray-600 placeholder-gray-300 border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sports-primary/30 focus:border-sports-primary resize-none"
           />
 
-          {/* Rich text editor */}
-          <PostEditor
-            content={form.content}
-            onChange={v => update('content', v)}
-          />
+          {/* Mode toggle: rich text vs raw HTML */}
+          <div className="inline-flex rounded-xl border border-gray-200 bg-gray-50 p-1">
+            {([
+              { mode: 'richtext', label: 'Soạn thảo', icon: Pencil },
+              { mode: 'html',     label: 'HTML',      icon: Code2  },
+            ] as const).map(({ mode, label, icon: Icon }) => (
+              <button
+                key={mode}
+                type="button"
+                onClick={() => update('content_format', mode)}
+                className={cn(
+                  'flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all',
+                  form.content_format === mode
+                    ? 'bg-white text-gray-900 shadow-sm'
+                    : 'text-gray-500 hover:text-gray-700',
+                )}
+              >
+                <Icon size={14} /> {label}
+              </button>
+            ))}
+          </div>
+
+          {form.content_format === 'html' ? (
+            <div className="space-y-3">
+              <textarea
+                value={form.content}
+                onChange={e => update('content', e.target.value)}
+                placeholder="Dán mã HTML vào đây... Nội dung được lưu y nguyên."
+                spellCheck={false}
+                rows={18}
+                className="w-full font-mono text-xs leading-relaxed text-gray-800 border border-gray-200 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sports-primary/30 focus:border-sports-primary resize-y bg-white"
+              />
+              <div className="border border-gray-200 rounded-2xl bg-white overflow-hidden">
+                <p className="text-xs font-semibold text-gray-500 px-4 py-2 border-b border-gray-100 bg-gray-50">
+                  Xem trước
+                </p>
+                {form.content.trim() ? (
+                  <div
+                    className="prose prose-gray max-w-none px-5 py-4 text-sm text-gray-800 [&_img]:rounded-xl [&_a]:underline"
+                    dangerouslySetInnerHTML={{ __html: form.content }}
+                  />
+                ) : (
+                  <p className="px-5 py-8 text-center text-sm text-gray-300">Chưa có nội dung</p>
+                )}
+              </div>
+            </div>
+          ) : (
+            /* Rich text editor */
+            <PostEditor
+              content={form.content}
+              onChange={v => update('content', v)}
+            />
+          )}
         </div>
 
         {/* Right: Settings */}
