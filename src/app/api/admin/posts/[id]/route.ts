@@ -20,15 +20,16 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   if (authError) return authError;
 
   const body = await req.json();
-  const { title, content, excerpt, cover_image, category, status, author_name } = body;
+  const { title, content, content_format, excerpt, cover_image, category, status, author_name } = body;
 
   const updates: Record<string, unknown> = {};
-  if (title       !== undefined) updates.title       = title;
-  if (content     !== undefined) updates.content     = content;
-  if (excerpt     !== undefined) updates.excerpt     = excerpt;
-  if (cover_image !== undefined) updates.cover_image = cover_image;
-  if (category    !== undefined) updates.category    = category;
-  if (author_name !== undefined) updates.author_name = author_name;
+  if (title          !== undefined) updates.title          = title;
+  if (content        !== undefined) updates.content        = content;
+  if (content_format !== undefined) updates.content_format = content_format === 'html' ? 'html' : 'richtext';
+  if (excerpt        !== undefined) updates.excerpt        = excerpt;
+  if (cover_image    !== undefined) updates.cover_image    = cover_image;
+  if (category       !== undefined) updates.category       = category;
+  if (author_name    !== undefined) updates.author_name    = author_name;
   if (status      !== undefined) {
     updates.status = status;
     if (status === 'published') updates.published_at = new Date().toISOString();
