@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { Menu, X, ChevronDown, User, LogOut, Loader2, Goal, Feather, Heart, Coffee, Trophy } from 'lucide-react';
+import { Menu, X, ChevronDown, User, LogOut, Loader2, Goal, Feather, Heart, Coffee, Trophy, Medal } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { useSportPicker } from '@/components/providers/SportPickerProvider';
@@ -13,6 +13,7 @@ const ZONE_LINKS = [
   { label: 'Sân Bóng Đá', href: '/sports/football', icon: Goal },
   { label: 'Sân Cầu Lông', href: '/sports/badminton', icon: Feather },
   { label: 'Giải Cầu Lông 2026', href: '/giai-cau-long-2026', icon: Trophy },
+  { label: 'Giải đấu Rating', href: '/giai-dau-rating', icon: Medal },
   { label: 'Tiệc Cưới', href: '/wedding', icon: Heart },
   { label: 'Lavie en Rose', href: '/cafe', icon: Coffee },
 ];

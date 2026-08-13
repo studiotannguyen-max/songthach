@@ -4,6 +4,15 @@ import Footer from '@/components/shared/Footer';
 import './giai.css';
 import { HOC_BONG_DATA } from './hoc-bong-data';
 import { QUA_TANG_DATA, QUA_TANG_TONG } from './qua-tang-data';
+import { NHA_TAI_TRO_DATA } from './nha-tai-tro-data';
+
+// Chữ cái đầu của tên nhà tài trợ, dùng cho ô monogram khi chưa có logo.
+function monogram(name: string): string {
+  const words = name.trim().split(/\s+/).filter(Boolean);
+  const first = words[0]?.[0] ?? '';
+  const second = words.length > 1 ? words[words.length - 1][0] : (words[0]?.[1] ?? '');
+  return (first + second).toUpperCase();
+}
 
 function obscureName(name: string): string {
   const words = name.trim().split(/\s+/);
@@ -132,6 +141,42 @@ export default function GiaiCauLong2026Page() {
           <path fill="#C5532F" d="M0,30 C150,6 300,6 450,24 C600,42 750,42 900,24 C1050,6 1150,6 1200,18 L1200,46 L0,46 Z"/>
         </svg>
 
+        {/* Nhà tài trợ đồng hành — tôn vinh các đơn vị/cá nhân đồng hành ngay dưới hero */}
+        <section id="nha-tai-tro" style={{ background: 'var(--paper)' }}>
+          <div className="wrap">
+            <div className="sec-head" style={{ margin: '0 auto 28px', textAlign: 'center' }}>
+              <span className="kicker">Đồng hành &amp; sẻ chia</span>
+              <h2>Nhà tài trợ đồng hành</h2>
+              <p>Xin trân trọng cảm ơn các đơn vị và cá nhân đã chung tay tiếp bước em đến trường cùng chương trình.</p>
+            </div>
+            <div className="ntt-grid">
+              {NHA_TAI_TRO_DATA.map((ntt) => {
+                const inner = (
+                  <>
+                    <span className="ntt-logo">
+                      {ntt.logo ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={ntt.logo} alt={ntt.name} loading="lazy" />
+                      ) : (
+                        <span className="ntt-mono" aria-hidden="true">{monogram(ntt.name)}</span>
+                      )}
+                    </span>
+                    <span className="ntt-name">{ntt.name}</span>
+                  </>
+                );
+                return ntt.url ? (
+                  <a key={ntt.name} className="ntt-card" href={ntt.url} target="_blank" rel="noopener">{inner}</a>
+                ) : (
+                  <div key={ntt.name} className="ntt-card">{inner}</div>
+                );
+              })}
+            </div>
+            <div className="ntt-cta">
+              <a className="g-btn btn-cream" href="#tai-tro">Trở thành nhà tài trợ <ArrowIcon /></a>
+            </div>
+          </div>
+        </section>
+
         {/* Đồng hành cùng chương trình — kêu gọi tài trợ (đưa lên đầu để nêu mục tiêu gây quỹ ngay) */}
         <section className="register" id="tai-tro">
           <svg className="rays" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
@@ -145,7 +190,7 @@ export default function GiaiCauLong2026Page() {
               <h2>Đồng hành cùng chương trình</h2>
               <p className="lede">Toàn bộ nguồn quỹ vận động được dành trọn để trao học bổng cho các em học sinh mồ côi cha mẹ, sống cùng ông bà già yếu, gia đình hộ nghèo – cận nghèo nhưng vẫn kiên trì đến trường và học tốt.</p>
               <div className="donate-goal">
-                <div><span className="k">Mục tiêu học bổng 2026</span><span className="v">82 suất × 800.000đ = 65.600.000đ</span></div>
+                <div><span className="k">Mục tiêu học bổng 2026</span><span className="v">{TONG_HOC_BONG} suất × 800.000đ = {(TONG_HOC_BONG * 800_000).toLocaleString('vi-VN')}đ</span></div>
                 <div><span className="k">Năm 2025 đã trao</span><span className="v">67 suất · 40.000.000đ + nhiều hiện vật</span></div>
               </div>
               <div className="donate-forms">
@@ -176,7 +221,7 @@ export default function GiaiCauLong2026Page() {
               <span className="kicker">Mục tiêu gây quỹ</span>
               <h2>Danh sách học bổng 2026</h2>
               <p>
-                82 học sinh vượt khó trên địa bàn xã Hưng Thịnh sẽ được trao học bổng từ quỹ giải.
+                {TONG_HOC_BONG} học sinh vượt khó trên địa bàn xã Hưng Thịnh sẽ được trao học bổng từ quỹ giải.
                 Tên học sinh được ẩn một phần để bảo vệ quyền riêng tư.
               </p>
             </div>
