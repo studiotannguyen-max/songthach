@@ -1,223 +1,102 @@
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@300..700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Oswald:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --font-geist: 'Geist', sans-serif;
-  --font-inter: var(--font-geist);
-  --font-playfair: 'Playfair Display', serif;
-  --font-oswald: 'Oswald', sans-serif;
-  --font-sans: var(--font-geist);
-  --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-  --font-bricolage: 'Bricolage Grotesque', sans-serif;
-  --font-plex-mono: 'IBM Plex Mono', monospace;
-  --font-bebas: 'Barlow Condensed', sans-serif;
+  /* ── Chữ ──
+     --font-display được next/font nạp ở layout.tsx (Oswald) và gán trên <body>.
+     Giá trị dưới đây chỉ là dự phòng nếu biến chưa tới. */
+  --font-sans:    'Geist', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Oswald', var(--font-sans);
 
-  /* ── Bảng màu Giải Cầu Lông (dùng chung toàn khu công khai) ── */
-  --gia-cream: #F4E9D6;    --gia-cream2: #FBF4E6;   --gia-paper: #FFFBF2;
-  --gia-mustard: #E3A21A;  --gia-mustard-d: #C5860F; --gia-mustard-soft: #F6DD9E;
-  --gia-terra: #C5532F;    --gia-terra-d: #A33E1F;  --gia-terra-soft: #F1C9B4;
-  --gia-ink: #3B2A1E;      --gia-brown: #7A5638;    --gia-muted: #8A6E54;
-  --gia-line: #E2CFA9;
+  /* ── Chín màu, không hơn ── */
+  --bg:           #FFFFFF;
+  --bg-subtle:    #F4F5F6;
+  --fg:           #111315;
+  --fg-muted:     #5B6165;
+  --line:         #E3E5E7;
+  --ink:          #101314;
+  --brand:        #00A94F;
+  --brand-strong: #007A33;
+  --danger:       #D92D20;
 
-  /* ── Design tokens → ánh xạ sang bảng màu Giải (giữ nguyên layout/bo góc) ── */
-  --background: #F4E9D6;
-  --foreground: #3B2A1E;
-  --card: #FFFBF2;
-  --card-foreground: #3B2A1E;
-  --popover: #FFFBF2;
-  --popover-foreground: #3B2A1E;
-  --primary: #C5532F;
-  --primary-foreground: #FFF6EC;
-  --secondary: #3B2A1E;
-  --secondary-foreground: #FBF4E6;
-  --muted: #EDE0C4;
-  --muted-foreground: #8A6E54;
-  --accent: #E3A21A;
-  --accent-foreground: #3B2A1E;
-  --destructive: #ef4444;
-  --destructive-foreground: #ffffff;
-  --border: #E2CFA9;
-  --input: #E2CFA9;
-  --ring: #C5532F;
-  --radius: 0px;
-  --chart-1: #C5532F;
-  --chart-2: #E3A21A;
-  --chart-3: #F6DD9E;
-  --chart-4: #3B2A1E;
-  --chart-5: #7A5638;
-  --sidebar: #ffffff;
-  --sidebar-foreground: #292723;
-  --sidebar-primary: #c1922f;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #efece6;
-  --sidebar-accent-foreground: #292723;
-  --sidebar-border: #eae7e0;
-  --sidebar-ring: #c1922f;
+  --radius: 4px;
+
+  /* ── Ánh xạ token shadcn sang bảng trên ── */
+  --background: var(--bg);
+  --foreground: var(--fg);
+  --card: var(--bg);
+  --card-foreground: var(--fg);
+  --popover: var(--bg);
+  --popover-foreground: var(--fg);
+  --primary: var(--brand-strong);
+  --primary-foreground: #FFFFFF;
+  --secondary: var(--bg-subtle);
+  --secondary-foreground: var(--fg);
+  --muted: var(--bg-subtle);
+  --muted-foreground: var(--fg-muted);
+  --accent: var(--brand);
+  --accent-foreground: #FFFFFF;
+  --destructive: var(--danger);
+  --destructive-foreground: #FFFFFF;
+  --border: var(--line);
+  --input: var(--line);
+  --ring: var(--brand-strong);
 }
 
 @layer base {
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-  body { font-family: var(--font-geist); color: var(--foreground); background: var(--background); }
+  body {
+    font-family: var(--font-sans);
+    color: var(--fg);
+    background: var(--bg);
+    line-height: 1.6;
+  }
 
-  ::selection { background: #E3A21A; color: #3B2A1E; }
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    line-height: 1.1;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--brand-strong);
+    outline-offset: 2px;
+  }
+
+  ::selection { background: var(--brand); color: #FFFFFF; }
   ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: #F4E9D6; }
-  ::-webkit-scrollbar-thumb { background: #C5860F; border-radius: 3px; }
+  ::-webkit-scrollbar-track { background: var(--bg-subtle); }
+  ::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
 }
 
 @layer components {
-  /* ── Sports zone ─────────────────────────── */
-  .sports-hero-text {
-    font-family: var(--font-bebas);
-    letter-spacing: 0.04em;
+  .container-page {
+    width: 100%;
+    max-width: 1280px;
+    margin-inline: auto;
+    padding-inline: 16px;
+  }
+  @media (min-width: 768px) {
+    .container-page { padding-inline: 24px; }
+  }
+
+  .section { padding-block: 64px; }
+  @media (min-width: 768px) {
+    .section { padding-block: 96px; }
+  }
+
+  .h-display {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: 0.02em;
     text-transform: uppercase;
   }
-
-  .sports-card {
-    background: var(--card);
-    border: 3px solid #3B2A1E;
-    border-radius: 0;
-    box-shadow: 5px 5px 0 #E3A21A;
-    transition: transform 150ms ease, box-shadow 150ms ease;
-  }
-  .sports-card:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 7px 7px 0 #E3A21A;
-  }
-
-  .sports-btn {
-    @apply bg-sports-primary text-white font-semibold px-6 py-3;
-    font-family: var(--font-bebas);
-    font-size: 1rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    border-radius: 0;
-    border: 2px solid #3B2A1E;
-    box-shadow: 3px 3px 0 #A33E1F;
-    transition: transform 150ms ease, box-shadow 150ms ease;
-  }
-  .sports-btn:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 5px 5px 0 #A33E1F;
-  }
-  .sports-btn:active {
-    transform: translate(2px, 2px);
-    box-shadow: 1px 1px 0 #A33E1F;
-  }
-
-  .sports-btn-accent {
-    @apply bg-sports-accent text-sports-dark font-semibold px-6 py-3;
-    font-family: var(--font-bebas);
-    font-size: 1rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    border-radius: 0;
-    border: 2px solid #3B2A1E;
-    box-shadow: 3px 3px 0 #3B2A1E;
-    transition: transform 150ms ease, box-shadow 150ms ease;
-  }
-  .sports-btn-accent:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 5px 5px 0 #3B2A1E;
-  }
-  .sports-btn-accent:active {
-    transform: translate(2px, 2px);
-    box-shadow: 1px 1px 0 #3B2A1E;
-  }
-
-  .time-slot {
-    @apply border-2 px-1.5 py-2.5 sm:px-3 sm:py-2 text-xs sm:text-sm font-medium cursor-pointer
-           transition-all duration-150 select-none min-h-[44px] flex flex-col items-center justify-center;
-    border-radius: 0;
-  }
-  .time-slot-available {
-    @apply border-sports-primary/30 text-sports-primary hover:border-sports-primary hover:bg-sports-light;
-  }
-  .time-slot-selected {
-    @apply border-sports-primary bg-sports-primary text-white;
-  }
-  .time-slot-booked {
-    @apply border-gray-300 bg-gray-300 text-gray-500 cursor-not-allowed line-through decoration-gray-400;
-  }
-
-  /* ── Wedding zone ────────────────────────── */
-  .wedding-serif { font-family: var(--font-bebas); }
-
-  .wedding-btn {
-    @apply bg-wedding-accent text-white font-semibold px-8 py-4 uppercase;
-    font-family: var(--font-bebas);
-    font-size: 1rem;
-    letter-spacing: 0.08em;
-    border-radius: 0;
-    border: 2px solid #A33E1F;
-    box-shadow: 3px 3px 0 #3B2A1E;
-    transition: transform 150ms ease, box-shadow 150ms ease;
-  }
-  .wedding-btn:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 5px 5px 0 #3B2A1E;
-  }
-  .wedding-btn:active {
-    transform: translate(2px, 2px);
-    box-shadow: 1px 1px 0 #3B2A1E;
-  }
-
-  .wedding-input {
-    @apply w-full bg-transparent py-3 px-3
-           text-wedding-dark placeholder-wedding-primary/40 focus:outline-none
-           transition-colors duration-200;
-    font-family: var(--font-playfair);
-    border: 2px solid rgba(197, 83, 47, 0.5);
-    border-radius: 0;
-  }
-  .wedding-input:focus {
-    border-color: #C5532F;
-  }
-
-  .gold-divider {
-    @apply flex items-center gap-4 my-8;
-  }
-  .gold-divider::before,
-  .gold-divider::after {
-    content: '';
-    @apply flex-1 border-t-2 border-wedding-accent/60;
-  }
-
-  /* ── Cafe zone ───────────────────────────── */
-  .cafe-tag {
-    @apply inline-block px-3 py-1 text-xs font-medium tracking-widest uppercase
-           bg-cafe-primary/10 text-cafe-primary;
-    font-family: var(--font-bebas);
-    border-radius: 0;
-    border: 1.5px solid rgba(197, 83, 47, 0.4);
-  }
-
-  /* ── Admin ───────────────────────────────── */
-  .admin-card {
-    @apply bg-white p-6;
-    border: 2px solid #e5e7eb;
-    border-radius: 0;
-    box-shadow: 3px 3px 0 #e5e7eb;
-  }
-
-  .status-badge {
-    @apply inline-flex items-center px-2.5 py-0.5 text-xs font-medium;
-    border-radius: 0;
-    font-family: var(--font-bebas);
-    letter-spacing: 0.05em;
-  }
-  .status-pending      { @apply bg-yellow-100 text-yellow-800; }
-  .status-deposit_paid { @apply bg-blue-100 text-blue-800; }
-  .status-completed    { @apply bg-green-100 text-green-800; }
-  .status-cancelled    { @apply bg-red-100 text-red-800; }
-  .status-new          { @apply bg-purple-100 text-purple-800; }
-  .status-contacted    { @apply bg-blue-100 text-blue-800; }
-  .status-quoted       { @apply bg-orange-100 text-orange-800; }
-  .status-booked       { @apply bg-green-100 text-green-800; }
 }
 
 @layer utilities {
@@ -225,44 +104,13 @@
   .animate-delay-100 { animation-delay: 100ms; }
   .animate-delay-200 { animation-delay: 200ms; }
   .animate-delay-300 { animation-delay: 300ms; }
-  .animate-delay-400 { animation-delay: 400ms; }
-
-  .gradient-sports {
-    background: #3B2A1E;
-  }
-  .gradient-wedding {
-    background: #C5532F;
-  }
-  .gradient-overlay {
-    background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.7) 100%);
-  }
-
-  /* ── Editorial imagery treatment — ties disparate stock photos
-         together under one warm, sunlit mood ── */
-  .img-editorial {
-    filter: saturate(1.05) sepia(6%) contrast(1.02);
-  }
-  .img-editorial-overlay {
-    background: linear-gradient(180deg, rgba(43,36,32,0.05) 0%, rgba(43,36,32,0.35) 100%);
-  }
-  /* Fade an image into the wine-colored hero panel it sits inside */
-  .img-fade-into-primary {
-    background: linear-gradient(90deg, var(--primary) 0%, rgba(197,83,47,0.15) 35%, transparent 60%);
-  }
-
-  .eyebrow {
-    @apply text-primary text-xs font-semibold tracking-[0.3em] uppercase;
-  }
 }
 
-/* Floating sticker animation cho trang chủ (Digital Collage section) */
-@keyframes float-sticker {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-10px); }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
-.animate-float-sticker {
-  animation: float-sticker 4s ease-in-out infinite;
-}
-
-/* Input dùng chung cho form admin (VĐV, v.v.) */
-.inp { @apply w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-sports-primary/30; }

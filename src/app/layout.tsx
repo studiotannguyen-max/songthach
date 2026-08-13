@@ -1,13 +1,15 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { Barlow_Condensed } from 'next/font/google';
+import './admin-legacy.css';
+import { Oswald } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from '@/components/providers/AuthProvider';
 
-const barlow = Barlow_Condensed({
+// Font tiêu đề nạp qua next/font (không @import) — có subset tiếng Việt, không chặn render.
+const oswald = Oswald({
   subsets: ['vietnamese', 'latin'],
-  variable: '--font-bebas',
-  weight: ['800'],
+  variable: '--font-display',
+  weight: ['500', '600', '700'],
   display: 'swap',
 });
 
@@ -74,7 +76,7 @@ const LOCAL_BUSINESS_JSONLD = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="vi">
-      <body className={barlow.variable}>
+      <body className={oswald.variable}>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(LOCAL_BUSINESS_JSONLD) }}
@@ -82,7 +84,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Skip to main content — a11y */}
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-sports-primary focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:text-sm focus:font-semibold focus:shadow-lg"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-brand-strong focus:text-white focus:px-4 focus:py-2 focus:rounded focus:text-sm focus:font-semibold focus:shadow-lg"
         >
           Chuyển đến nội dung chính
         </a>
@@ -93,8 +95,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           position="top-right"
           toastOptions={{
             duration: 4000,
-            style: { fontFamily: 'Inter, sans-serif', fontSize: '14px' },
-            success: { iconTheme: { primary: '#A33E1F', secondary: '#fff' } },
+            style: { fontFamily: 'var(--font-sans)', fontSize: '14px' },
+            success: { iconTheme: { primary: '#007A33', secondary: '#fff' } },
           }}
         />
       </body>
