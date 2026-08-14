@@ -2,8 +2,9 @@
 import Link from 'next/link';
 import { Suspense, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Mail, ArrowRight, CheckCircle2, Loader2, User, Phone } from 'lucide-react';
+import { Mail, ArrowRight, CheckCircle2, Loader2 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
+import { Field, inputClass, Button } from '@/components/ui';
 
 type Step = 'input' | 'sending' | 'sent';
 
@@ -51,147 +52,131 @@ function LoginForm() {
     }
   }
 
+  const BENEFITS = isRegister
+    ? ['Tích điểm mỗi lần đặt sân (10.000đ = 1 điểm)', 'Dùng điểm giảm giá lần đặt sau', 'Theo dõi điểm & lịch sử tại trang cá nhân']
+    : ['Đặt sân online 24/7', 'Nhận xác nhận qua email', 'Quản lý lịch đặt dễ dàng'];
+
   return (
     <div className="min-h-screen flex">
-      {/* Left visual */}
-      <div className="hidden lg:flex lg:w-1/2 relative gradient-sports items-center justify-center p-12">
-        <div className="text-center">
-          <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
-            <span className="text-white font-bold text-2xl">ST</span>
-          </div>
-          <h2 className="sports-hero-text text-4xl font-bold text-white mb-4">SONG THẠCH</h2>
-          <p className="text-white/70 leading-relaxed max-w-xs">
+      {/* Cột giới thiệu — chỉ hiện trên máy tính */}
+      <div className="hidden lg:flex lg:w-1/2 bg-ink items-center justify-center p-12">
+        <div className="max-w-sm">
+          <h2 className="text-4xl text-white mb-4">Song Thạch</h2>
+          <p className="text-white/75">
             {isRegister
               ? 'Đăng ký tài khoản miễn phí — tích điểm mỗi lần đặt sân, dùng điểm giảm giá ngay.'
               : 'Đăng nhập để đặt sân nhanh chóng, theo dõi lịch đặt và nhận ưu đãi độc quyền.'}
           </p>
-          <div className="mt-10 space-y-3 text-left">
-            {(isRegister
-              ? ['Tích điểm mỗi lần đặt sân (10.000đ = 1 điểm)', 'Dùng điểm giảm giá lần đặt sau', 'Theo dõi điểm & lịch sử tại trang cá nhân']
-              : ['Đặt sân online 24/7', 'Nhận xác nhận qua email', 'Quản lý lịch đặt dễ dàng']
-            ).map((t) => (
+          <div className="mt-10 space-y-3">
+            {BENEFITS.map((t) => (
               <div key={t} className="flex items-center gap-3 text-white/80 text-sm">
-                <CheckCircle2 size={16} className="text-sports-accent shrink-0" /> {t}
+                <CheckCircle2 size={16} className="text-brand shrink-0" aria-hidden="true" /> {t}
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      {/* Right form */}
-      <div className="flex-1 flex items-center justify-center px-6 py-12 bg-white">
-        <div className="w-full max-w-sm">
+      {/* Cột form */}
+      <div className="flex-1 flex items-center justify-center px-4 py-12 bg-bg">
+        <div className="w-full max-w-[480px]">
 
-          {/* Mobile logo */}
-          <Link href="/" className="flex items-center gap-2 mb-8 lg:hidden">
-            <div className="w-8 h-8 bg-sports-primary rounded-lg flex items-center justify-center text-white font-bold text-sm">ST</div>
-            <span className="font-bold text-gray-900">Song Thạch</span>
+          <Link href="/" className="inline-block mb-8 lg:hidden font-display uppercase tracking-[0.06em] text-fg">
+            Song Thạch
           </Link>
 
           {step !== 'sent' ? (
             <>
               <div className="mb-8">
-                <h1 className="text-2xl font-bold text-gray-900">{isRegister ? 'Đăng ký tài khoản' : 'Đăng nhập'}</h1>
-                <p className="text-gray-500 text-sm mt-1">
+                <h1 className="text-3xl">{isRegister ? 'Đăng ký tài khoản' : 'Đăng nhập'}</h1>
+                <p className="text-fg-muted mt-2">
                   Nhập email — chúng tôi gửi link {isRegister ? 'đăng ký' : 'đăng nhập'} về hộp thư của bạn.
                 </p>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-5">
+              <form onSubmit={handleSubmit}>
                 {isRegister && (
                   <>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Họ và tên <span className="text-gray-400 font-normal">(tuỳ chọn)</span>
-                      </label>
-                      <div className="relative">
-                        <User size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
-                        <input
-                          type="text"
-                          value={name}
-                          onChange={(e) => setName(e.target.value)}
-                          placeholder="Nguyễn Văn A"
-                          disabled={step === 'sending'}
-                          className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-sports-primary/30 focus:border-sports-primary transition-all text-sm disabled:opacity-50"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Số điện thoại
-                      </label>
-                      <div className="relative">
-                        <Phone size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
-                        <input
-                          type="tel"
-                          value={phone}
-                          onChange={(e) => setPhone(e.target.value)}
-                          placeholder="0901 234 567"
-                          required
-                          disabled={step === 'sending'}
-                          className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-sports-primary/30 focus:border-sports-primary transition-all text-sm disabled:opacity-50"
-                        />
-                      </div>
-                    </div>
+                    <Field label="Họ và tên" htmlFor="name" hint="Không bắt buộc">
+                      <input
+                        id="name"
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Nguyễn Văn A"
+                        disabled={step === 'sending'}
+                        aria-describedby="name-hint"
+                        className={inputClass}
+                      />
+                    </Field>
+
+                    <Field label="Số điện thoại" htmlFor="phone" required>
+                      <input
+                        id="phone"
+                        type="tel"
+                        inputMode="tel"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        placeholder="0901 234 567"
+                        required
+                        disabled={step === 'sending'}
+                        className={inputClass}
+                      />
+                    </Field>
                   </>
                 )}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Địa chỉ email
-                  </label>
-                  <div className="relative">
-                    <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="ban@example.com"
-                      required
-                      disabled={step === 'sending'}
-                      className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-sports-primary/30 focus:border-sports-primary transition-all text-sm disabled:opacity-50"
-                    />
-                  </div>
-                  {error && <p className="text-red-500 text-xs mt-2">{error}</p>}
-                </div>
 
-                <button
+                <Field label="Địa chỉ email" htmlFor="email" required error={error}>
+                  <input
+                    id="email"
+                    type="email"
+                    inputMode="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="ban@example.com"
+                    required
+                    disabled={step === 'sending'}
+                    aria-describedby={error ? 'email-error' : undefined}
+                    className={inputClass}
+                  />
+                </Field>
+
+                <Button
                   type="submit"
+                  className="w-full"
                   disabled={step === 'sending' || !email.trim() || (isRegister && !phone.trim())}
-                  className="w-full sports-btn py-3.5 text-base flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {step === 'sending' ? (
-                    <><Loader2 size={18} className="animate-spin" /> Đang gửi...</>
+                    <><Loader2 size={18} className="animate-spin" aria-hidden="true" /> Đang gửi...</>
                   ) : (
-                    <>Gửi link {isRegister ? 'đăng ký' : 'đăng nhập'} <ArrowRight size={18} /></>
+                    <>Gửi link {isRegister ? 'đăng ký' : 'đăng nhập'} <ArrowRight size={18} aria-hidden="true" /></>
                   )}
-                </button>
+                </Button>
               </form>
 
-              <p className="text-center text-xs text-gray-400 mt-6">
+              <p className="text-center text-sm text-fg-muted mt-6">
                 Không cần mật khẩu · Link có hiệu lực 60 phút
               </p>
             </>
           ) : (
-            /* Sent state */
+            /* Đã gửi email */
             <div className="text-center">
-              <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-5">
-                <Mail size={28} className="text-green-600" />
+              <div className="w-16 h-16 rounded border border-line bg-bg-subtle grid place-items-center mx-auto mb-5">
+                <Mail size={28} className="text-brand-strong" aria-hidden="true" />
               </div>
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">Kiểm tra hộp thư</h1>
-              <p className="text-gray-500 text-sm leading-relaxed mb-1">
-                Chúng tôi đã gửi link đăng nhập đến
-              </p>
-              <p className="font-semibold text-gray-900 text-sm mb-6">{email}</p>
-              <p className="text-xs text-gray-400 mb-8">
+              <h1 className="text-2xl mb-2">Kiểm tra hộp thư</h1>
+              <p className="text-fg-muted">Chúng tôi đã gửi link đăng nhập đến</p>
+              <p className="font-semibold text-fg mb-6">{email}</p>
+              <p className="text-sm text-fg-muted mb-8">
                 Nhấn vào link trong email để hoàn tất đăng nhập. Link có hiệu lực 60 phút.
               </p>
               <button
                 onClick={() => { setStep('input'); setEmail(''); }}
-                className="text-sm text-sports-primary font-semibold hover:underline"
+                className="min-h-[44px] px-4 text-sm text-brand-strong font-semibold hover:underline"
               >
                 Dùng email khác
               </button>
-              <p className="text-xs text-gray-400 mt-4">
+              <p className="text-sm text-fg-muted mt-4">
                 Không thấy email? Kiểm tra mục Spam hoặc Promotions.
               </p>
             </div>

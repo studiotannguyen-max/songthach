@@ -1,8 +1,9 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { User, Phone, ArrowRight, SkipForward, Loader2 } from 'lucide-react';
+import { ArrowRight, SkipForward, Loader2 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
+import { Field, inputClass, Button } from '@/components/ui';
 
 export default function CompleteProfilePage() {
   const router  = useRouter();
@@ -31,70 +32,52 @@ export default function CompleteProfilePage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      <div className="w-full max-w-sm bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
-
-        <div className="w-12 h-12 gradient-sports rounded-2xl flex items-center justify-center mb-6">
-          <User size={22} className="text-white" />
-        </div>
-
-        <h1 className="text-xl font-bold text-gray-900 mb-1">Hoàn tất thông tin</h1>
-        <p className="text-sm text-gray-500 mb-7">
+    <div className="min-h-screen flex items-center justify-center bg-bg-subtle px-4 py-12">
+      <div className="w-full max-w-[480px] rounded border border-line bg-bg p-6 sm:p-8">
+        <h1 className="text-2xl mb-2">Hoàn tất thông tin</h1>
+        <p className="text-fg-muted mb-8">
           Tên và số điện thoại giúp chúng tôi liên hệ khi cần. Bạn có thể bỏ qua.
         </p>
 
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">
-              Họ và tên <span className="text-gray-400 font-normal">(tuỳ chọn)</span>
-            </label>
-            <div className="relative">
-              <User size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Nguyễn Văn A"
-                className="w-full pl-9 pr-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sports-primary/30 focus:border-sports-primary transition-all"
-              />
-            </div>
-          </div>
+        <Field label="Họ và tên" htmlFor="name" hint="Không bắt buộc">
+          <input
+            id="name"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Nguyễn Văn A"
+            aria-describedby="name-hint"
+            className={inputClass}
+          />
+        </Field>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">
-              Số điện thoại <span className="text-gray-400 font-normal">(tuỳ chọn)</span>
-            </label>
-            <div className="relative">
-              <Phone size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
-              <input
-                type="tel"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="0901 234 567"
-                className="w-full pl-9 pr-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sports-primary/30 focus:border-sports-primary transition-all"
-              />
-            </div>
-          </div>
+        <Field label="Số điện thoại" htmlFor="phone" hint="Không bắt buộc" error={error}>
+          <input
+            id="phone"
+            type="tel"
+            inputMode="tel"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            placeholder="0901 234 567"
+            aria-describedby={error ? 'phone-error' : 'phone-hint'}
+            className={inputClass}
+          />
+        </Field>
 
-          {error && <p className="text-red-500 text-xs">{error}</p>}
+        <Button onClick={() => save(false)} disabled={saving} className="w-full">
+          {saving
+            ? <Loader2 size={18} className="animate-spin" aria-hidden="true" />
+            : <ArrowRight size={18} aria-hidden="true" />}
+          Lưu và vào trang
+        </Button>
 
-          <button
-            onClick={() => save(false)}
-            disabled={saving}
-            className="w-full sports-btn py-3.5 text-base flex items-center justify-center gap-2 disabled:opacity-50 mt-2"
-          >
-            {saving ? <Loader2 size={18} className="animate-spin" /> : <ArrowRight size={18} />}
-            Lưu và vào trang
-          </button>
-
-          <button
-            onClick={() => save(true)}
-            disabled={saving}
-            className="w-full py-3 text-sm text-gray-500 hover:text-gray-700 flex items-center justify-center gap-1.5 transition-colors"
-          >
-            <SkipForward size={15} /> Bỏ qua, điền sau
-          </button>
-        </div>
+        <button
+          onClick={() => save(true)}
+          disabled={saving}
+          className="w-full min-h-[44px] mt-3 text-sm text-fg-muted hover:text-fg flex items-center justify-center gap-1.5 transition-colors"
+        >
+          <SkipForward size={15} aria-hidden="true" /> Bỏ qua, điền sau
+        </button>
       </div>
     </div>
   );
