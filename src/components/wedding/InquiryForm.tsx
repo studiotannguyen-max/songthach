@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Send, CheckCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { Field, inputClass, Button } from '@/components/ui';
 
 const schema = z.object({
   contact_name:     z.string().min(2, 'Vui lòng nhập họ tên'),
@@ -42,10 +43,10 @@ export default function InquiryForm() {
 
   if (submitted) {
     return (
-      <div className="text-center py-16 px-8">
-        <CheckCircle size={56} className="text-wedding-accent mx-auto mb-6" />
-        <h3 className="wedding-serif text-3xl font-bold text-wedding-dark mb-3">Cảm ơn bạn!</h3>
-        <p className="text-wedding-primary/70 leading-relaxed max-w-sm mx-auto">
+      <div className="text-center py-16 px-8 rounded border border-line bg-bg">
+        <CheckCircle size={56} className="text-brand-strong mx-auto mb-6" aria-hidden="true" />
+        <h3 className="text-2xl mb-3">Cảm ơn bạn!</h3>
+        <p className="text-fg-muted max-w-sm mx-auto">
           Chúng tôi đã nhận được yêu cầu của bạn và sẽ liên hệ tư vấn trong vòng <strong>24 giờ</strong>.
         </p>
       </div>
@@ -53,68 +54,92 @@ export default function InquiryForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 max-w-xl mx-auto">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-        <div>
-          <label className="block text-xs tracking-widest text-wedding-primary/60 uppercase mb-2">Họ & Tên *</label>
-          <input {...register('contact_name')} placeholder="Nguyễn Văn A" className="wedding-input" />
-          {errors.contact_name && <p className="text-red-400 text-xs mt-1">{errors.contact_name.message}</p>}
-        </div>
-        <div>
-          <label className="block text-xs tracking-widest text-wedding-primary/60 uppercase mb-2">Điện thoại *</label>
-          <input {...register('phone')} placeholder="0901 234 567" className="wedding-input" />
-          {errors.phone && <p className="text-red-400 text-xs mt-1">{errors.phone.message}</p>}
-        </div>
+    <form onSubmit={handleSubmit(onSubmit)} className="max-w-xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6">
+        <Field label="Họ &amp; tên" htmlFor="contact_name" required error={errors.contact_name?.message}>
+          <input
+            id="contact_name"
+            placeholder="Nguyễn Văn A"
+            aria-describedby={errors.contact_name ? 'contact_name-error' : undefined}
+            className={inputClass}
+            {...register('contact_name')}
+          />
+        </Field>
+
+        <Field label="Điện thoại" htmlFor="phone" required error={errors.phone?.message}>
+          <input
+            id="phone"
+            type="tel"
+            inputMode="tel"
+            placeholder="0901 234 567"
+            aria-describedby={errors.phone ? 'phone-error' : undefined}
+            className={inputClass}
+            {...register('phone')}
+          />
+        </Field>
       </div>
 
-      <div>
-        <label className="block text-xs tracking-widest text-wedding-primary/60 uppercase mb-2">Email</label>
-        <input {...register('email')} placeholder="example@email.com" className="wedding-input" />
+      <Field label="Email" htmlFor="email" hint="Không bắt buộc — dùng để gửi báo giá chi tiết">
+        <input
+          id="email"
+          type="email"
+          inputMode="email"
+          placeholder="example@email.com"
+          aria-describedby="email-hint"
+          className={inputClass}
+          {...register('email')}
+        />
+      </Field>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6">
+        <Field label="Ngày dự kiến" htmlFor="event_date" required error={errors.event_date?.message}>
+          <input
+            id="event_date"
+            type="date"
+            aria-describedby={errors.event_date ? 'event_date-error' : undefined}
+            className={inputClass}
+            {...register('event_date')}
+          />
+        </Field>
+
+        <Field label="Số bàn tiệc" htmlFor="table_count" required error={errors.table_count?.message}>
+          <input
+            id="table_count"
+            type="number"
+            inputMode="numeric"
+            placeholder="30"
+            aria-describedby={errors.table_count ? 'table_count-error' : undefined}
+            className={inputClass}
+            {...register('table_count', { valueAsNumber: true })}
+          />
+        </Field>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-        <div>
-          <label className="block text-xs tracking-widest text-wedding-primary/60 uppercase mb-2">Ngày dự kiến *</label>
-          <input type="date" {...register('event_date')} className="wedding-input" />
-          {errors.event_date && <p className="text-red-400 text-xs mt-1">{errors.event_date.message}</p>}
-        </div>
-        <div>
-          <label className="block text-xs tracking-widest text-wedding-primary/60 uppercase mb-2">Số bàn tiệc *</label>
-          <input type="number" {...register('table_count', { valueAsNumber: true })} placeholder="30" className="wedding-input" />
-          {errors.table_count && <p className="text-red-400 text-xs mt-1">{errors.table_count.message}</p>}
-        </div>
-      </div>
-
-      <div>
-        <label className="block text-xs tracking-widest text-wedding-primary/60 uppercase mb-2">Sảnh mong muốn</label>
-        <select {...register('hall_preference')} className="wedding-input bg-transparent cursor-pointer">
+      <Field label="Sảnh mong muốn" htmlFor="hall_preference">
+        <select id="hall_preference" className={`${inputClass} cursor-pointer`} {...register('hall_preference')}>
           {HALLS.map(h => <option key={h} value={h}>{h}</option>)}
         </select>
-      </div>
+      </Field>
 
-      <div>
-        <label className="block text-xs tracking-widest text-wedding-primary/60 uppercase mb-2">Yêu cầu đặc biệt</label>
+      <Field label="Yêu cầu đặc biệt" htmlFor="special_requests">
         <textarea
-          {...register('special_requests')}
+          id="special_requests"
           rows={4}
           placeholder="Chủ đề trang trí, thực đơn đặc biệt, yêu cầu âm nhạc..."
-          className="wedding-input resize-none"
+          className={`${inputClass} py-3 resize-none`}
+          {...register('special_requests')}
         />
-      </div>
+      </Field>
 
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="wedding-btn w-full flex items-center justify-center gap-3 py-5"
-      >
+      <Button type="submit" disabled={isSubmitting} className="w-full">
         {isSubmitting ? (
           <span className="inline-block w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
         ) : (
-          <><Send size={16} /> Gửi yêu cầu tư vấn</>
+          <><Send size={16} aria-hidden="true" /> Gửi yêu cầu tư vấn</>
         )}
-      </button>
+      </Button>
 
-      <p className="text-center text-xs text-wedding-primary/50">
+      <p className="text-center text-sm text-fg-muted mt-4">
         Tư vấn hoàn toàn miễn phí · Phản hồi trong 24 giờ
       </p>
     </form>

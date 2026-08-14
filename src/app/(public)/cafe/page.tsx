@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
+import { PageHero, SectionHeader, Badge } from '@/components/ui';
 
 export const metadata: Metadata = {
   title: 'Café Lavie en Rose',
@@ -54,11 +55,13 @@ const MENU: MenuCategory[] = [
   ]},
 ];
 
-// 3 mã QR gọi món tại bàn (KiotViet). Thả file PNG tương ứng vào public/images/cafe/
+// Mã QR gọi món tại bàn (KiotViet). Thả file PNG tương ứng vào public/images/cafe/
 const ORDER_QR = [
   { label: 'Sân Cầu',   img: '/images/cafe/qr-san-cau.png' },
   { label: 'Sân Bóng',  img: '/images/cafe/qr-san-bong.png' },
 ];
+
+const HERO_IMAGE = 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1920&q=80';
 
 const SPACES = [
   { src: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80', label: 'Không gian trong nhà' },
@@ -68,57 +71,48 @@ const SPACES = [
 
 export default function CafePage() {
   return (
-    <div style={{ background: '#f5f0e8' }}>
+    <>
+      <PageHero
+        label="Tiện ích nội khu"
+        title="Lavie en Rose"
+        description="La vie en rose — Cuộc sống màu hồng. Mở cửa 07:00 – 22:00, phục vụ khách nội khu và bên ngoài."
+        image={HERO_IMAGE}
+        cta={{ label: 'Xem thực đơn', href: '#menu' }}
+      />
 
-      {/* Hero */}
-      <section id="main-content" className="relative h-[80vh] min-h-[500px] flex items-end">
-        <Image
-          src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1920&q=80"
-          alt="Không gian quán café Lavie en Rose trong khuôn viên tổ hợp Song Thạch"
-          fill
-          sizes="100vw"
-          className="object-cover"
-          priority
-        />
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(59,42,30,0.2) 0%, rgba(59,42,30,0.85) 100%)' }} />
-        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 w-full">
-          <span className="cafe-tag mb-4 inline-block">Tiện ích nội khu</span>
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-3" style={{ fontFamily: 'var(--font-bricolage)' }}>
-            Lavie en Rose
-          </h1>
-          <p className="text-white/70 text-lg mb-2" style={{ fontFamily: 'var(--font-bricolage)', fontStyle: 'italic' }}>
-            La vie en rose — Cuộc sống màu hồng
+      {/* ── Giới thiệu ───────────────── */}
+      <section id="main-content" className="section">
+        <div className="container-page max-w-3xl text-center">
+          <p className="text-xs uppercase tracking-[0.08em] text-brand-strong font-semibold mb-4">
+            Câu chuyện của chúng tôi
           </p>
-          <p className="text-white/60 text-sm">Mở cửa 07:00 – 22:00 · Phục vụ khách nội khu & bên ngoài</p>
+          <p className="text-xl md:text-2xl text-fg">
+            Một không gian xanh mát, yên tĩnh giữa lòng tổ hợp — nơi bạn thư giãn sau những trận đấu sôi nổi,
+            hoặc đơn giản là thưởng thức một tách cà phê chất lượng trong không gian kiến trúc tinh tế.
+          </p>
         </div>
       </section>
 
-      {/* About */}
-      <section className="py-20 px-4">
-        <div className="max-w-3xl mx-auto text-center">
-          <div className="w-12 h-px bg-cafe-accent mx-auto mb-8" />
-          <p className="text-cafe-primary text-xs tracking-widest uppercase mb-4">Câu chuyện của chúng tôi</p>
-          <p className="text-2xl text-cafe-dark leading-relaxed" style={{ fontFamily: 'var(--font-bricolage)' }}>
-            Một không gian xanh mát, yên tĩnh giữa lòng tổ hợp — nơi bạn thư giãn sau những trận đấu sôi nổi, hoặc đơn giản là thưởng thức một tách cà phê chất lượng trong không gian kiến trúc tinh tế.
-          </p>
-          <div className="w-12 h-px bg-cafe-accent mx-auto mt-8" />
-        </div>
-      </section>
+      {/* ── Không gian ───────────────── */}
+      <section className="section bg-bg-subtle">
+        <div className="container-page">
+          <SectionHeader label="Không gian" title="Ghé một góc yên tĩnh" align="center" />
 
-      {/* Space Gallery — kiến trúc, không bóng người */}
-      <section className="px-4 pb-20">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-3 gap-4 h-72">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {SPACES.map((s, i) => (
-              <div key={s.label} className={`relative overflow-hidden border-2 border-[#3B2A1E] ${i === 0 ? 'col-span-2' : ''}`}>
+              <div
+                key={s.label}
+                className={`relative rounded border border-line overflow-hidden ${i === 0 ? 'col-span-2' : ''}`}
+                style={{ aspectRatio: i === 0 ? '16/9' : '1/1' }}
+              >
                 <Image
                   src={s.src}
                   alt={`${s.label} — café Lavie en Rose tại Song Thạch`}
                   fill
-                  sizes={i === 0 ? '(max-width: 768px) 100vw, 67vw' : '(max-width: 768px) 100vw, 33vw'}
-                  className="object-cover hover:scale-105 transition-transform duration-700"
+                  sizes={i === 0 ? '(max-width: 768px) 100vw, 67vw' : '(max-width: 768px) 50vw, 33vw'}
+                  className="object-cover"
                 />
-                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent">
+                <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-ink/70 to-transparent">
                   <p className="text-white text-sm font-medium">{s.label}</p>
                 </div>
               </div>
@@ -127,26 +121,32 @@ export default function CafePage() {
         </div>
       </section>
 
-      {/* Menu */}
-      <section id="menu" className="py-20 px-4 bg-white">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-8">
-            <p className="text-cafe-primary text-xs tracking-widest uppercase mb-3">Thực đơn</p>
-            <h2 className="text-3xl font-bold text-cafe-dark" style={{ fontFamily: 'var(--font-bricolage)' }}>Menu thức uống</h2>
-            <p className="text-gray-400 text-sm mt-3">Xem trước menu rồi quét QR tại bàn để gọi món</p>
-          </div>
+      {/* ── Thực đơn ───────────────── */}
+      <section id="menu" className="section">
+        <div className="container-page max-w-5xl">
+          <SectionHeader
+            label="Thực đơn"
+            title="Menu thức uống"
+            description="Xem trước menu rồi quét QR tại bàn để gọi món."
+            align="center"
+          />
 
-          {/* Thanh gọi món QR — nhỏ gọn, ngay đầu menu */}
-          <div id="order-qr" className="mb-12 border-2 border-[#3B2A1E] bg-cafe-light/60 p-5 flex flex-col sm:flex-row items-center justify-center gap-5 sm:gap-8" style={{ boxShadow: '4px 4px 0 #C5860F' }}>
+          {/* Gọi món tại bàn qua QR */}
+          <div
+            id="order-qr"
+            className="mb-12 rounded border border-line bg-bg-subtle p-5 flex flex-col sm:flex-row items-center justify-center gap-6"
+          >
             <div className="text-center sm:text-left">
-              <p className="text-cafe-primary font-semibold tracking-wide">Gọi món tại bàn qua QR</p>
-              <p className="text-gray-500 text-xs mt-1 max-w-xs">Quét mã khu bạn đang ngồi bằng camera điện thoại — món gửi thẳng tới quầy.</p>
-              <p className="text-gray-400 text-[10px] mt-1">Vận hành bởi KiotViet</p>
+              <p className="font-display uppercase tracking-[0.06em] text-fg">Gọi món tại bàn qua QR</p>
+              <p className="text-sm text-fg-muted mt-1 max-w-xs">
+                Quét mã khu bạn đang ngồi bằng camera điện thoại — món gửi thẳng tới quầy.
+              </p>
+              <p className="text-sm text-fg-muted mt-1">Vận hành bởi KiotViet</p>
             </div>
-            <div className="flex gap-3">
+            <div className="flex gap-4">
               {ORDER_QR.map((qr) => (
                 <div key={qr.label} className="text-center">
-                  <div className="relative w-24 bg-white border border-[#3B2A1E] overflow-hidden" style={{ aspectRatio: '420 / 600' }}>
+                  <div className="relative w-24 rounded border border-line bg-bg overflow-hidden" style={{ aspectRatio: '420 / 600' }}>
                     <Image
                       src={qr.img}
                       alt={`Mã QR gọi món khu vực ${qr.label} — Café Lavie en Rose`}
@@ -155,7 +155,7 @@ export default function CafePage() {
                       className="object-contain"
                     />
                   </div>
-                  <p className="text-cafe-dark text-[11px] font-medium mt-1.5">{qr.label}</p>
+                  <p className="text-sm text-fg mt-1.5">{qr.label}</p>
                 </div>
               ))}
             </div>
@@ -165,14 +165,12 @@ export default function CafePage() {
             {MENU.map((cat) => (
               <div
                 key={cat.category}
-                className={cat.highlight ? 'border-2 border-cafe-accent bg-cafe-light/50 p-6' : ''}
+                className={cat.highlight ? 'rounded border border-brand bg-bg-subtle p-6' : ''}
               >
-                <div className="flex items-center justify-between mb-4 pb-2 border-b border-cafe-accent/30">
-                  <h3 className="text-cafe-primary font-semibold text-sm tracking-widest uppercase">
-                    {cat.category}
-                  </h3>
+                <div className="flex items-center justify-between mb-4 pb-2 border-b border-line">
+                  <h3 className="text-base tracking-[0.06em]">{cat.category}</h3>
                   {cat.sizes && (
-                    <div className="flex gap-6 text-[11px] font-semibold text-cafe-accent tracking-widest">
+                    <div className="flex gap-6 text-xs font-semibold text-fg-muted tracking-[0.08em]">
                       <span className="w-8 text-right">M</span>
                       <span className="w-8 text-right">L</span>
                     </div>
@@ -181,21 +179,17 @@ export default function CafePage() {
                 <div className="space-y-3">
                   {cat.items.map((item) => (
                     <div key={item.name} className="flex items-center justify-between gap-4">
-                      <p className="font-medium text-cafe-dark text-sm flex items-center gap-2">
+                      <p className="text-sm text-fg flex items-center gap-2 flex-wrap">
                         {item.name}
-                        {item.best && (
-                          <span className="text-[9px] font-bold uppercase tracking-wider text-white bg-cafe-primary px-2 py-0.5" style={{ fontFamily: 'var(--font-bebas)', letterSpacing: '0.08em' }}>
-                            Best
-                          </span>
-                        )}
+                        {item.best && <Badge tone="brand">Best</Badge>}
                       </p>
                       {cat.sizes ? (
                         <div className="flex gap-6 text-sm whitespace-nowrap">
-                          <span className="w-8 text-right text-cafe-primary font-semibold">{item.m}k</span>
-                          <span className="w-8 text-right text-cafe-primary font-semibold">{item.l ?? '—'}</span>
+                          <span className="w-8 text-right text-brand-strong font-semibold">{item.m}k</span>
+                          <span className="w-8 text-right text-brand-strong font-semibold">{item.l ?? '—'}</span>
                         </div>
                       ) : (
-                        <span className="text-cafe-primary font-semibold text-sm whitespace-nowrap">{item.m}k</span>
+                        <span className="text-brand-strong font-semibold text-sm whitespace-nowrap">{item.m}k</span>
                       )}
                     </div>
                   ))}
@@ -203,12 +197,12 @@ export default function CafePage() {
               </div>
             ))}
           </div>
-          <p className="text-center text-xs text-gray-400 mt-10">
+
+          <p className="text-center text-sm text-fg-muted mt-10">
             Giá tính theo nghìn đồng (k) · Đã bao gồm VAT · Menu có thể thay đổi theo mùa
           </p>
         </div>
       </section>
-
-    </div>
+    </>
   );
 }
