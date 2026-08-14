@@ -6,13 +6,15 @@ import Link from 'next/link';
  *  Không truyền `image` thì nền đen lộ ra — đó là biến thể không ảnh,
  *  cố tình như vậy để không bao giờ có ô ảnh trống. */
 export default function PageHero({
-  label, title, description, image, cta,
+  label, title, description, image, cta, children,
 }: {
   label?: string;
   title: string;
   description?: string;
   image?: string;
   cta?: { label: string; href: string };
+  /** Nút tuỳ biến thay cho `cta` — dùng khi cần mở hộp thoại thay vì đi tới trang khác */
+  children?: React.ReactNode;
 }) {
   return (
     <section className="relative w-full h-[44vh] md:h-[56vh] md:max-h-[640px] min-h-[320px] bg-ink">
@@ -44,6 +46,7 @@ export default function PageHero({
               {cta.label}
             </Link>
           )}
+          {children && <div className="mt-8 flex flex-wrap gap-3">{children}</div>}
         </div>
       </div>
     </section>

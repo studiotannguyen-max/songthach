@@ -97,6 +97,45 @@
     letter-spacing: 0.02em;
     text-transform: uppercase;
   }
+
+  /* Nút chính dạng liên kết — dùng cho <a>/<Link>.
+     Với <button> hãy dùng component Button trong src/components/ui. */
+  .btn-brand {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 48px;
+    padding-inline: 24px;
+    border-radius: var(--radius);
+    background: var(--brand-strong);
+    color: #FFFFFF;
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    transition: background-color 150ms ease;
+  }
+  .btn-brand:hover { background: #00692C; }
+
+  /* Nút phụ trên nền ảnh/nền tối */
+  .btn-on-dark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 48px;
+    padding-inline: 24px;
+    border-radius: var(--radius);
+    border: 1px solid rgb(255 255 255 / 0.6);
+    color: #FFFFFF;
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    transition: border-color 150ms ease;
+  }
+  .btn-on-dark:hover { border-color: #FFFFFF; }
 }
 
 @layer utilities {
