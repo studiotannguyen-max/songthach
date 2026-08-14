@@ -20,7 +20,7 @@ export default function FootballBookingPanel({ courts5, courts7 }: Props) {
           <button
             key={value}
             onClick={() => setTab(value)}
-            className={`flex-1 py-2.5 rounded-xl text-sm font-semibold transition-all ${tab === value ? 'bg-sports-primary text-white' : 'bg-card border border-border text-foreground/70 hover:border-sports-primary'}`}
+            className={`flex-1 py-2.5 rounded text-sm font-semibold transition-all ${tab === value ? 'bg-brand-strong text-white' : 'bg-bg border border-line text-fg/70 hover:border-brand'}`}
           >
             {label}
           </button>
