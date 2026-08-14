@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import Navbar from '@/components/shared/Navbar';
-import Footer from '@/components/shared/Footer';
 import InquiryForm from '@/components/wedding/InquiryForm';
 import { Users, Clock } from 'lucide-react';
 import { getGallery } from '@/lib/gallery';
@@ -48,7 +46,6 @@ export default async function WeddingPage() {
 
   return (
     <div className="bg-wedding-cream">
-      <Navbar />
 
       {/* ── HERO ── */}
       <section id="main-content" className="relative h-screen min-h-[600px] flex items-center justify-center">
@@ -162,7 +159,6 @@ export default async function WeddingPage() {
         </div>
       </section>
 
-      <Footer />
     </div>
   );
 }

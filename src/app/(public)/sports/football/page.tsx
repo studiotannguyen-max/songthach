@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { Lightbulb, Car, GraduationCap, Clock, CalendarDays, Users, MapPin, Phone, Building2 } from 'lucide-react';
-import Navbar from '@/components/shared/Navbar';
-import Footer from '@/components/shared/Footer';
 import FootballBookingPanel from '@/components/sports/FootballBookingPanel';
 import { getGallery } from '@/lib/gallery';
 
@@ -48,7 +46,6 @@ export default async function FootballPage() {
 
   return (
     <>
-      <Navbar />
 
       {/* Hero */}
       <section id="main-content" className="relative h-[42vh] sm:h-[55vh] min-h-[320px] flex items-end">
@@ -269,7 +266,6 @@ export default async function FootballPage() {
         </div>
       </section>
 
-      <Footer />
     </>
   );
 }

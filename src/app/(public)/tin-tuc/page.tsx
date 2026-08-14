@@ -3,8 +3,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
-import Navbar from '@/components/shared/Navbar';
-import Footer from '@/components/shared/Footer';
 import { getPublishedPosts } from '@/lib/posts';
 
 export const metadata: Metadata = {
@@ -26,8 +24,7 @@ export default async function NewsListPage() {
 
   return (
     <>
-      <Navbar />
-      <div className="pt-24 md:pt-28 pb-16" style={{ background: PAPER }}>
+      <div className="pb-16 pt-12" style={{ background: PAPER }}>
       <div className="max-w-[1180px] mx-auto px-4 sm:px-6">
         <h1 className="font-bold tracking-tight mb-10" style={{ fontFamily: 'var(--font-bricolage)', fontSize: 'clamp(28px,4vw,42px)', color: INK }}>
           Tin tức &amp; sự kiện
@@ -64,7 +61,6 @@ export default async function NewsListPage() {
         )}
       </div>
       </div>
-      <Footer />
     </>
   );
 }

@@ -315,50 +315,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── Footer ───────────────── */}
-      <footer className="py-12 md:py-16" style={{ background: INK, color: '#cfd4cb', borderTop: '4px solid #E3A21A' }}>
-        <div className="max-w-[1180px] mx-auto px-4 sm:px-6">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr] gap-9 mb-11">
-            <div>
-              <div className="mb-3.5">
-                <Image src="/logo.png" alt="Song Thạch" width={108} height={50} className="object-contain" style={{ maxHeight: '50px', width: 'auto' }} />
-              </div>
-              <p className="text-[13.5px] max-w-[34ch]" style={{ color: '#9aa098' }}>
-                Tổ hợp dịch vụ thể thao, tiệc cưới và café — nơi mọi khoảnh khắc đều trở nên đáng nhớ.
-              </p>
-            </div>
-            <div>
-              <h5 style={{ fontFamily: 'var(--font-bebas)', fontSize: '1.05rem', letterSpacing: '0.15em', color: '#E3A21A', marginBottom: '1rem' }}>Thể thao</h5>
-              <ul className="space-y-2.5 text-sm">
-                <li><Link href="/sports/football" className="hover:text-white">Sân Bóng Đá</Link></li>
-                <li><Link href="/sports/badminton" className="hover:text-white">Sân Cầu Lông</Link></li>
-                <li><Link href="/sports/football#classes" className="hover:text-white">Đào tạo Bóng đá</Link></li>
-                <li><Link href="/sports/badminton#classes" className="hover:text-white">Đào tạo Cầu lông</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h5 style={{ fontFamily: 'var(--font-bebas)', fontSize: '1.05rem', letterSpacing: '0.15em', color: '#E3A21A', marginBottom: '1rem' }}>Dịch vụ</h5>
-              <ul className="space-y-2.5 text-sm">
-                <li><Link href="/wedding" className="hover:text-white">Tiệc cưới</Link></li>
-                <li><Link href="/cafe" className="hover:text-white">Café Lavie en Rose</Link></li>
-                <li><Link href="/tin-tuc" className="hover:text-white">Tin tức</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h5 style={{ fontFamily: 'var(--font-bebas)', fontSize: '1.05rem', letterSpacing: '0.15em', color: '#E3A21A', marginBottom: '1rem' }}>Liên hệ</h5>
-              <ul className="space-y-2.5 text-sm">
-                <li><a href="tel:0378990979" className="hover:text-white">0378 990 979</a></li>
-                <li><a href="tel:0886798690" className="hover:text-white">0886 798 690</a></li>
-                <li><Link href="/login" className="hover:text-white">Tài khoản của tôi</Link></li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t pt-5 flex flex-wrap justify-between gap-2.5 text-xs" style={{ borderColor: 'rgba(255,255,255,.1)', color: '#7f867d' }}>
-            <span>© {new Date().getFullYear()} Song Thạch. Mọi quyền được bảo lưu.</span>
-            <span>Hưng Thịnh, Đồng Nai · songthach.com</span>
-          </div>
-        </div>
-      </footer>
     </>
   );
 }

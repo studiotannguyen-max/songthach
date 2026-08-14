@@ -2,15 +2,12 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import Navbar from '@/components/shared/Navbar';
-import Footer from '@/components/shared/Footer';
 
 export const metadata: Metadata = { title: 'Khu Thể thao' };
 
 export default function SportsPage() {
   return (
     <>
-      <Navbar />
       <section className="relative h-[60vh] min-h-[440px] flex items-end">
         <Image
           src="https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=1600&q=80"
@@ -54,7 +51,6 @@ export default function SportsPage() {
         </div>
       </section>
 
-      <Footer />
     </>
   );
 }

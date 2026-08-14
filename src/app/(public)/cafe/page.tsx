@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import Navbar from '@/components/shared/Navbar';
-import Footer from '@/components/shared/Footer';
 
 export const metadata: Metadata = {
   title: 'Café Lavie en Rose',
@@ -71,7 +69,6 @@ const SPACES = [
 export default function CafePage() {
   return (
     <div style={{ background: '#f5f0e8' }}>
-      <Navbar />
 
       {/* Hero */}
       <section id="main-content" className="relative h-[80vh] min-h-[500px] flex items-end">
@@ -212,7 +209,6 @@ export default function CafePage() {
         </div>
       </section>
 
-      <Footer />
     </div>
   );
 }

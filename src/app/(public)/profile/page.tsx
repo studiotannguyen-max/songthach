@@ -1,8 +1,6 @@
 import { redirect } from 'next/navigation';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
-import Navbar from '@/components/shared/Navbar';
-import Footer from '@/components/shared/Footer';
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { getUserPointsBalance } from '@/lib/points';
@@ -29,8 +27,7 @@ export default async function ProfilePage() {
 
   return (
     <>
-      <Navbar />
-      <div className="pt-24 md:pt-28 pb-16 max-w-2xl mx-auto px-4">
+      <div className="pb-16 pt-12 max-w-2xl mx-auto px-4">
         <h1 className="text-2xl font-bold" style={{ color: PITCH }}>Xin chào, {displayName}</h1>
         <p className="text-sm text-muted-foreground mt-1">{user.email}</p>
 
@@ -59,7 +56,6 @@ export default async function ProfilePage() {
           </div>
         )}
       </div>
-      <Footer />
     </>
   );
 }

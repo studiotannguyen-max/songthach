@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { Shield, Wrench, Users, GraduationCap, CheckCircle2, BookOpen, Award, Zap, TrendingUp, MapPin, Phone, ArrowRight } from 'lucide-react';
-import Navbar from '@/components/shared/Navbar';
-import Footer from '@/components/shared/Footer';
 import BookingWidget from '@/components/sports/BookingWidget';
 import { getGallery } from '@/lib/gallery';
 
@@ -98,7 +96,6 @@ export default async function BadmintonPage() {
 
   return (
     <>
-      <Navbar />
 
       {/* Hero */}
       <section id="main-content" className="relative h-[55vh] min-h-[400px] flex items-end">
@@ -347,7 +344,6 @@ export default async function BadmintonPage() {
         </div>
       </section>
 
-      <Footer />
     </>
   );
 }

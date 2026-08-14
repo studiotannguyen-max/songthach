@@ -2,8 +2,6 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
-import Navbar from '@/components/shared/Navbar';
-import Footer from '@/components/shared/Footer';
 import { getPostBySlug } from '@/lib/posts';
 
 const PITCH = '#3B2A1E';
@@ -16,8 +14,7 @@ export default async function PostDetailPage({ params }: { params: { slug: strin
 
   return (
     <>
-      <Navbar />
-      <article className="pt-24 md:pt-28 pb-16">
+      <article className="pb-16 pt-12">
         <div className="max-w-2xl mx-auto px-4">
           <p className="text-xs font-semibold" style={{ color: PITCH }}>
             {post.published_at && format(new Date(post.published_at), 'dd/MM/yyyy', { locale: vi })} · {post.author_name}
@@ -34,7 +31,6 @@ export default async function PostDetailPage({ params }: { params: { slug: strin
           />
         </div>
       </article>
-      <Footer />
     </>
   );
 }
