@@ -98,6 +98,32 @@
     text-transform: uppercase;
   }
 
+  /* Nội dung bài viết — dựng cả bài soạn bằng trình soạn thảo lẫn HTML thô
+     (posts.content_format = 'html' đổ ra bằng dangerouslySetInnerHTML).
+     Tiêu đề trong bài KHÔNG in hoa: tiêu đề tiếng Việt dài, in hoa rất khó đọc. */
+  .prose-song {
+    font-size: 17px;
+    line-height: 1.75;
+    color: var(--fg);
+  }
+  .prose-song > * + * { margin-top: 1.25em; }
+  .prose-song h2, .prose-song h3, .prose-song h4 { text-transform: none; }
+  .prose-song h2 { font-size: 28px; margin-top: 2em; }
+  .prose-song h3 { font-size: 22px; margin-top: 1.75em; }
+  .prose-song p  { font-family: var(--font-sans); }
+  .prose-song a  { color: var(--brand-strong); text-decoration: underline; }
+  .prose-song ul { list-style: disc;    padding-left: 1.5em; }
+  .prose-song ol { list-style: decimal; padding-left: 1.5em; }
+  .prose-song li + li { margin-top: 0.4em; }
+  .prose-song img { max-width: 100%; height: auto; border-radius: var(--radius); }
+  .prose-song blockquote {
+    border-left: 3px solid var(--brand);
+    padding-left: 1em;
+    color: var(--fg-muted);
+  }
+  .prose-song table { width: 100%; border-collapse: collapse; display: block; overflow-x: auto; }
+  .prose-song th, .prose-song td { border: 1px solid var(--line); padding: 0.5em 0.75em; }
+
   /* Nút chính dạng liên kết — dùng cho <a>/<Link>.
      Với <button> hãy dùng component Button trong src/components/ui. */
   .btn-brand {
