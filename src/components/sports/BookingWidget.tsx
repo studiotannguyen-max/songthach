@@ -567,13 +567,13 @@ export default function BookingWidget({ courts, venueName }: Props) {
                 >
                   <span>{slot}</span>
                   {blocked ? (
-                    <span className="text-[9px] font-bold text-fg-muted">Bảo trì</span>
+                    <span className="text-xs font-bold text-fg-muted">Bảo trì</span>
                   ) : booked ? (
-                    <span className="text-[9px] font-bold text-fg-muted">Đã đặt</span>
+                    <span className="text-xs font-bold text-fg-muted">Đã đặt</span>
                   ) : past ? (
-                    <span className="text-[9px] font-bold text-fg-muted">Đã qua</span>
+                    <span className="text-xs font-bold text-fg-muted">Đã qua</span>
                   ) : isPeak && (
-                    <span className={cn('text-[9px] font-bold', selectedSlot === slot ? 'text-white/80' : 'text-brand-strong')}>
+                    <span className={cn('text-xs font-bold', selectedSlot === slot ? 'text-white/80' : 'text-brand-strong')}>
                       Giờ vàng
                     </span>
                   )}

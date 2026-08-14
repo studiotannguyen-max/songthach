@@ -40,7 +40,7 @@ export default function MobileTabBar() {
           >
             <CalendarPlus size={24} aria-hidden="true" />
           </button>
-          <span className="text-[10px] font-medium text-brand-strong mb-1.5">Đặt sân</span>
+          <span className="text-xs font-medium text-brand-strong mb-1.5">Đặt sân</span>
         </div>
 
         {/* 2 tab cuối */}
@@ -60,7 +60,7 @@ function TabItem({
   const inner = (
     <span className="flex flex-col items-center justify-center gap-1 h-full">
       <Icon size={21} aria-hidden="true" />
-      <span className="text-[10px] font-medium leading-none">{label}</span>
+      <span className="text-xs font-medium leading-none">{label}</span>
     </span>
   );
   const cls = cn(

@@ -70,7 +70,7 @@ export default async function WeddingPage() {
       </div>
 
       {/* ── Sảnh tiệc ───────────────── */}
-      <section id="main-content" className="section">
+      <section className="section">
         <div className="container-page">
           <SectionHeader label="Không gian tổ chức" title="Sảnh tiệc không gian mở" align="center" />
 

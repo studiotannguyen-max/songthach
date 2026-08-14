@@ -106,7 +106,7 @@ export default async function BadmintonPage() {
       />
 
       {/* ── Đặt sân + thông tin sân ───────────────── */}
-      <section id="main-content" className="section">
+      <section className="section">
         <div className="container-page">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
 

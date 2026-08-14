@@ -81,7 +81,7 @@ export default function CafePage() {
       />
 
       {/* ── Giới thiệu ───────────────── */}
-      <section id="main-content" className="section">
+      <section className="section">
         <div className="container-page max-w-3xl text-center">
           <p className="text-xs uppercase tracking-[0.08em] text-brand-strong font-semibold mb-4">
             Câu chuyện của chúng tôi

@@ -15,17 +15,21 @@ export default function Footer() {
   return (
     <footer aria-label="Thông tin Song Thạch" className="bg-ink text-white/75 pb-24 sm:pb-0">
       {/* Điện thoại — chỉ địa chỉ + SĐT, giữ gọn nhẹ */}
-      <div className="sm:hidden container-page py-6 space-y-3">
-        <a href={MAP_URL} target="_blank" rel="noopener noreferrer" className="flex items-start gap-2.5">
-          <MapPin size={15} className="shrink-0 mt-0.5 text-brand" aria-hidden="true" />
+      {/* Vùng bấm tối thiểu 44px — đây là phần duy nhất của chân trang hiện trên điện thoại */}
+      <div className="sm:hidden container-page py-4">
+        <a
+          href={MAP_URL} target="_blank" rel="noopener noreferrer"
+          className="flex items-start gap-2.5 min-h-[44px] py-2.5"
+        >
+          <MapPin size={15} className="shrink-0 mt-1 text-brand" aria-hidden="true" />
           <span className="text-sm leading-relaxed">{ADDRESS}</span>
         </a>
         <div className="flex items-center gap-2.5">
           <Phone size={15} className="shrink-0 text-brand" aria-hidden="true" />
-          <span className="text-sm">
-            <a href="tel:0378990979" className="hover:text-white">0378 990 979</a>
-            <span className="mx-1.5 opacity-50">·</span>
-            <a href="tel:0886798690" className="hover:text-white">0886 798 690</a>
+          <span className="text-sm flex items-center">
+            <a href="tel:0378990979" className="min-h-[44px] flex items-center hover:text-white">0378 990 979</a>
+            <span className="mx-2 opacity-50">·</span>
+            <a href="tel:0886798690" className="min-h-[44px] flex items-center hover:text-white">0886 798 690</a>
           </span>
         </div>
       </div>
