@@ -23,7 +23,7 @@ export default function MobileTabBar() {
   return (
     <nav
       aria-label="Điều hướng nhanh"
-      className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-card border-t-[3px] border-[#3B2A1E] pb-[env(safe-area-inset-bottom)]"
+      className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-bg border-t border-line pb-[env(safe-area-inset-bottom)]"
     >
       <div className="relative grid grid-cols-5 items-end h-16">
         {/* 2 tab đầu */}
@@ -36,12 +36,11 @@ export default function MobileTabBar() {
           <button
             onClick={open}
             aria-label="Đặt sân ngay"
-            className="absolute -top-5 grid place-items-center w-14 h-14 bg-[#3B2A1E] text-white transition-all active:translate-x-[2px] active:translate-y-[2px]"
-            style={{ border: '2px solid #3B2A1E', boxShadow: '3px 3px 0 #A33E1F' }}
+            className="absolute -top-5 grid place-items-center w-14 h-14 rounded bg-brand-strong text-white transition-opacity active:opacity-80"
           >
-            <CalendarPlus size={24} />
+            <CalendarPlus size={24} aria-hidden="true" />
           </button>
-          <span className="text-[10px] font-medium text-primary mb-1.5">Đặt sân</span>
+          <span className="text-[10px] font-medium text-brand-strong mb-1.5">Đặt sân</span>
         </div>
 
         {/* 2 tab cuối */}
@@ -66,7 +65,7 @@ function TabItem({
   );
   const cls = cn(
     'flex items-center justify-center h-16 transition-colors',
-    active ? 'text-[#E3A21A] bg-[#3B2A1E]' : 'text-muted-foreground',
+    active ? 'text-brand-strong font-semibold' : 'text-fg-muted',
   );
   return external ? (
     <a href={href} className={cls}>{inner}</a>
