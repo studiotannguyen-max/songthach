@@ -7,6 +7,7 @@ import { ArrowRight, MapPin, Clock, Phone } from 'lucide-react';
 import SportPickerTrigger from '@/components/shared/SportPickerTrigger';
 import { FootballIcon, ShuttlecockIcon, RacketIcon, TrophyIcon } from '@/components/icons';
 import { getGallery } from '@/lib/gallery';
+import { buildHeroSlides } from '@/lib/hero-slides';
 import { getPublishedPosts } from '@/lib/posts';
 import { PageHero, SectionHeader, Card, CardBody, Badge } from '@/components/ui';
 
@@ -59,11 +60,15 @@ const STATS = [
 ];
 
 export default async function HomePage() {
-  const [cafePhotos, posts] = await Promise.all([
+  const [cafePhotos, posts, badmintonPhotos, footballPhotos, weddingPhotos] = await Promise.all([
     getGallery('cafe'),
     getPublishedPosts(3),
+    getGallery('badminton'),
+    getGallery('football'),
+    getGallery('wedding'),
   ]);
-  const cafeImage = cafePhotos[0]?.url;
+  const cafeImage  = cafePhotos[0]?.url;
+  const heroSlides = buildHeroSlides(badmintonPhotos, footballPhotos, weddingPhotos);
 
   return (
     <>
@@ -77,6 +82,7 @@ export default async function HomePage() {
         label="Tổ hợp thể thao · tiệc cưới · cà phê — Đồng Nai"
         title="Song Thạch — Come play, stay, relax"
         description="Sân cầu lông, sân bóng đá, lớp đào tạo thể thao, tiệc cưới sân vườn và Café Lavie en Rose — tất cả ở cùng một địa chỉ."
+        slides={heroSlides}
       >
         <SportPickerTrigger className="btn-brand">
           Đặt sân ngay <ArrowRight size={16} aria-hidden="true" />

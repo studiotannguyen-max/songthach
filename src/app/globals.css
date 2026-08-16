@@ -144,6 +144,11 @@
   }
   .btn-brand:hover { background: #00692C; }
 
+  /* Hero không ảnh có nền xanh thương hiệu — nút chính phải đảo thành trắng,
+     để nguyên màu xanh thì nút chìm hẳn vào nền. */
+  .hero-no-media .btn-brand { background: #FFFFFF; color: var(--brand-strong); }
+  .hero-no-media .btn-brand:hover { background: var(--bg-subtle); }
+
   /* Nút phụ trên nền ảnh/nền tối */
   .btn-on-dark {
     display: inline-flex;
