@@ -1,15 +1,23 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import './admin-legacy.css';
-import { Oswald } from 'next/font/google';
+import { Barlow, Barlow_Condensed } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from '@/components/providers/AuthProvider';
 
-// Font tiêu đề nạp qua next/font (không @import) — có subset tiếng Việt, không chặn render.
-const oswald = Oswald({
+// Cả hai font nạp qua next/font (không @import) — có subset tiếng Việt, không chặn render.
+// Cùng một họ Barlow: tiêu đề dùng bản hẹp, thân bài dùng bản thường cho dễ đọc đoạn dài.
+const barlowCondensed = Barlow_Condensed({
   subsets: ['vietnamese', 'latin'],
   variable: '--font-display',
   weight: ['500', '600', '700'],
+  display: 'swap',
+});
+
+const barlow = Barlow({
+  subsets: ['vietnamese', 'latin'],
+  variable: '--font-sans',
+  weight: ['400', '500', '600', '700'],
   display: 'swap',
 });
 
@@ -28,7 +36,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'vi_VN',
     siteName: 'Song Thạch',
-    title: 'Song Thạch — Tổ hợp Thể thao & Tiệc cưới',
+    title: '',
     description: 'Sân bóng đá, Sân cầu lông, Nhà hàng tiệc cưới và Café Lavie en Rose tại một địa điểm tại Đồng Nai.',
   },
 };
@@ -76,7 +84,7 @@ const LOCAL_BUSINESS_JSONLD = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="vi">
-      <body className={oswald.variable}>
+      <body className={`${barlow.variable} ${barlowCondensed.variable}`}>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(LOCAL_BUSINESS_JSONLD) }}

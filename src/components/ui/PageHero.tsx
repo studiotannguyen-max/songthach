@@ -25,9 +25,13 @@ export default function PageHero({
   // Không ảnh thì nền xanh thương hiệu, phủ nhẹ thôi — phủ đậm sẽ làm xanh thành đen xỉn.
   const hasMedia = (slides && slides.length > 0) || Boolean(image);
 
+  // Chiều cao TỐI THIỂU chứ không cố định: màn hình thấp (laptop 1366×768 chỉ còn ~640px
+  // sau thanh trình duyệt) từng làm chữ và nút tràn ra rồi bị cắt cụt ở đáy hero.
+  // Giờ hero tự cao thêm theo nội dung; `flex items-center` giữ nguyên kiểu canh giữa
+  // khi màn hình cao hơn nội dung.
   return (
     <section
-      className={`relative w-full h-[44vh] md:h-[56vh] md:max-h-[640px] min-h-[320px] ${
+      className={`relative w-full min-h-[44vh] md:min-h-[56vh] py-14 md:py-16 flex items-center ${
         hasMedia ? 'bg-ink' : 'bg-brand-strong hero-no-media'
       }`}
     >
@@ -46,7 +50,7 @@ export default function PageHero({
             : 'linear-gradient(90deg, rgb(16 19 20 / .45), rgb(16 19 20 / .15))',
         }}
       />
-      <div className="container-page relative h-full flex flex-col justify-center">
+      <div className="container-page relative w-full">
         <div className="max-w-2xl">
           {label && (
             <p className="text-xs uppercase tracking-[0.08em] text-white/80 font-semibold mb-3">

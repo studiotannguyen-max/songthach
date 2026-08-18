@@ -79,7 +79,6 @@ export default async function HomePage() {
 
       {/* ── Hero ───────────────── */}
       <PageHero
-        label="Tổ hợp thể thao · tiệc cưới · cà phê — Đồng Nai"
         title="Song Thạch — Come play, stay, relax"
         description="Sân cầu lông, sân bóng đá, lớp đào tạo thể thao, tiệc cưới sân vườn và Café Lavie en Rose — tất cả ở cùng một địa chỉ."
         slides={heroSlides}

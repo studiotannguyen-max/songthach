@@ -1,15 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
   /* ── Chữ ──
-     --font-display được next/font nạp ở layout.tsx (Oswald) và gán trên <body>.
-     Giá trị dưới đây chỉ là dự phòng nếu biến chưa tới. */
-  --font-sans:    'Geist', ui-sans-serif, system-ui, sans-serif;
-  --font-display: 'Oswald', var(--font-sans);
+     Cả hai biến được next/font nạp ở layout.tsx (Barlow + Barlow Condensed) và gán
+     trên <body>. Giá trị dưới đây chỉ là dự phòng nếu biến chưa tới. */
+  --font-sans:    'Barlow', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Barlow Condensed', var(--font-sans);
 
   /* ── Chín màu, không hơn ── */
   --bg:           #FFFFFF;
