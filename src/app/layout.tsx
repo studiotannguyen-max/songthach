@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'vi_VN',
     siteName: 'Song Thạch',
-    title: '',
+    title: 'Song Thạch — Tổ hợp Thể thao & Tiệc cưới',
     description: 'Sân bóng đá, Sân cầu lông, Nhà hàng tiệc cưới và Café Lavie en Rose tại một địa điểm tại Đồng Nai.',
   },
 };

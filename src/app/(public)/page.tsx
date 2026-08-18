@@ -12,7 +12,8 @@ import { getPublishedPosts } from '@/lib/posts';
 import { PageHero, SectionHeader, Card, CardBody, Badge } from '@/components/ui';
 
 export const metadata: Metadata = {
-  title: 'Song Thạch — Khu thể thao, Tiệc cưới & Café',
+  // `absolute` để không bị mẫu "%s | Song Thạch" ở layout gốc nối thêm đuôi trùng tên.
+  title: { absolute: 'Song Thạch — Khu thể thao, Tiệc cưới & Café' },
   description: 'Đặt sân bóng đá, sân cầu lông tại Song Thạch. Mở cửa 06:00–22:00, đặt sân online trong 60 giây.',
 };
 
