@@ -1,16 +1,19 @@
 'use client';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { effectivePoints, bandLabel } from '@/lib/rating';
+import { effectivePoints, bandLabel, bandsFor, BAND_CEILING, type Gender } from '@/lib/rating';
 import { initials } from '@/lib/player-display';
 
 export interface PlayerRecord {
   id?: string; full_name: string; nickname: string | null; phone: string | null;
-  avatar_url: string | null; band: number; progress_points: number;
+  avatar_url: string | null; gender: Gender; band: number; progress_points: number;
   tested_at: string | null; test_note: string | null;
 }
 
-const BANDS = [100, 200, 300, 400, 500];
+const GIOI_TINH: { value: Gender; label: string }[] = [
+  { value: 'nam', label: 'Nam' },
+  { value: 'nu',  label: 'Nữ' },
+];
 const BAND_BG: Record<number, string> = {
   100: 'bg-[#FFFBF2]', 200: 'bg-[#F6DD9E]', 300: 'bg-[#E3A21A]',
   400: 'bg-[#F1C9B4]', 500: 'bg-[#C5532F] text-[#FFF6EC]',
@@ -20,12 +23,18 @@ export default function PlayerForm({ initial, onSaved }: { initial?: PlayerRecor
   const isEdit = !!initial?.id;
   const [f, setF] = useState<PlayerRecord>(initial ?? {
     full_name: '', nickname: null, phone: null, avatar_url: null,
-    band: 300, progress_points: 0, tested_at: null, test_note: null,
+    gender: 'nam', band: 300, progress_points: 0, tested_at: null, test_note: null,
   });
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
 
   function set<K extends keyof PlayerRecord>(k: K, v: PlayerRecord[K]) { setF(prev => ({ ...prev, [k]: v })); }
+
+  /** Đổi giới tính: hạ hạng về trần của giới mới nếu đang vượt, để không gửi lên tổ hợp không hợp lệ.
+   *  Với hồ sơ đã có thì máy chủ tự quy lại hạng từ sổ điểm — form không tự ý sửa. */
+  function setGender(g: Gender) {
+    setF(prev => ({ ...prev, gender: g, band: isEdit ? prev.band : Math.min(prev.band, BAND_CEILING[g]) }));
+  }
 
   async function uploadAvatar(file: File) {
     setUploading(true);
@@ -37,7 +46,10 @@ export default function PlayerForm({ initial, onSaved }: { initial?: PlayerRecor
 
   async function save() {
     if (!f.full_name.trim()) { toast.error('Nhập họ tên'); return; }
-    if (f.band < 500 && f.progress_points >= 100) { toast.error('Tiến độ vượt mốc 100 khi chưa phải A500'); return; }
+    // Tiến độ chỉ được vượt 100 khi đã kịch trần của giới đó (nam A500, nữ A400).
+    if (f.band < BAND_CEILING[f.gender] && f.progress_points >= 100) {
+      toast.error(`Tiến độ vượt mốc 100 khi chưa phải A${BAND_CEILING[f.gender]}`); return;
+    }
     setSaving(true);
     const url = isEdit ? `/api/admin/players/${initial!.id}` : '/api/admin/players';
     const method = isEdit ? 'PATCH' : 'POST';
@@ -59,6 +71,18 @@ export default function PlayerForm({ initial, onSaved }: { initial?: PlayerRecor
             <Field label="Họ và tên *"><input className="inp" value={f.full_name} onChange={e => set('full_name', e.target.value)} /></Field>
             <Field label="Biệt danh"><input className="inp" value={f.nickname ?? ''} onChange={e => set('nickname', e.target.value || null)} /></Field>
             <Field label="Số điện thoại" hint="Chỉ hiện trong khu quản trị"><input className="inp tabular-nums" value={f.phone ?? ''} onChange={e => set('phone', e.target.value || null)} /></Field>
+            <Field label="Giới tính *" hint={isEdit ? 'Đổi giới tính thì hạng được quy lại theo thang mới' : 'Nữ xếp theo thang A100–A400'}>
+              <div className="flex gap-2">
+                {GIOI_TINH.map(g => (
+                  <label key={g.value} className="cursor-pointer flex-1">
+                    <input type="radio" name="gender" className="sr-only peer" checked={f.gender === g.value} onChange={() => setGender(g.value)} />
+                    <span className="block text-center px-4 py-2.5 rounded-xl border-2 border-gray-300 font-semibold peer-checked:border-[#3B2A1E] peer-checked:bg-[#F6DD9E] peer-checked:shadow-[3px_3px_0_#3B2A1E]">
+                      {g.label}
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </Field>
           </div>
         </div>
 
@@ -73,7 +97,7 @@ export default function PlayerForm({ initial, onSaved }: { initial?: PlayerRecor
           ) : (
             <>
               <div className="flex flex-wrap gap-2">
-                {BANDS.map(b => (
+                {bandsFor(f.gender).map(b => (
                   <label key={b} className="cursor-pointer">
                     <input type="radio" name="band" className="sr-only peer" checked={f.band === b} onChange={() => set('band', b)} />
                     <span className={`flex flex-col items-center gap-0.5 px-4 py-2.5 rounded-xl border-2 border-gray-300 peer-checked:border-[#3B2A1E] peer-checked:shadow-[3px_3px_0_#3B2A1E] ${f.band === b ? BAND_BG[b] : 'bg-white'}`}>

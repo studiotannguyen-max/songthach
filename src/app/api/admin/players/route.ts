@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { requireAdmin } from '@/lib/auth';
 import { createPlayer } from '@/lib/players';
-import { BANDS, type Band } from '@/lib/rating';
+import { bandsFor, BAND_CEILING, type Band, type Gender } from '@/lib/rating';
 
 // Danh sách quản trị phải luôn tươi — chặn Next cache lại phản hồi fetch của supabase-js.
 export const dynamic = 'force-dynamic';
@@ -16,7 +16,7 @@ export async function GET() {
   const admin = createAdminClient();
   const { data, error } = await admin
     .from('players')
-    .select('id, full_name, nickname, phone, avatar_url, band, progress_points, tested_at, is_active')
+    .select('id, full_name, nickname, phone, avatar_url, gender, band, progress_points, tested_at, is_active')
     .order('band', { ascending: false })
     .order('progress_points', { ascending: false });
 
@@ -37,16 +37,27 @@ export async function POST(req: NextRequest) {
   }
   const fullName = ((body.full_name as string) ?? '').trim();
   if (!fullName) return NextResponse.json({ error: 'Thiếu họ tên' }, { status: 400 });
+  const gender = (body.gender ?? 'nam') as Gender;
+  if (gender !== 'nam' && gender !== 'nu') {
+    return NextResponse.json({ error: 'Giới tính phải là nam hoặc nữ' }, { status: 400 });
+  }
   const band = body.band as Band;
-  if (!BANDS.includes(band)) {
-    return NextResponse.json({ error: 'Mức trình phải là A100–A500' }, { status: 400 });
+  if (!bandsFor(gender).includes(band)) {
+    return NextResponse.json(
+      { error: `Mức trình phải là A100–A${BAND_CEILING[gender]}` },
+      { status: 400 },
+    );
   }
   const progress = Number(body.progress_points ?? 0);
   if (!Number.isInteger(progress) || progress < 0) {
     return NextResponse.json({ error: 'Điểm tiến độ phải là số không âm' }, { status: 400 });
   }
-  if (band < 500 && progress >= 100) {
-    return NextResponse.json({ error: 'Tiến độ vượt mốc 100 khi chưa phải A500' }, { status: 400 });
+  // Tiến độ chỉ được vượt 100 khi đã kịch trần của giới đó (nam A500, nữ A400).
+  if (band < BAND_CEILING[gender] && progress >= 100) {
+    return NextResponse.json(
+      { error: `Tiến độ vượt mốc 100 khi chưa phải A${BAND_CEILING[gender]}` },
+      { status: 400 },
+    );
   }
 
   const admin = createAdminClient();
@@ -56,6 +67,7 @@ export async function POST(req: NextRequest) {
       nickname:        (body.nickname as string | undefined)?.trim() || null,
       phone:           (body.phone as string | undefined)?.trim() || null,
       avatar_url:      (body.avatar_url as string | null | undefined) || null,
+      gender,
       band,
       progress_points: progress,
       tested_at:       (body.tested_at as string | null | undefined) || null,

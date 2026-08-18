@@ -58,6 +58,14 @@ export default function ImportPage() {
     <div className="space-y-6">
       <h1 className="text-2xl font-bold text-gray-900">Nhập danh sách từ Excel</h1>
 
+      <div className="admin-card p-4 border-l-4 border-l-[#E3A21A]">
+        <p className="text-sm">
+          <b>File Excel chưa có cột giới tính.</b> Mọi dòng nhập vào sẽ là <b>nam</b> và xếp theo
+          thang A100–A500. Có VĐV nữ thì vào hồ sơ từng người sửa lại giới tính sau khi nhập —
+          hạng sẽ tự quy lại theo thang A100–A400.
+        </p>
+      </div>
+
       {!rows ? (
         <div className="admin-card p-8 text-center">
           <FileSpreadsheet size={40} className="mx-auto mb-3 text-green-600" />

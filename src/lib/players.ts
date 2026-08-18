@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { applyPoints, effectivePoints, BANDS } from './rating';
+import { applyPoints, effectivePoints, replayLedger, BANDS, type Gender } from './rating';
 import type { Reconciled } from './player-import';
 
 export type PlayerInput = {
@@ -7,6 +7,7 @@ export type PlayerInput = {
   nickname?: string | null;
   phone?: string | null;
   avatar_url?: string | null;
+  gender: Gender;
   band: number;
   progress_points?: number;
   tested_at?: string | null;
@@ -26,6 +27,7 @@ export async function createPlayer(admin: SupabaseClient, input: PlayerInput): P
       nickname:        input.nickname ?? null,
       phone:           input.phone ?? null,
       avatar_url:      input.avatar_url ?? null,
+      gender:          input.gender,
       band:            input.band,
       progress_points: progress,
       tested_at:       input.tested_at ?? null,
@@ -63,6 +65,16 @@ export async function setActive(admin: SupabaseClient, id: string, isActive: boo
 }
 
 /**
+ * Đổi giới tính rồi quy lại hạng theo trần mới. Tổng điểm trong sổ không đổi —
+ * nam A500 tiến độ 20 (hiệu dụng 520) chuyển sang nữ thành A400 tiến độ 120.
+ */
+export async function setGender(admin: SupabaseClient, id: string, gender: Gender): Promise<void> {
+  const { error } = await admin.from('players').update({ gender }).eq('id', id);
+  if (error) throw error;
+  await recalcFromLedger(admin, id);
+}
+
+/**
  * Cộng/trừ điểm: ghi một dòng manual_adjust + cập nhật band/progress đã tính sẵn.
  * Trả về band/progress mới để API phản hồi cho UI.
  */
@@ -73,10 +85,10 @@ export async function adjustPoints(
   note: string,
 ): Promise<{ band: number; progress_points: number }> {
   const { data: player, error: pErr } = await admin
-    .from('players').select('band, progress_points').eq('id', id).single();
+    .from('players').select('band, progress_points, gender').eq('id', id).single();
   if (pErr) throw pErr;
 
-  const next = applyPoints(player.band, player.progress_points, delta);
+  const next = applyPoints(player.band, player.progress_points, delta, player.gender as Gender);
 
   const { error: evErr } = await admin.from('rating_events').insert({
     player_id: id, points: delta, reason: 'manual_adjust', note,
@@ -88,6 +100,67 @@ export async function adjustPoints(
   if (uErr) throw uErr;
 
   return { band: next.band, progress_points: next.progress };
+}
+
+/**
+ * Tính lại band/tiến độ từ TOÀN BỘ sổ điểm rồi ghi đè hai cột tính sẵn.
+ * Dùng sau khi sửa/xoá một dòng cũ — cộng dồn kiểu adjustPoints không còn đúng nữa
+ * vì dòng bị đổi nằm ở giữa sổ.
+ */
+export async function recalcFromLedger(
+  admin: SupabaseClient,
+  playerId: string,
+): Promise<{ band: number; progress_points: number }> {
+  // Trần hạng khác nhau giữa nam và nữ nên phải biết giới tính mới quy được điểm ra hạng.
+  const [{ data, error }, { data: player, error: pErr }] = await Promise.all([
+    admin.from('rating_events').select('points').eq('player_id', playerId),
+    admin.from('players').select('gender').eq('id', playerId).single(),
+  ]);
+  if (error) throw error;
+  if (pErr) throw pErr;
+
+  const { band, progress } = replayLedger(data ?? [], player.gender as Gender);
+  const { error: uErr } = await admin
+    .from('players').update({ band, progress_points: progress }).eq('id', playerId);
+  if (uErr) throw uErr;
+
+  return { band, progress_points: progress };
+}
+
+/** Sửa một dòng sổ (điểm và/hoặc lý do) rồi tính lại trình độ.
+ *  Lọc cả player_id để không bao giờ chạm sổ của người khác. */
+export async function updateRatingEvent(
+  admin: SupabaseClient,
+  playerId: string,
+  eventId: string,
+  patch: { points: number; note: string },
+): Promise<{ band: number; progress_points: number }> {
+  const { data, error } = await admin
+    .from('rating_events')
+    .update({ points: patch.points, note: patch.note })
+    .eq('id', eventId).eq('player_id', playerId)
+    .select('id');
+  if (error) throw error;
+  if (!data || data.length === 0) throw new Error('Không tìm thấy dòng sổ này');
+
+  return recalcFromLedger(admin, playerId);
+}
+
+/** Xoá một dòng sổ rồi tính lại trình độ. Chốt chặn dòng 'initial' nằm ở lớp API. */
+export async function deleteRatingEvent(
+  admin: SupabaseClient,
+  playerId: string,
+  eventId: string,
+): Promise<{ band: number; progress_points: number }> {
+  const { data, error } = await admin
+    .from('rating_events')
+    .delete()
+    .eq('id', eventId).eq('player_id', playerId)
+    .select('id');
+  if (error) throw error;
+  if (!data || data.length === 0) throw new Error('Không tìm thấy dòng sổ này');
+
+  return recalcFromLedger(admin, playerId);
 }
 
 /**
@@ -107,6 +180,8 @@ export async function commitImport(admin: SupabaseClient, rows: Reconciled[]): P
     if (row.kind === 'new') {
       await createPlayer(admin, {
         full_name: row.parsed.full_name, nickname: row.parsed.nickname, phone: row.parsed.phone,
+        // File Excel chưa có cột giới tính — mọi dòng nhập vào là nam, sửa tay sau nếu cần.
+        gender: 'nam',
         band, progress_points,
         tested_at: row.parsed.tested_at, test_note: row.parsed.test_note,
       });

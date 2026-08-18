@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { requireAdmin } from '@/lib/auth';
-import { updatePlayer, setActive, type PlayerInput } from '@/lib/players';
+import { updatePlayer, setActive, setGender, type PlayerInput } from '@/lib/players';
+import type { Gender } from '@/lib/rating';
 
 // Hồ sơ quản trị phải luôn tươi — chặn Next cache lại phản hồi fetch của supabase-js.
 export const dynamic = 'force-dynamic';
@@ -35,6 +36,12 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   const admin = createAdminClient();
   try {
     if (typeof body.is_active === 'boolean') await setActive(admin, params.id, body.is_active);
+
+    if (body.gender === 'nam' || body.gender === 'nu') {
+      await setGender(admin, params.id, body.gender as Gender);
+    } else if ('gender' in body) {
+      return NextResponse.json({ error: 'Giới tính phải là nam hoặc nữ' }, { status: 400 });
+    }
 
     // Chỉ đưa vào patch những trường thực sự có trong request — tránh ghi đè null
     // lên các cột không gửi lên (updatePlayer chỉ cập nhật key nào có mặt).

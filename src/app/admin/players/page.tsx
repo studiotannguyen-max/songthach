@@ -2,14 +2,16 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Search, RefreshCw, Plus, Upload } from 'lucide-react';
-import { bandLabel, effectivePoints } from '@/lib/rating';
+import { bandLabel, effectivePoints, type Gender } from '@/lib/rating';
 import { initials } from '@/lib/player-display';
 
 interface Player {
   id: string; full_name: string; nickname: string | null; phone: string | null;
-  avatar_url: string | null; band: number; progress_points: number;
+  avatar_url: string | null; gender: Gender; band: number; progress_points: number;
   tested_at: string | null; is_active: boolean;
 }
+
+const GENDER_LABEL: Record<Gender, string> = { nam: 'Nam', nu: 'Nữ' };
 
 const BAND_BG: Record<number, string> = {
   100: 'bg-[#FFFBF2] text-[#3B2A1E]', 200: 'bg-[#F6DD9E] text-[#3B2A1E]',
@@ -23,6 +25,7 @@ export default function AdminPlayersPage() {
   const [search,  setSearch]  = useState('');
   const [band,    setBand]    = useState<'all' | number>('all');
   const [active,  setActive]  = useState<'active' | 'inactive' | 'all'>('active');
+  const [gender,  setGender]  = useState<'all' | Gender>('all');
 
   function reload() {
     setLoading(true);
@@ -36,6 +39,7 @@ export default function AdminPlayersPage() {
     if (q && !p.full_name.toLowerCase().includes(q) && !(p.phone ?? '').includes(q)
         && !(p.nickname ?? '').toLowerCase().includes(q)) return false;
     if (band !== 'all' && p.band !== band) return false;
+    if (gender !== 'all' && p.gender !== gender) return false;
     if (active === 'active' && !p.is_active) return false;
     if (active === 'inactive' && p.is_active) return false;
     return true;
@@ -70,6 +74,12 @@ export default function AdminPlayersPage() {
           <option value="all">Tất cả trình</option>
           {[500,400,300,200,100].map(b => <option key={b} value={b}>A{b}</option>)}
         </select>
+        <select value={gender} onChange={e => setGender(e.target.value as typeof gender)}
+          className="px-3 py-2.5 border border-gray-200 rounded-xl text-sm">
+          <option value="all">Nam và nữ</option>
+          <option value="nam">Nam</option>
+          <option value="nu">Nữ</option>
+        </select>
         <select value={active} onChange={e => setActive(e.target.value as typeof active)}
           className="px-3 py-2.5 border border-gray-200 rounded-xl text-sm">
           <option value="active">Đang sinh hoạt</option>
@@ -89,7 +99,7 @@ export default function AdminPlayersPage() {
           <table className="w-full text-sm min-w-[720px]">
             <thead>
               <tr className="text-left text-xs uppercase tracking-wide text-gray-500 border-b">
-                <th className="px-4 py-3">Vận động viên</th><th className="px-4 py-3">Trình</th>
+                <th className="px-4 py-3">Vận động viên</th><th className="px-4 py-3">Giới tính</th><th className="px-4 py-3">Trình</th>
                 <th className="px-4 py-3 text-right">Tiến độ</th><th className="px-4 py-3 text-right">Hiệu dụng</th>
                 <th className="px-4 py-3">Ngày test</th><th className="px-4 py-3">Trạng thái</th><th></th>
               </tr>
@@ -108,6 +118,7 @@ export default function AdminPlayersPage() {
                       </div>
                     </div>
                   </td>
+                  <td className="px-4 py-3 text-gray-600">{GENDER_LABEL[p.gender]}</td>
                   <td className="px-4 py-3"><span className={`inline-block px-2.5 py-0.5 rounded-full border-2 border-[#3B2A1E] text-xs font-extrabold ${BAND_BG[p.band]}`}>{bandLabel(p.band)}</span></td>
                   <td className="px-4 py-3 text-right tabular-nums">{p.progress_points}</td>
                   <td className="px-4 py-3 text-right tabular-nums font-bold">{effectivePoints(p)}</td>

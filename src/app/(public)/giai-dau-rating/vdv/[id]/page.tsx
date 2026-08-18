@@ -1,11 +1,12 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { bandLabel, effectivePoints } from '@/lib/rating';
+import { bandLabel, effectivePoints, BAND_CEILING, type Gender } from '@/lib/rating';
 import { initials } from '@/lib/player-display';
 import { Card, CardBody, Badge, Breadcrumb, DataTable } from '@/components/ui';
 
-interface P { id: string; full_name: string; nickname: string | null; avatar_url: string | null; band: number; progress_points: number; tested_at: string | null; }
+interface P { id: string; full_name: string; nickname: string | null; avatar_url: string | null; gender: Gender; band: number; progress_points: number; tested_at: string | null; }
+const GENDER_LABEL: Record<Gender, string> = { nam: 'Nam', nu: 'Nữ' };
 interface Ev { id: string; points: number; reason: string; note: string | null; created_at: string; }
 const REASON: Record<string, string> = { initial: 'Xếp trình ban đầu', manual_adjust: 'Điều chỉnh điểm' };
 
@@ -26,7 +27,8 @@ export default function PlayerProfilePage() {
   }
 
   const eff   = effectivePoints(player);
-  const atMax = player.band === 500;
+  // Kịch trần tuỳ giới: nam A500, nữ A400.
+  const atMax = player.band === BAND_CEILING[player.gender];
 
   const rows = events.map((ev) => ({
     ngay:  <span className="tabular-nums">{new Date(ev.created_at).toLocaleDateString('vi-VN')}</span>,
