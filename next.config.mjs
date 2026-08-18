@@ -44,11 +44,17 @@ const nextConfig = {
         headers: securityHeaders,
       },
       {
+        // Bản chạy thật: tên file có hash nên cache vĩnh viễn là đúng.
+        // Lúc `next dev --turbo`: tên file KHÔNG đổi khi nội dung đổi, để immutable thì
+        // trình duyệt bám bản cũ mãi — sửa CSS/JS xong màn hình không đổi, hoặc tệ hơn là
+        // trộn chunk cũ với chunk mới rồi vỡ lúc chạy.
         source: '/_next/static/(.*)',
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
+            value: process.env.NODE_ENV === 'production'
+              ? 'public, max-age=31536000, immutable'
+              : 'no-store',
           },
         ],
       },
