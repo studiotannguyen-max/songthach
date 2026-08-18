@@ -16,5 +16,8 @@
     "paths": { "@/*": ["./src/*"] }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  // Hạ tầng test không thuộc về bản chạy. `next build` type-check mọi file trong include,
+  // mà VPS không cài devDependencies nên không có 'vitest' -> build gãy.
+  // Kiểm kiểu cho test chạy riêng bằng: npx tsc -p tsconfig.test.json --noEmit
+  "exclude": ["node_modules", "vitest.config.ts", "src/**/*.test.ts"]
 }

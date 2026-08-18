@@ -1,0 +1,8 @@
+// Kiểm kiểu cho file test và cấu hình vitest — những thứ bị loại khỏi tsconfig.json
+// để `next build` trên VPS không cần devDependencies.
+// Chạy: npx tsc -p tsconfig.test.json --noEmit
+{
+  "extends": "./tsconfig.json",
+  "include": ["vitest.config.ts", "src/**/*.test.ts"],
+  "exclude": ["node_modules"]
+}
