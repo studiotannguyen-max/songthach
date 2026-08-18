@@ -1,0 +1,80 @@
+/* Giao diện cũ của khu /admin — ĐÓNG BĂNG.
+   Các lớp này trước đây nằm trong globals.css và ăn theo token của khu công khai.
+   Khu công khai đã đổi sang bảng màu mới, nên chép sang đây với mã màu literal
+   để admin giữ nguyên hình dạng cũ. Đừng sửa file này khi đổi giao diện công khai. */
+
+.admin-card {
+  background: #ffffff;
+  padding: 1.5rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 0;
+  box-shadow: 3px 3px 0 #e5e7eb;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.125rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 0;
+  letter-spacing: 0.05em;
+}
+.status-pending      { background: #fef9c3; color: #854d0e; }
+.status-deposit_paid { background: #dbeafe; color: #1e40af; }
+.status-completed    { background: #dcfce7; color: #166534; }
+.status-cancelled    { background: #fee2e2; color: #991b1b; }
+.status-new          { background: #f3e8ff; color: #6b21a8; }
+.status-contacted    { background: #dbeafe; color: #1e40af; }
+.status-quoted       { background: #ffedd5; color: #9a3412; }
+.status-booked       { background: #dcfce7; color: #166534; }
+
+.inp {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+}
+.inp:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(197, 83, 47, 0.3);
+}
+
+/* admin/login dùng .sports-btn; PostForm dùng .gradient-sports.
+   Các trang công khai cũng còn dùng hai lớp này cho tới khi task tương ứng
+   thay xong — lúc đó chúng chỉ còn phục vụ admin. */
+.sports-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #C5532F;
+  color: #ffffff;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 0;
+  border: 2px solid #3B2A1E;
+  box-shadow: 3px 3px 0 #A33E1F;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+.sports-btn:hover  { transform: translate(-2px, -2px); box-shadow: 5px 5px 0 #A33E1F; }
+.sports-btn:active { transform: translate(2px, 2px);   box-shadow: 1px 1px 0 #A33E1F; }
+
+.gradient-sports { background: #3B2A1E; }
+
+/* Các trang công khai chưa chuyển đổi vẫn còn dùng — sẽ tự hết tác dụng
+   khi task tương ứng thay xong, lúc đó xoá khỏi đây. */
+.sports-card {
+  background: #FFFBF2;
+  border: 3px solid #3B2A1E;
+  border-radius: 0;
+  box-shadow: 5px 5px 0 #E3A21A;
+}
+.sports-hero-text {
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}

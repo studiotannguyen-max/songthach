@@ -1,13 +1,9 @@
 import { redirect } from 'next/navigation';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
-import Navbar from '@/components/shared/Navbar';
-import Footer from '@/components/shared/Footer';
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { getUserPointsBalance } from '@/lib/points';
-
-const PITCH = '#3B2A1E';
 
 export default async function ProfilePage() {
   const supabase = createClient();
@@ -28,38 +24,40 @@ export default async function ProfilePage() {
   const displayName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Khách hàng';
 
   return (
-    <>
-      <Navbar />
-      <div className="pt-24 md:pt-28 pb-16 max-w-2xl mx-auto px-4">
-        <h1 className="text-2xl font-bold" style={{ color: PITCH }}>Xin chào, {displayName}</h1>
-        <p className="text-sm text-muted-foreground mt-1">{user.email}</p>
+    <section className="section">
+      <div className="container-page max-w-2xl">
+        <h1 className="text-3xl normal-case">Xin chào, {displayName}</h1>
+        <p className="text-fg-muted mt-1">{user.email}</p>
 
-        <div className="mt-6 rounded-2xl border p-6" style={{ borderColor: '#E6E2D6', background: '#F4E9D6' }}>
-          <p className="text-sm text-muted-foreground">Điểm tích lũy hiện có</p>
-          <p className="text-3xl font-bold mt-1" style={{ color: PITCH }}>{balance} điểm</p>
-          <p className="text-xs text-muted-foreground mt-1">Tương đương {(balance * 1000).toLocaleString('vi-VN')}đ — dùng để giảm giá khi đặt sân.</p>
+        <div className="mt-8 rounded border border-line bg-bg-subtle p-6">
+          <p className="text-sm text-fg-muted">Điểm tích lũy hiện có</p>
+          <p className="font-display text-4xl text-fg mt-1">{balance} điểm</p>
+          <p className="text-sm text-fg-muted mt-1">
+            Tương đương {(balance * 1000).toLocaleString('vi-VN')}đ — dùng để giảm giá khi đặt sân.
+          </p>
         </div>
 
-        <h2 className="text-lg font-bold mt-8 mb-3" style={{ color: PITCH }}>Lịch sử điểm</h2>
+        <h2 className="text-xl mt-10 mb-4">Lịch sử điểm</h2>
         {!history || history.length === 0 ? (
-          <p className="text-sm text-muted-foreground">Chưa có giao dịch điểm nào.</p>
+          <p className="text-fg-muted">Chưa có giao dịch điểm nào.</p>
         ) : (
-          <div className="space-y-2">
+          <ul className="rounded border border-line divide-y divide-line">
             {history.map((t) => (
-              <div key={t.id} className="flex items-center justify-between text-sm border-b border-border py-2.5">
-                <div>
-                  <p className="text-foreground">{t.note}</p>
-                  <p className="text-xs text-muted-foreground">{format(new Date(t.created_at), 'dd/MM/yyyy HH:mm', { locale: vi })}</p>
+              <li key={t.id} className="flex items-center justify-between gap-4 px-4 py-3">
+                <div className="min-w-0">
+                  <p className="text-sm text-fg">{t.note}</p>
+                  <p className="text-sm text-fg-muted">
+                    {format(new Date(t.created_at), 'dd/MM/yyyy HH:mm', { locale: vi })}
+                  </p>
                 </div>
-                <span className={t.points > 0 ? 'font-bold text-green-600' : 'font-bold text-red-500'}>
+                <span className={t.points > 0 ? 'font-semibold text-brand-strong' : 'font-semibold text-danger'}>
                   {t.points > 0 ? '+' : ''}{t.points}
                 </span>
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
         )}
       </div>
-      <Footer />
-    </>
+    </section>
   );
 }

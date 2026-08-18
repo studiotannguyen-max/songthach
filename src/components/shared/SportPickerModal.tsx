@@ -63,8 +63,8 @@ export default function SportPickerModal() {
         aria-modal="true"
         aria-labelledby="sport-picker-title"
         className="
-          relative w-full bg-white
-          rounded-t-2xl md:rounded-2xl
+          relative w-full bg-bg border border-line
+          rounded-t md:rounded
           p-5 md:p-7
           md:max-w-[440px]
           pb-[calc(env(safe-area-inset-bottom)+20px)] md:pb-7
@@ -73,15 +73,15 @@ export default function SportPickerModal() {
       >
         {/* Header */}
         <div className="flex items-center justify-between mb-5">
-          <h2 id="sport-picker-title" className="text-lg font-bold text-sports-dark" style={{ fontFamily: 'var(--font-bricolage)' }}>
+          <h2 id="sport-picker-title" className="text-lg">
             Chọn loại sân
           </h2>
           <button
             onClick={close}
-            className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-sports-light transition-colors"
+            className="w-11 h-11 -mr-2 rounded flex items-center justify-center text-fg hover:bg-bg-subtle transition-colors"
             aria-label="Đóng"
           >
-            <X size={18} className="text-sports-primary" />
+            <X size={18} aria-hidden="true" />
           </button>
         </div>
 
@@ -91,15 +91,14 @@ export default function SportPickerModal() {
             <button
               key={href}
               onClick={() => pick(href)}
-              className="group flex flex-col rounded-xl border-2 border-transparent hover:border-sports-primary overflow-hidden transition-all active:scale-[0.97]"
-              style={{ background: '#FBF4E6' }}
+              className="flex flex-col rounded border border-line bg-bg-subtle overflow-hidden transition-colors hover:border-brand"
             >
               <div className="relative w-full h-28 p-6">
                 <Image src={icon} alt="" fill className="object-contain" sizes="200px" />
               </div>
               <div className="p-3 text-left">
-                <p className="font-bold text-sm text-sports-dark leading-tight">{label}</p>
-                <p className="text-xs text-[#8A6E54] mt-0.5">{sub}</p>
+                <p className="font-semibold text-sm text-fg leading-tight">{label}</p>
+                <p className="text-sm text-fg-muted mt-0.5">{sub}</p>
               </div>
             </button>
           ))}
@@ -108,7 +107,7 @@ export default function SportPickerModal() {
         {/* Cancel */}
         <button
           onClick={close}
-          className="mt-4 w-full py-2.5 text-sm text-[#8A6E54] hover:text-sports-dark transition-colors"
+          className="mt-4 w-full min-h-[44px] text-sm text-fg-muted hover:text-fg transition-colors"
         >
           Huỷ
         </button>

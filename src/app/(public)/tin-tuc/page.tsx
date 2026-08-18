@@ -3,9 +3,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
-import Navbar from '@/components/shared/Navbar';
-import Footer from '@/components/shared/Footer';
 import { getPublishedPosts } from '@/lib/posts';
+import { PageHero, Card, CardBody } from '@/components/ui';
 
 export const metadata: Metadata = {
   title: 'Tin tức & sự kiện — Song Thạch',
@@ -14,57 +13,50 @@ export const metadata: Metadata = {
 
 export const revalidate = 60;
 
-const PITCH      = '#3B2A1E';
-const LIME_DEEP  = '#A33E1F';
-const INK        = '#3B2A1E';
-const LINE       = '#E6E2D6';
-const MUTED      = '#8A6E54';
-const PAPER      = '#FFFBF2';
-
 export default async function NewsListPage() {
   const posts = await getPublishedPosts(50);
 
   return (
     <>
-      <Navbar />
-      <div className="pt-24 md:pt-28 pb-16" style={{ background: PAPER }}>
-      <div className="max-w-[1180px] mx-auto px-4 sm:px-6">
-        <h1 className="font-bold tracking-tight mb-10" style={{ fontFamily: 'var(--font-bricolage)', fontSize: 'clamp(28px,4vw,42px)', color: INK }}>
-          Tin tức &amp; sự kiện
-        </h1>
+      <PageHero
+        label="Song Thạch"
+        title="Tin tức &amp; sự kiện"
+        description="Thông báo, sự kiện và những gì đang diễn ra tại tổ hợp."
+      />
 
-        {posts.length === 0 ? (
-          <p className="text-sm" style={{ color: MUTED }}>Chưa có tin tức nào.</p>
-        ) : (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {posts.map((post) => (
-              <Link
-                key={post.id}
-                href={`/tin-tuc/${post.slug}`}
-                className="block rounded-[14px] overflow-hidden border transition-transform hover:-translate-y-1"
-                style={{ background: '#fff', borderColor: LINE }}
-              >
-                <div className="relative h-[172px]" style={{ background: '#ece7da' }}>
-                  {post.cover_image && (
-                    <Image src={post.cover_image} alt={post.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />
-                  )}
-                </div>
-                <div className="p-5">
-                  {post.published_at && (
-                    <div className="text-[11.5px] font-semibold mb-2" style={{ color: LIME_DEEP }}>
-                      {format(new Date(post.published_at), 'dd/MM/yyyy', { locale: vi })}
+      <section className="section">
+        <div className="container-page">
+          {posts.length === 0 ? (
+            <p className="text-fg-muted">Chưa có tin tức nào.</p>
+          ) : (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {posts.map((post) => (
+                <Card key={post.id}>
+                  <Link href={`/tin-tuc/${post.slug}`} className="block">
+                    <div className="relative w-full bg-bg-subtle" style={{ aspectRatio: '16/10' }}>
+                      {post.cover_image && (
+                        <Image
+                          src={post.cover_image} alt="" fill
+                          sizes="(max-width: 768px) 100vw, 33vw" className="object-cover"
+                        />
+                      )}
                     </div>
-                  )}
-                  <h2 className="font-semibold text-[17.5px] leading-snug mb-2" style={{ fontFamily: 'var(--font-bricolage)', color: INK }}>{post.title}</h2>
-                  {post.excerpt && <p className="text-sm" style={{ color: MUTED }}>{post.excerpt}</p>}
-                </div>
-              </Link>
-            ))}
-          </div>
-        )}
-      </div>
-      </div>
-      <Footer />
+                    <CardBody>
+                      {post.published_at && (
+                        <div className="text-xs font-semibold text-brand-strong mb-2">
+                          {format(new Date(post.published_at), 'dd/MM/yyyy', { locale: vi })}
+                        </div>
+                      )}
+                      <h2 className="text-lg leading-snug normal-case">{post.title}</h2>
+                      {post.excerpt && <p className="text-sm text-fg-muted mt-2">{post.excerpt}</p>}
+                    </CardBody>
+                  </Link>
+                </Card>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
     </>
   );
 }

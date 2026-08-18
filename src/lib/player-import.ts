@@ -1,0 +1,146 @@
+import { BANDS } from './rating';
+
+export type RawRow = {
+  rowNum: number;
+  full_name?: string; nickname?: string; phone?: string;
+  band?: string; progress_points?: string; tested_at?: string; test_note?: string;
+};
+export type ExistingPlayer = {
+  id: string; full_name: string; phone: string | null; band: number; progress_points: number;
+  nickname: string | null; tested_at: string | null; test_note: string | null;
+};
+export type ParsedRow = {
+  full_name: string; nickname: string | null; phone: string | null;
+  band: number; progress_points: number; tested_at: string | null; test_note: string | null;
+};
+export type Reconciled = {
+  rowNum: number;
+  kind: 'new' | 'update' | 'same' | 'error';
+  errors: string[];
+  autoSelect: boolean;
+  parsed: ParsedRow;
+  existingId?: string;
+  warning?: string;
+};
+
+/** Chuẩn hoá SĐT: bỏ ký tự không phải số, +84 (dạng quốc tế đủ 11 số) → 0. */
+export function normalizePhone(raw: string | null | undefined): string {
+  if (!raw) return '';
+  const digits = String(raw).replace(/\D/g, '');
+  // Chỉ coi '84' là mã quốc gia khi ở dạng quốc tế đủ 11 số (84 + 9 số trong nước);
+  // tránh cắt nhầm số nội địa đầu 084... khi Excel làm rớt số 0 ở đầu.
+  if (digits.startsWith('84') && digits.length === 11) return '0' + digits.slice(2);
+  return digits;
+}
+
+/** "A300" | "300" | "a500" → số; sai → null. */
+export function parseBand(raw: unknown): number | null {
+  if (raw == null) return null;
+  const s = String(raw).trim().toUpperCase().replace(/^A/, '');
+  const n = Number(s);
+  return (BANDS as number[]).includes(n) ? n : null;
+}
+
+function parseProgress(raw: unknown): number | null {
+  if (raw == null || String(raw).trim() === '') return 0;
+  const n = Number(String(raw).trim());
+  if (!Number.isInteger(n) || n < 0) return null;
+  return n;
+}
+
+/** '25/07/2026' | '25-07-2026' | '2026-07-25' | '' → { value: 'yyyy-mm-dd'|null, ok }. Sai định dạng → ok:false. */
+export function parseDate(raw: string | null | undefined): { value: string | null; ok: boolean } {
+  if (raw == null || String(raw).trim() === '') return { value: null, ok: true };
+  const s = String(raw).trim();
+  let m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (m) return { value: `${m[1]}-${m[2]}-${m[3]}`, ok: true };
+  m = s.match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{4})$/);
+  if (m) {
+    const d = +m[1], mo = +m[2];
+    if (d >= 1 && d <= 31 && mo >= 1 && mo <= 12) {
+      return { value: `${m[3]}-${String(mo).padStart(2, '0')}-${String(d).padStart(2, '0')}`, ok: true };
+    }
+  }
+  return { value: null, ok: false };
+}
+
+function sameData(p: ParsedRow, e: ExistingPlayer): boolean {
+  return p.full_name.trim() === e.full_name.trim()
+    && p.band === e.band
+    && p.progress_points === e.progress_points
+    && (p.nickname ?? '') === (e.nickname ?? '')
+    && (p.tested_at ?? '') === (e.tested_at ?? '')
+    && (p.test_note ?? '') === (e.test_note ?? '');
+}
+
+/** Tách một dòng CSV, tôn trọng ô có dấu ngoặc kép và dấu phẩy/ngoặc kép escape bên trong. */
+export function parseCsvLine(line: string): string[] {
+  const out: string[] = [];
+  let cur = '', inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (inQuotes) {
+      if (c === '"') {
+        if (line[i + 1] === '"') { cur += '"'; i++; } else inQuotes = false;
+      } else cur += c;
+    } else if (c === '"') { inQuotes = true; }
+    else if (c === ',') { out.push(cur); cur = ''; }
+    else cur += c;
+  }
+  out.push(cur);
+  return out.map((s) => s.trim());
+}
+
+export function reconcileImport(rows: RawRow[], existing: ExistingPlayer[]): Reconciled[] {
+  const byPhone = new Map<string, ExistingPlayer>();
+  for (const e of existing) { const k = normalizePhone(e.phone); if (k) byPhone.set(k, e); }
+
+  const seenInFile = new Set<string>();
+  const out: Reconciled[] = [];
+
+  for (const row of rows) {
+    const errors: string[] = [];
+    const full = (row.full_name ?? '').trim();
+    if (!full) errors.push('Thiếu họ tên');
+
+    const band = parseBand(row.band);
+    if (band == null) errors.push('Mức trình phải là A100, A200, A300, A400 hoặc A500');
+
+    const progress = parseProgress(row.progress_points);
+    if (progress == null) errors.push('Điểm tiến độ phải là số không âm');
+    else if (band != null && band < 500 && progress >= 100) errors.push('Tiến độ vượt mốc 100 khi chưa phải A500');
+
+    const phoneKey = normalizePhone(row.phone);
+    if (phoneKey && seenInFile.has(phoneKey)) errors.push('Trùng số điện thoại với dòng khác trong file');
+    if (phoneKey) seenInFile.add(phoneKey);
+
+    const dateParsed = parseDate(row.tested_at);
+    if (!dateParsed.ok) errors.push('Ngày test phải dạng dd/mm/yyyy');
+
+    const parsed: ParsedRow = {
+      full_name: full, nickname: row.nickname?.trim() || null, phone: row.phone?.trim() || null,
+      band: band ?? 100, progress_points: progress ?? 0,
+      tested_at: dateParsed.value, test_note: row.test_note?.trim() || null,
+    };
+
+    if (errors.length) { out.push({ rowNum: row.rowNum, kind: 'error', errors, autoSelect: false, parsed }); continue; }
+
+    const match = phoneKey ? byPhone.get(phoneKey) : undefined;
+    if (!match) { out.push({ rowNum: row.rowNum, kind: 'new', errors: [], autoSelect: true, parsed }); continue; }
+
+    if (sameData(parsed, match)) {
+      out.push({ rowNum: row.rowNum, kind: 'same', errors: [], autoSelect: false, parsed, existingId: match.id });
+      continue;
+    }
+
+    // Cập nhật khác dữ liệu: cảnh báo nếu làm giảm điểm hiệu dụng
+    const oldEff = match.band + match.progress_points;
+    const newEff = parsed.band + parsed.progress_points;
+    const losesData = newEff < oldEff;
+    out.push({
+      rowNum: row.rowNum, kind: 'update', errors: [], autoSelect: !losesData, parsed, existingId: match.id,
+      warning: losesData ? `File sẽ giảm điểm hiệu dụng ${oldEff} → ${newEff}` : undefined,
+    });
+  }
+  return out;
+}

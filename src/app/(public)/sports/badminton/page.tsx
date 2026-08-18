@@ -1,10 +1,8 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import { Shield, Wrench, Users, GraduationCap, CheckCircle2, BookOpen, Award, Zap, TrendingUp, MapPin, Phone, ArrowRight } from 'lucide-react';
-import Navbar from '@/components/shared/Navbar';
-import Footer from '@/components/shared/Footer';
 import BookingWidget from '@/components/sports/BookingWidget';
 import { getGallery } from '@/lib/gallery';
+import { PageHero, SectionHeader, Card, CardBody, Badge } from '@/components/ui';
 
 // Đọc lại ảnh từ DB mỗi 60s — admin đổi ảnh nền sẽ hiện sau ~1 phút
 export const revalidate = 60;
@@ -30,7 +28,6 @@ const ENROLL_OPTIONS = [
 const PRICE_LEVELS = [
   {
     level: 'Cơ bản',
-    levelColor: 'bg-green-100 text-green-700',
     desc: 'Mới bắt đầu, học kỹ thuật nền tảng',
     curriculum: [
       'Kỹ thuật cầm vợt, di chuyển và tư thế chuẩn',
@@ -44,7 +41,6 @@ const PRICE_LEVELS = [
   },
   {
     level: 'Trung bình',
-    levelColor: 'bg-orange-100 text-orange-700',
     desc: 'Biết cơ bản, nâng cao kỹ thuật',
     curriculum: [
       'Hoàn thiện kỹ thuật đánh cao sâu, đập cầu, bỏ nhỏ tinh tế',
@@ -58,7 +54,6 @@ const PRICE_LEVELS = [
   },
   {
     level: 'Nâng cao',
-    levelColor: 'bg-red-100 text-red-700',
     desc: 'Thi đấu, chiến thuật chuyên sâu',
     curriculum: [
       'Chiến thuật thi đấu đơn, đôi nâng cao',
@@ -92,109 +87,107 @@ const FEATURES = [
   { icon: Wrench, title: 'Nhận đan vợt',          desc: 'Dịch vụ đan vợt chuyên nghiệp, đa dạng loại dây và lực căng theo yêu cầu.' },
 ];
 
+const PRICE_ROWS = [
+  { label: '05:00 – 17:00', price: '50.000đ', tag: 'Giờ thường' },
+  { label: '17:00 – 22:00', price: '60.000đ', tag: 'Giờ vàng' },
+];
+
 export default async function BadmintonPage() {
   const dbImages = await getGallery('badminton');
   const heroSrc  = dbImages[0]?.url ?? '/images/sports/badminton-hero.jpg';
 
   return (
     <>
-      <Navbar />
+      <PageHero
+        label="Khu thể thao Song Thạch"
+        title="Sân Cầu Lông"
+        description="3 sân tiêu chuẩn BWF · Mở cửa 06:00 – 22:00 mỗi ngày"
+        image={heroSrc}
+      />
 
-      {/* Hero */}
-      <section id="main-content" className="relative h-[55vh] min-h-[400px] flex items-end">
-        <Image
-          src={heroSrc}
-          alt="Sân cầu lông tiêu chuẩn BWF tại Song Thạch — sàn PVC chuyên nghiệp, ánh sáng LED"
-          fill
-          sizes="100vw"
-          className="object-cover object-top"
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-sports-dark/40 to-sports-dark" />
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 w-full">
-          <p className="sports-hero-text text-sports-accent text-sm tracking-widest mb-2">KHU THỂ THAO SONG THẠCH</p>
-          <h1 className="sports-hero-text text-5xl md:text-6xl font-bold text-white">
-            SÂN CẦU LÔNG
-          </h1>
-          <p className="text-white/70 mt-3 text-lg">3 sân tiêu chuẩn · Mở cửa 06:00 – 22:00</p>
-        </div>
-      </section>
-
-      {/* Main content */}
-      <section className="bg-background py-6 sm:py-12">
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+      {/* ── Đặt sân + thông tin sân ───────────────── */}
+      <section className="section">
+        <div className="container-page">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
 
-            {/* Right: booking widget — first in HTML = first on mobile */}
+            {/* Widget đặt sân — đứng trước trong HTML nên lên đầu trên điện thoại */}
             <div className="lg:col-start-3 lg:col-span-3">
-              <div className="sticky top-24">
+              <div className="lg:sticky lg:top-24">
                 <BookingWidget courts={COURTS} venueName="Sân Cầu lông" />
               </div>
             </div>
 
-            {/* Left: info — explicit col placement keeps it left on desktop */}
-            <div className="lg:col-start-1 lg:row-start-1 lg:col-span-2 space-y-8">
-              {/* Court cards — Tên sân ưu tiên hiển thị lớn nhất */}
+            <div className="lg:col-start-1 lg:row-start-1 lg:col-span-2 space-y-10">
+              {/* Danh sách sân */}
               <div>
-                <h2 className="sports-hero-text text-xl font-bold text-sports-dark mb-4">Danh sách sân</h2>
+                <h2 className="text-xl mb-4">Danh sách sân</h2>
                 <div className="space-y-3">
-                  {COURTS.map((c, i) => (
-                    <div key={c.id} className="sports-card p-4 flex items-center justify-between">
-                      <div>
-                        {/* Tên sân: cấp bậc cao nhất, font lớn nhất */}
-                        <p className="sports-hero-text text-2xl font-bold text-sports-primary">{c.name}</p>
-                        <p className="text-xs text-gray-500 mt-0.5">Tiêu chuẩn BWF · Sàn PVC</p>
-                      </div>
-                      <div className={`w-3 h-3 rounded-full ${i === 1 ? 'bg-red-400' : 'bg-green-400'}`} title={i === 1 ? 'Đang có người' : 'Trống'} />
+                  {COURTS.map((c) => (
+                    <div key={c.id} className="rounded border border-line bg-bg p-4">
+                      <p className="font-display text-2xl text-brand-strong">{c.name}</p>
+                      <p className="text-sm text-fg-muted mt-0.5">Tiêu chuẩn BWF · Sàn PVC</p>
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* Features */}
+              {/* Tiện ích */}
               <div>
-                <h2 className="sports-hero-text text-xl font-bold text-sports-dark mb-4">Tiện ích & Thiết bị</h2>
-                <div className="grid grid-cols-1 gap-3">
+                <h2 className="text-xl mb-4">Tiện ích &amp; thiết bị</h2>
+                <div className="space-y-3">
                   {FEATURES.map((f) => (
-                    <div key={f.title} className="flex items-start gap-3 bg-white p-4 border-2 border-[#3B2A1E]" style={{ boxShadow: '3px 3px 0 #E3A21A' }}>
-                      <div className="w-9 h-9 bg-sports-light flex items-center justify-center shrink-0 border border-sports-primary">
-                        <f.icon size={18} className="text-sports-primary" />
-                      </div>
+                    <div key={f.title} className="flex items-start gap-3 rounded border border-line bg-bg p-4">
+                      <span className="w-10 h-10 grid place-items-center shrink-0 rounded border border-line bg-bg-subtle text-brand-strong">
+                        <f.icon size={18} aria-hidden="true" />
+                      </span>
                       <div>
-                        <p className="font-semibold text-sm text-gray-900">{f.title}</p>
-                        <p className="text-xs text-gray-500 mt-0.5">{f.desc}</p>
+                        <p className="font-semibold text-sm text-fg">{f.title}</p>
+                        <p className="text-sm text-fg-muted mt-0.5">{f.desc}</p>
                       </div>
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* Price table */}
-              <div className="bg-white border-2 border-[#3B2A1E] overflow-hidden">
-                <div className="gradient-sports px-4 py-3">
-                  <p className="sports-hero-text font-bold text-white text-sm tracking-wider">BẢNG GIÁ</p>
-                </div>
-                <table className="w-full text-sm">
-                  <thead><tr className="bg-gray-50">
-                    <th className="text-left px-4 py-2 text-gray-500 font-medium">Khung giờ</th>
-                    <th className="text-right px-4 py-2 text-gray-500 font-medium">Giá / giờ</th>
-                  </tr></thead>
-                  <tbody className="divide-y divide-gray-50">
-                    {[
-                      { label: '05:00 – 17:00', price: '50.000', tag: 'Giờ thường' },
-                      { label: '17:00 – 22:00', price: '60.000', tag: 'Giờ vàng' },
-                    ].map(row => (
-                      <tr key={row.label} className="hover:bg-gray-50 transition-colors">
-                        <td className="px-4 py-3">
-                          <p className="font-medium text-gray-900">{row.label}</p>
-                          <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${row.tag === 'Giờ vàng' ? 'bg-orange-100 text-orange-600' : 'bg-gray-100 text-gray-500'}`}>{row.tag}</span>
+              {/* Bảng giá */}
+              <div>
+                <h2 className="text-xl mb-4">Bảng giá thuê sân</h2>
+
+                {/* Điện thoại — danh sách */}
+                <ul className="md:hidden rounded border border-line divide-y divide-line">
+                  {PRICE_ROWS.map((row) => (
+                    <li key={row.label} className="flex items-center justify-between gap-4 px-4 py-3">
+                      <span className="text-sm text-fg">
+                        {row.label}
+                        <span className="block text-xs text-fg-muted">{row.tag}</span>
+                      </span>
+                      <span className="text-sm font-semibold text-fg">{row.price}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Máy tính — bảng */}
+                <table className="hidden md:table w-full rounded border border-line border-collapse text-sm">
+                  <thead>
+                    <tr className="bg-bg-subtle">
+                      <th scope="col" className="text-left px-4 py-3 font-display uppercase tracking-[0.06em] text-xs text-fg">Khung giờ</th>
+                      <th scope="col" className="text-right px-4 py-3 font-display uppercase tracking-[0.06em] text-xs text-fg">Giá / giờ</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {PRICE_ROWS.map((row) => (
+                      <tr key={row.label} className="border-t border-line">
+                        <td className="px-4 py-3 text-fg">
+                          {row.label}
+                          <span className="block text-xs text-fg-muted">{row.tag}</span>
                         </td>
-                        <td className="px-4 py-3 text-right font-bold text-sports-primary">{row.price}đ</td>
+                        <td className="px-4 py-3 text-right font-semibold text-fg">{row.price}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
-                <p className="text-xs text-gray-400 px-4 py-3 border-t border-gray-50">Giá tính theo giờ/sân · Đặt cọc 30% khi đặt online</p>
+
+                <p className="text-sm text-fg-muted mt-3">Giá tính theo giờ/sân · Đặt cọc 30% khi đặt online</p>
               </div>
             </div>
 
@@ -202,138 +195,130 @@ export default async function BadmintonPage() {
         </div>
       </section>
 
-      {/* ─── CHIÊU SINH LỚP CẦU LÔNG HÈ ─────────────────── */}
-      <section id="classes" className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10">
-            <div className="inline-flex items-center gap-2 bg-sports-light text-sports-primary text-xs font-bold px-4 py-1.5 mb-4 tracking-widest uppercase border-2 border-[#3B2A1E]" style={{ fontFamily: 'var(--font-bebas)' }}>
-              <GraduationCap size={14} /> Chiêu sinh hè — Song Thạch Badminton Club
-            </div>
-            <h2 className="text-4xl font-bold text-sports-dark mb-2">Lớp Cầu Lông Chất Lượng Cao</h2>
-            <p className="sports-hero-text text-sports-primary italic text-lg mb-3">Nâng tầm kỹ thuật – Chắp cánh đam mê</p>
-            <p className="text-gray-500 flex items-center justify-center gap-1.5">
-              <MapPin size={14} className="text-sports-primary shrink-0" /> Sân cầu lông Song Thạch
-            </p>
-          </div>
+      {/* ── Chiêu sinh lớp cầu lông ───────────────── */}
+      <section id="classes" className="section bg-bg-subtle">
+        <div className="container-page">
+          <SectionHeader
+            label="Chiêu sinh — Song Thạch Badminton Club"
+            title="Lớp cầu lông chất lượng cao"
+            description="Nâng tầm kỹ thuật – Chắp cánh đam mê. Học tại sân cầu lông Song Thạch."
+            align="center"
+          />
 
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
             {/* Cột trái: tiêu chí, hình thức tuyển sinh, liên hệ */}
             <div className="lg:col-span-2 space-y-6">
-              {/* Tiêu chí đào tạo */}
-              <div className="sports-card p-6">
-                <h3 className="sports-hero-text text-lg font-bold text-sports-dark mb-4 flex items-center gap-2">
-                  <BookOpen size={18} className="text-sports-primary" /> Tiêu chí đào tạo
-                </h3>
-                <ul className="space-y-3 mb-4">
-                  {TRAINING_HIGHLIGHTS.map((h) => (
-                    <li key={h.title} className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-sports-light flex items-center justify-center shrink-0 border border-sports-primary">
-                        <h.icon size={15} className="text-sports-primary" />
-                      </div>
-                      <span className="text-sm text-gray-700">{h.title}</span>
-                    </li>
-                  ))}
-                </ul>
-                <p className="text-xs text-gray-500 border-t border-gray-100 pt-3">
-                  <span className="text-sports-primary font-semibold">Cam kết:</span> Có nhiều năm kinh nghiệm thi đấu và huấn luyện. Đảm bảo uy tín – Tận tâm – Chất lượng đầu ra.
-                </p>
-              </div>
+              <Card>
+                <CardBody>
+                  <h3 className="text-lg mb-4 flex items-center gap-2">
+                    <BookOpen size={18} className="text-brand-strong" aria-hidden="true" /> Tiêu chí đào tạo
+                  </h3>
+                  <ul className="space-y-3 mb-4">
+                    {TRAINING_HIGHLIGHTS.map((h) => (
+                      <li key={h.title} className="flex items-center gap-3">
+                        <span className="w-9 h-9 grid place-items-center shrink-0 rounded border border-line bg-bg-subtle text-brand-strong">
+                          <h.icon size={15} aria-hidden="true" />
+                        </span>
+                        <span className="text-sm text-fg">{h.title}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="text-sm text-fg-muted border-t border-line pt-3">
+                    <span className="text-brand-strong font-semibold">Cam kết:</span> Có nhiều năm kinh nghiệm thi đấu và huấn luyện. Đảm bảo uy tín – Tận tâm – Chất lượng đầu ra.
+                  </p>
+                </CardBody>
+              </Card>
 
-              {/* Hình thức tuyển sinh */}
-              <div className="sports-card p-6">
-                <h3 className="sports-hero-text text-lg font-bold text-sports-dark mb-4 flex items-center gap-2">
-                  <Users size={18} className="text-sports-primary" /> Hình thức tuyển sinh
-                </h3>
-                <ul className="space-y-2">
-                  {ENROLL_OPTIONS.map((o) => (
-                    <li key={o} className="flex items-center gap-2 text-sm text-gray-700">
-                      <CheckCircle2 size={15} className="text-sports-primary shrink-0" /> {o}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <Card>
+                <CardBody>
+                  <h3 className="text-lg mb-4 flex items-center gap-2">
+                    <Users size={18} className="text-brand-strong" aria-hidden="true" /> Hình thức tuyển sinh
+                  </h3>
+                  <ul className="space-y-2">
+                    {ENROLL_OPTIONS.map((o) => (
+                      <li key={o} className="flex items-center gap-2 text-sm text-fg">
+                        <CheckCircle2 size={15} className="text-brand-strong shrink-0" aria-hidden="true" /> {o}
+                      </li>
+                    ))}
+                  </ul>
+                </CardBody>
+              </Card>
 
-              {/* Liên hệ đăng ký */}
-              <div className="sports-card p-6 text-center">
-                <p className="text-gray-500 text-sm mb-3">Liên hệ đăng ký (Phone / Zalo)</p>
-                <div className="flex flex-col gap-3">
-                  {ENROLL_CONTACTS.map((c, i) => (
-                    <a
-                      key={c.phone}
-                      href={`tel:${c.phone}`}
-                      className={i === 0
-                        ? 'sports-btn flex items-center justify-center gap-2'
-                        : 'flex items-center justify-center gap-2 border-2 border-sports-primary text-sports-primary font-semibold px-6 py-3 hover:bg-sports-light transition-all'}
-                    >
-                      <Phone size={16} /> {c.display} ({c.name})
-                    </a>
-                  ))}
-                </div>
-              </div>
+              <Card>
+                <CardBody>
+                  <p className="text-sm text-fg-muted mb-3 text-center">Liên hệ đăng ký (Phone / Zalo)</p>
+                  <div className="flex flex-col gap-3">
+                    {ENROLL_CONTACTS.map((c, i) => (
+                      <a
+                        key={c.phone}
+                        href={`tel:${c.phone}`}
+                        className={i === 0 ? 'btn-brand' : 'inline-flex items-center justify-center gap-2 min-h-[48px] px-6 rounded border border-line text-sm text-fg hover:border-brand hover:text-brand-strong transition-colors'}
+                      >
+                        <Phone size={16} aria-hidden="true" /> {c.display} ({c.name})
+                      </a>
+                    ))}
+                  </div>
+                </CardBody>
+              </Card>
             </div>
 
-            {/* Cột phải: giáo trình & bảng giá theo cấp độ */}
+            {/* Cột phải: giáo trình & học phí theo cấp độ */}
             <div className="lg:col-span-3 space-y-4">
               {PRICE_LEVELS.map((lvl) => (
-                <div key={lvl.level} className="sports-card p-6 flex flex-col sm:flex-row sm:justify-between gap-4">
-                  <div className="flex-1">
-                    <span className={`text-xs font-bold px-3 py-1 ${lvl.levelColor}`} style={{ fontFamily: 'var(--font-bebas)', letterSpacing: '0.06em' }}>{lvl.level}</span>
-                    <h3 className="sports-hero-text text-xl font-bold text-sports-dark mt-2 mb-1">Cấp độ {lvl.level}</h3>
-                    <p className="text-gray-400 text-xs mb-3">{lvl.desc}</p>
-                    <ul className="space-y-1.5">
-                      {lvl.curriculum.map((c) => (
-                        <li key={c} className="flex items-start gap-2 text-xs text-gray-600">
-                          <CheckCircle2 size={13} className="text-sports-primary mt-0.5 shrink-0" /> {c}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <table className="w-full sm:w-56 text-sm shrink-0 self-start">
-                    <thead>
-                      <tr className="text-gray-400 text-xs">
-                        <th className="text-left pb-2 font-medium">Độ tuổi</th>
-                        <th className="text-right pb-2 font-medium">Học phí</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-100">
-                      {lvl.rows.map((r) => (
-                        <tr key={r.age}>
-                          <td className="py-3 text-gray-600">{r.age}</td>
-                          <td className="py-3 text-right">
-                            <p className="text-sports-dark font-bold">{r.perMonth}đ<span className="text-gray-400 font-normal text-xs">/tháng</span></p>
-                            <p className="text-gray-400 text-xs">{r.perSession}đ/buổi</p>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                <Card key={lvl.level}>
+                  <CardBody>
+                    <div className="flex flex-col sm:flex-row sm:justify-between gap-6">
+                      <div className="flex-1">
+                        <Badge tone="brand">{lvl.level}</Badge>
+                        <h3 className="text-xl mt-3 mb-1">Cấp độ {lvl.level}</h3>
+                        <p className="text-sm text-fg-muted mb-3">{lvl.desc}</p>
+                        <ul className="space-y-1.5">
+                          {lvl.curriculum.map((c) => (
+                            <li key={c} className="flex items-start gap-2 text-sm text-fg-muted">
+                              <CheckCircle2 size={14} className="text-brand-strong mt-1 shrink-0" aria-hidden="true" /> {c}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <ul className="w-full sm:w-56 shrink-0 self-start rounded border border-line divide-y divide-line">
+                        {lvl.rows.map((r) => (
+                          <li key={r.age} className="px-3 py-3">
+                            <p className="text-sm text-fg-muted">{r.age}</p>
+                            <p className="text-fg font-semibold">
+                              {r.perMonth}đ<span className="text-fg-muted font-normal text-sm">/tháng</span>
+                            </p>
+                            <p className="text-sm text-fg-muted">{r.perSession}đ/buổi</p>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </CardBody>
+                </Card>
               ))}
-              <p className="text-center text-gray-400 text-xs">Tất cả các lớp đều học 8 buổi / tháng.</p>
+              <p className="text-center text-sm text-fg-muted">
+                <GraduationCap size={14} className="inline mr-1 text-brand-strong" aria-hidden="true" />
+                Tất cả các lớp đều học 8 buổi / tháng.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ─── Vị trí ──────────────────────────────────────── */}
-      <section className="py-16 bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-8 items-center">
+      {/* ── Vị trí ───────────────── */}
+      <section className="section">
+        <div className="container-page grid lg:grid-cols-2 gap-10 items-center">
           <div>
-            <h2 className="sports-hero-text text-3xl font-bold text-sports-dark mb-4">Vị trí Sân Cầu lông</h2>
-            <p className="flex items-start gap-2 text-gray-600 mb-6">
-              <MapPin size={18} className="text-sports-primary shrink-0 mt-0.5" />
+            <h2 className="text-[clamp(28px,3.5vw,44px)] mb-4">Vị trí sân cầu lông</h2>
+            <p className="flex items-start gap-2 text-fg-muted mb-6">
+              <MapPin size={18} className="text-brand-strong shrink-0 mt-1" aria-hidden="true" />
               9B/3, Ấp An Hòa, Xã Hưng Thịnh, Đồng Nai
             </p>
-            <a
-              href={MAP_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="sports-btn inline-flex items-center gap-2"
-            >
-              Chỉ đường <ArrowRight size={16} />
+            <a href={MAP_LINK} target="_blank" rel="noopener noreferrer" className="btn-brand">
+              Chỉ đường <ArrowRight size={16} aria-hidden="true" />
             </a>
           </div>
-          <div className="overflow-hidden border-2 border-[#3B2A1E] h-[300px]">
+          <div className="rounded border border-line overflow-hidden h-[300px]">
             <iframe
               src={MAP_EMBED_SRC}
               width="100%"
@@ -346,8 +331,6 @@ export default async function BadmintonPage() {
           </div>
         </div>
       </section>
-
-      <Footer />
     </>
   );
 }

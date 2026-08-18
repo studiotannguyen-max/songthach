@@ -1,60 +1,75 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import Navbar from '@/components/shared/Navbar';
-import Footer from '@/components/shared/Footer';
+import { getGallery } from '@/lib/gallery';
+import { PageHero, SectionHeader, Card, CardImage, CardBody, Badge } from '@/components/ui';
 
-export const metadata: Metadata = { title: 'Khu Thể thao' };
+export const metadata: Metadata = {
+  title: 'Khu Thể thao',
+  description: 'Sân bóng đá cỏ nhân tạo và sân cầu lông tiêu chuẩn BWF tại Song Thạch. Mở cửa 06:00–22:00, đặt sân online.',
+};
 
-export default function SportsPage() {
+// Đọc lại ảnh từ DB mỗi 60s — admin đổi ảnh sẽ hiện sau ~1 phút
+export const revalidate = 60;
+
+export default async function SportsPage() {
+  const [footballImages, badmintonImages] = await Promise.all([
+    getGallery('football'),
+    getGallery('badminton'),
+  ]);
+
+  const ZONES = [
+    {
+      href:  '/sports/football',
+      title: 'Sân Bóng Đá',
+      badge: '3 sân 5 người · 1 sân 7 người',
+      desc:  'Cỏ nhân tạo thế hệ 3, hệ thống đèn LED chuẩn thi đấu ban đêm. Phù hợp mọi trình độ.',
+      image: footballImages[0]?.url,
+    },
+    {
+      href:  '/sports/badminton',
+      title: 'Sân Cầu Lông',
+      badge: '3 sân tiêu chuẩn BWF',
+      desc:  'Sàn PVC chính hãng, hệ thống thông gió, cho thuê vợt và cầu ngay tại sân.',
+      image: badmintonImages[0]?.url ?? '/images/sports/badminton-hero.jpg',
+    },
+  ];
+
   return (
     <>
-      <Navbar />
-      <section className="relative h-[60vh] min-h-[440px] flex items-end">
-        <Image
-          src="https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=1600&q=80"
-          alt="Khu Thể thao Song Thạch" fill className="object-cover" priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-sports-dark" />
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 w-full">
-          <p className="sports-hero-text text-sports-accent text-sm tracking-widest mb-2">SONG THẠCH</p>
-          <h1 className="sports-hero-text text-5xl md:text-7xl font-bold text-white">KHU THỂ THAO</h1>
-          <p className="text-white/70 mt-3 text-lg">Dành cho mọi người · Mở cửa 06:00 – 22:00</p>
-        </div>
-      </section>
+      <PageHero
+        label="Song Thạch"
+        title="Khu Thể Thao"
+        description="Dành cho mọi người · Mở cửa 06:00 – 22:00 mỗi ngày"
+        image={badmintonImages[0]?.url ?? '/images/sports/badminton-hero.jpg'}
+        cta={{ label: 'Xem sân cầu lông', href: '/sports/badminton' }}
+      />
 
-      <section className="py-20" style={{ background: '#F4E9D6' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {[
-              { title: 'SÂN BÓNG ĐÁ', sub: '2 sân 5 người · 1 sân 7 người', href: '/sports/football',
-                src: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&q=80',
-                desc: 'Cỏ nhân tạo thế hệ 3, hệ thống đèn LED cao cấp. Phù hợp mọi trình độ.' },
-              { title: 'SÂN CẦU LÔNG', sub: '3 sân tiêu chuẩn BWF', href: '/sports/badminton',
-                src: 'https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?w=800&q=80',
-                desc: 'Sàn PVC chính hãng, hệ thống thông gió, cho thuê vợt và cầu tại sân.' },
-            ].map((item) => (
-              <Link key={item.href} href={item.href} className="group sports-card block">
-                <div className="relative h-64 overflow-hidden" style={{ borderBottom: '3px solid #3B2A1E' }}>
-                  <Image src={item.src} alt={item.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-sports-dark/80 to-transparent" />
-                  <div className="absolute bottom-0 left-0 p-6">
-                    <h2 className="sports-hero-text text-2xl font-bold text-white">{item.title}</h2>
-                    <p className="text-sports-accent text-sm">{item.sub}</p>
-                  </div>
-                </div>
-                <div className="p-6 flex items-center justify-between">
-                  <p className="text-gray-600 text-sm leading-relaxed">{item.desc}</p>
-                  <ArrowRight size={20} className="text-sports-primary shrink-0 ml-4 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </Link>
+      <section className="section">
+        <div className="container-page">
+          <SectionHeader label="Chọn môn" title="Hai khu sân tại Song Thạch" />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {ZONES.map((zone) => (
+              <Card key={zone.href}>
+                <Link href={zone.href} className="block">
+                  {zone.image
+                    ? <CardImage src={zone.image} alt={zone.title} ratio="16/10" />
+                    : <div className="w-full bg-bg-subtle" style={{ aspectRatio: '16/10' }} />}
+                  <CardBody>
+                    <Badge>{zone.badge}</Badge>
+                    <h2 className="text-2xl mt-4 mb-2">{zone.title}</h2>
+                    <p className="text-sm text-fg-muted">{zone.desc}</p>
+                    <span className="mt-5 flex items-center gap-1.5 text-sm font-display uppercase tracking-[0.06em] text-brand-strong">
+                      Xem chi tiết &amp; đặt sân <ArrowRight size={14} aria-hidden="true" />
+                    </span>
+                  </CardBody>
+                </Link>
+              </Card>
             ))}
           </div>
         </div>
       </section>
-
-      <Footer />
     </>
   );
 }

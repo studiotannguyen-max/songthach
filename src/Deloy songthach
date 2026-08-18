@@ -1,0 +1,10 @@
+ cd /www/wwwroot/songthach.com
+  npm run build
+
+  Đợi build xong rồi:
+
+  cp -r .next/static .next/standalone/.next/static
+  cp -r public .next/standalone/public
+  cp .env.local .next/standalone/.env.local
+  cp -r node_modules/sharp .next/standalone/node_modules/
+  pm2 restart songthach

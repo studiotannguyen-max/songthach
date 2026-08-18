@@ -44,50 +44,37 @@ const config: Config = {
           DEFAULT: 'var(--card)',
           foreground: 'var(--card-foreground)',
         },
-        sidebar: {
-          DEFAULT: 'var(--sidebar)',
-          foreground: 'var(--sidebar-foreground)',
-          primary: 'var(--sidebar-primary)',
-          'primary-foreground': 'var(--sidebar-primary-foreground)',
-          accent: 'var(--sidebar-accent)',
-          'accent-foreground': 'var(--sidebar-accent-foreground)',
-          border: 'var(--sidebar-border)',
-          ring: 'var(--sidebar-ring)',
-        },
-        chart: {
-          '1': 'var(--chart-1)',
-          '2': 'var(--chart-2)',
-          '3': 'var(--chart-3)',
-          '4': 'var(--chart-4)',
-          '5': 'var(--chart-5)',
-        },
-        // --- Tất cả khu công khai dùng chung bảng màu Giải Cầu Lông (kem/mù tạt/terracotta/nâu) ---
+        // --- Bảng màu mới: trắng + một màu nhấn xanh lá, dùng chung toàn khu công khai ---
+        bg:             'var(--bg)',
+        'bg-subtle':    'var(--bg-subtle)',
+        fg:             'var(--fg)',
+        'fg-muted':     'var(--fg-muted)',
+        line:           'var(--line)',
+        ink:            'var(--ink)',
+        brand:          'var(--brand)',
+        'brand-strong': 'var(--brand-strong)',
+        danger:         'var(--danger)',
+
+        // --- DI SẢN: CHỈ dành cho khu /admin ---
+        // Khu admin dùng các lớp này ở ~63 chỗ và spec yêu cầu giữ nguyên giao diện admin.
+        // Mã màu để literal, không qua biến, nên đổi token công khai không ảnh hưởng.
+        // KHÔNG dùng trong khu công khai — Task 14 có bước grep chặn.
         sports: {
-          primary:   '#C5532F',   // Terracotta
-          accent:    '#E3A21A',   // Mù tạt
-          dark:      '#3B2A1E',   // Ink nâu
-          light:     '#F4E9D6',   // Kem
+          primary: '#C5532F', accent: '#E3A21A', dark: '#3B2A1E', light: '#F4E9D6',
         },
         wedding: {
-          primary:   '#C5532F',   // Terracotta
-          accent:    '#E3A21A',   // Mù tạt
-          dark:      '#3B2A1E',   // Ink nâu
-          cream:     '#FFFBF2',   // Paper
-          rose:      '#F1C9B4',   // Terra nhạt
+          primary: '#C5532F', accent: '#E3A21A', dark: '#3B2A1E', cream: '#FFFBF2', rose: '#F1C9B4',
         },
         cafe: {
-          primary:   '#C5532F',   // Terracotta
-          accent:    '#E3A21A',   // Mù tạt
-          dark:      '#3B2A1E',   // Ink nâu
-          light:     '#F1C9B4',   // Terra nhạt
+          primary: '#C5532F', accent: '#E3A21A', dark: '#3B2A1E', light: '#F1C9B4',
         },
       },
       fontFamily: {
-        sans:   ['var(--font-sans)', 'sans-serif'],
-        mono:   ['var(--font-mono)', 'monospace'],
-        serif:  ['var(--font-playfair)', 'serif'],
-        sport:  ['var(--font-oswald)', 'sans-serif'],
-        bebas:  ['var(--font-bebas)', 'sans-serif'],
+        sans:    ['var(--font-sans)', 'sans-serif'],
+        display: ['var(--font-display)', 'sans-serif'],
+        // DI SẢN: admin/login còn dùng `font-bebas`. Trỏ về font tiêu đề mới
+        // thay vì nạp thêm Barlow Condensed chỉ cho một trang nội bộ.
+        bebas:   ['var(--font-display)', 'sans-serif'],
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -98,7 +85,6 @@ const config: Config = {
         'fade-up':    'fadeUp 0.6s ease-out forwards',
         'fade-in':    'fadeIn 0.8s ease-out forwards',
         'slide-left': 'slideLeft 0.6s ease-out forwards',
-        'float':      'float 6s ease-in-out infinite',
       },
       keyframes: {
         fadeUp: {
@@ -112,10 +98,6 @@ const config: Config = {
         slideLeft: {
           '0%':   { opacity: '0', transform: 'translateX(30px)' },
           '100%': { opacity: '1', transform: 'translateX(0)' },
-        },
-        float: {
-          '0%, 100%': { transform: 'translateY(0px)' },
-          '50%':      { transform: 'translateY(-12px)' },
         },
       },
     },
