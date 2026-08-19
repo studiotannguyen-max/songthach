@@ -7,7 +7,7 @@ import { getPublishedPosts } from '@/lib/posts';
 import { PageHero, Card, CardBody } from '@/components/ui';
 
 export const metadata: Metadata = {
-  title: 'Tin tức & sự kiện — Song Thạch',
+  title: 'Tin tức & sự kiện',
   description: 'Tin tức, sự kiện và thông báo mới nhất từ Song Thạch.',
 };
 

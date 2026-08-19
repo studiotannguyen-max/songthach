@@ -41,7 +41,8 @@ export function bandLabel(band: number): string {
 
 /**
  * Áp một khoản điểm (dương hoặc âm) lên (band, progress) hiện tại.
- * Delta bất kỳ — spec giải đấu sau này truyền +50; điều chỉnh tay truyền số admin nhập.
+ * Delta bất kỳ — thưởng theo thứ hạng chung cuộc (nhất 25, nhì 15, ba 10);
+ * điều chỉnh tay thì truyền số admin nhập.
  */
 export function applyPoints(band: number, progress: number, delta: number, gender: Gender): { band: Band; progress: number } {
   return deriveBandProgress(band + progress + delta, gender);
