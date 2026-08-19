@@ -57,7 +57,7 @@ function EventRow({ event: ev, events, playerId, gender, onDone }: {
       <div className="py-3 space-y-3">
         <div className="text-sm font-medium">{REASON_LABEL[ev.reason] ?? ev.reason}</div>
         <div className="grid grid-cols-[110px_1fr] gap-3">
-          <input className="inp tabular-nums" value={points} onChange={e => setPoints(e.target.value)} placeholder="+50" />
+          <input className="inp tabular-nums" value={points} onChange={e => setPoints(e.target.value)} placeholder="+25" />
           <input className="inp" value={note} onChange={e => setNote(e.target.value)} placeholder="Lý do" />
         </div>
 
@@ -153,7 +153,7 @@ export default function AdjustPointsPanel({ player, events, onDone }: { player: 
         <h3 className="font-bold">Cộng / trừ điểm</h3>
         <div className="grid grid-cols-2 gap-4">
           <label className="block"><span className="block text-xs font-bold uppercase text-gray-500 mb-1.5">Số điểm (âm để trừ)</span>
-            <input className="inp tabular-nums" value={delta} onChange={e => setDelta(e.target.value)} placeholder="+50 hoặc -50" /></label>
+            <input className="inp tabular-nums" value={delta} onChange={e => setDelta(e.target.value)} placeholder="+25 hoặc -25" /></label>
         </div>
         <label className="block"><span className="block text-xs font-bold uppercase text-gray-500 mb-1.5">Lý do (bắt buộc)</span>
           <input className="inp" value={note} onChange={e => setNote(e.target.value)} placeholder="Ví dụ: Vô địch giải hạng 600 ngày 14/06" /></label>

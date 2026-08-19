@@ -16,7 +16,16 @@ const SECTIONS: { h: string; body: string; bullets?: string[] }[] = [
       'Một cặp được đăng ký nhiều mức giải trong cùng một tháng.',
     ],
   },
-  { h: 'Thăng hạng', body: 'Tích đủ 100 điểm tiến độ thì lên một mức trình. Điểm thưởng tính theo thứ hạng chung cuộc, mỗi người trong cặp nhận như nhau: nhất 25, nhì 15, ba 10. Chạm mức trần rồi (nam A500, nữ A400) thì điểm vẫn cộng tiếp để xếp hạng trong nhóm mạnh nhất, nhưng không có mức cao hơn.' },
+  {
+    h: 'Thăng hạng',
+    body: 'Tích đủ 100 điểm tiến độ thì lên một mức trình. Sau mỗi giải, BTC cộng điểm theo thứ hạng chung cuộc — số điểm linh hoạt chứ không cố định, để hệ thống bắt kịp trình thật của VĐV.',
+    bullets: [
+      'Mức thường dùng: nhất 25, nhì 15, ba 10 — mỗi người trong cặp nhận như nhau.',
+      'Ai vô địch liên tiếp ở cùng một mức giải, hoặc đánh lệch hẳn mức đang xếp, BTC cộng thêm để đưa về đúng trình cho nhanh.',
+      'Mọi khoản điểm đều ghi vào sổ công khai kèm lý do — cộng bao nhiêu, vì sao, ai cũng đọc được.',
+      'Chạm mức trần (nam A500, nữ A400) thì điểm vẫn cộng tiếp để xếp hạng trong nhóm mạnh nhất, nhưng không có mức cao hơn.',
+    ],
+  },
   { h: 'Điểm chỉ tăng, lịch sử công khai', body: 'Không có hạ hạng khi thua. Mọi thay đổi điểm đều ghi vào sổ công khai kèm lý do, nên không ai giấu trình được lâu — cả cộng đồng cùng giám sát.' },
 ];
 
