@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { bandLabel, effectivePoints, bandsFor, BAND_CEILING, type Gender } from '@/lib/rating';
-import { initials, boDau } from '@/lib/player-display';
+import { initials, boDau, khopTim } from '@/lib/player-display';
 import { PageHero, SectionHeader, Badge, DataTable, inputClass } from '@/components/ui';
 
 interface P { id: string; full_name: string; nickname: string | null; avatar_url: string | null; gender: Gender; band: number; progress_points: number; }
@@ -38,10 +38,7 @@ export default function LeaderboardPage() {
      đều không được làm hạng nhảy về 1. API đã trả sẵn thứ tự band ↓, tiến độ ↓. */
   const cuaGioi  = players.filter(p => p.gender === gender).map((p, i) => ({ ...p, hang: i + 1 }));
   const q        = boDau(tim.trim());
-  const list     = cuaGioi.filter(p =>
-    (band === 'all' || p.band === band)
-    && (!q || boDau(p.full_name).includes(q) || boDau(p.nickname ?? '').includes(q)),
-  );
+  const list     = cuaGioi.filter(p => (band === 'all' || p.band === band) && khopTim(p, q));
   const bacThang = [...bandsFor(gender)].reverse();
 
   const rows = list.map((p) => {
@@ -115,7 +112,7 @@ export default function LeaderboardPage() {
           />
 
           <div className="mb-8 space-y-3">
-            {/* Tìm theo tên — bỏ dấu hai đầu nên gõ "nguyen" vẫn ra "Nguyễn" */}
+            {/* Tìm theo tên, trình hoặc điểm — xem khopTim() trong player-display.ts */}
             <div className="relative w-full sm:max-w-xs">
               <Search
                 size={16}
@@ -126,8 +123,8 @@ export default function LeaderboardPage() {
                 type="search"
                 value={tim}
                 onChange={e => setTim(e.target.value)}
-                placeholder="Tìm tên hoặc biệt danh"
-                aria-label="Tìm vận động viên theo tên hoặc biệt danh"
+                placeholder="Tìm tên hoặc trình — gõ 200"
+                aria-label="Tìm vận động viên theo tên, biệt danh, mức trình hoặc điểm"
                 className={cn(inputClass, 'pl-10')}
               />
             </div>
