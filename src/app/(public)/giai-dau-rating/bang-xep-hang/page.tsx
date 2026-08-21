@@ -1,10 +1,11 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { bandLabel, effectivePoints, bandsFor, BAND_CEILING, type Gender } from '@/lib/rating';
-import { initials } from '@/lib/player-display';
-import { PageHero, SectionHeader, Badge, DataTable } from '@/components/ui';
+import { initials, boDau } from '@/lib/player-display';
+import { PageHero, SectionHeader, Badge, DataTable, inputClass } from '@/components/ui';
 
 interface P { id: string; full_name: string; nickname: string | null; avatar_url: string | null; gender: Gender; band: number; progress_points: number; }
 
@@ -23,23 +24,31 @@ export default function LeaderboardPage() {
   const [players, setPlayers] = useState<P[]>([]);
   const [gender, setGender] = useState<Gender>('nam');
   const [band, setBand] = useState<'all' | number>('all');
+  const [tim, setTim] = useState('');
 
   useEffect(() => { fetch('/api/players').then(r => r.json()).then(d => setPlayers(d.players ?? [])); }, []);
 
-  /** Đổi giới thì bỏ lọc hạng: hạng đang chọn có thể không tồn tại bên kia (nữ không có A500),
-   *  giữ nguyên sẽ ra bảng rỗng khó hiểu. */
-  function chonGioi(g: Gender) { setGender(g); setBand('all'); }
+  /** Đổi giới thì bỏ lọc hạng lẫn ô tìm: hạng đang chọn có thể không tồn tại bên kia
+   *  (nữ không có A500), còn cái tên vừa gõ thường cũng thuộc giới cũ — giữ nguyên cả hai
+   *  sẽ ra bảng rỗng khó hiểu. */
+  function chonGioi(g: Gender) { setGender(g); setBand('all'); setTim(''); }
 
   const khu      = KHU.find(k => k.gender === gender)!;
-  const cuaGioi  = players.filter(p => p.gender === gender);
-  const list     = cuaGioi.filter(p => band === 'all' || p.band === band);
+  /* Số hạng chốt trên toàn bộ VĐV cùng giới, tính TRƯỚC khi lọc: lọc trình hay gõ tìm tên
+     đều không được làm hạng nhảy về 1. API đã trả sẵn thứ tự band ↓, tiến độ ↓. */
+  const cuaGioi  = players.filter(p => p.gender === gender).map((p, i) => ({ ...p, hang: i + 1 }));
+  const q        = boDau(tim.trim());
+  const list     = cuaGioi.filter(p =>
+    (band === 'all' || p.band === band)
+    && (!q || boDau(p.full_name).includes(q) || boDau(p.nickname ?? '').includes(q)),
+  );
   const bacThang = [...bandsFor(gender)].reverse();
 
-  const rows = list.map((p, i) => {
+  const rows = list.map((p) => {
     // Kịch trần tuỳ giới: nam A500, nữ A400.
     const atMax = p.band === BAND_CEILING[gender];
     return {
-      hang: <span className="tabular-nums">{i + 1}</span>,
+      hang: <span className="tabular-nums">{p.hang}</span>,
       ten: (
         <Link href={`/giai-dau-rating/vdv/${p.id}`} className="flex items-center gap-3 min-w-0 hover:text-brand-strong">
           <span className="w-9 h-9 shrink-0 rounded-full border border-line bg-bg-subtle grid place-items-center overflow-hidden font-display text-xs text-fg">
@@ -105,28 +114,51 @@ export default function LeaderboardPage() {
             description={khu.moTa}
           />
 
-          {/* Lọc theo mức trình — chỉ hiện các hạng có thật của giới đang chọn */}
-          <div className="flex gap-2 flex-wrap mb-8">
-            {(['all', ...bacThang] as const).map(b => (
-              <button
-                key={b}
-                onClick={() => setBand(b)}
-                aria-pressed={band === b}
-                className={cn(
-                  'min-h-[44px] px-4 rounded border font-display uppercase tracking-[0.06em] text-sm transition-colors',
-                  band === b
-                    ? 'bg-brand-strong border-brand-strong text-white'
-                    : 'bg-bg border-line text-fg hover:border-brand hover:text-brand-strong',
-                )}
-              >
-                {b === 'all' ? 'Tất cả' : `A${b}`}
-              </button>
-            ))}
+          <div className="mb-8 space-y-3">
+            {/* Tìm theo tên — bỏ dấu hai đầu nên gõ "nguyen" vẫn ra "Nguyễn" */}
+            <div className="relative w-full sm:max-w-xs">
+              <Search
+                size={16}
+                aria-hidden="true"
+                className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-fg-muted"
+              />
+              <input
+                type="search"
+                value={tim}
+                onChange={e => setTim(e.target.value)}
+                placeholder="Tìm tên hoặc biệt danh"
+                aria-label="Tìm vận động viên theo tên hoặc biệt danh"
+                className={cn(inputClass, 'pl-10')}
+              />
+            </div>
+
+            {/* Lọc theo mức trình — chỉ hiện các hạng có thật của giới đang chọn */}
+            <div className="flex gap-2 flex-wrap">
+              {(['all', ...bacThang] as const).map(b => (
+                <button
+                  key={b}
+                  onClick={() => setBand(b)}
+                  aria-pressed={band === b}
+                  className={cn(
+                    'min-h-[44px] px-4 rounded border font-display uppercase tracking-[0.06em] text-sm transition-colors',
+                    band === b
+                      ? 'bg-brand-strong border-brand-strong text-white'
+                      : 'bg-bg border-line text-fg hover:border-brand hover:text-brand-strong',
+                  )}
+                >
+                  {b === 'all' ? 'Tất cả' : `A${b}`}
+                </button>
+              ))}
+            </div>
           </div>
 
           {list.length === 0 ? (
             <p className="text-fg-muted">
-              {cuaGioi.length === 0 ? `Chưa có ${khu.tieuDe.toLowerCase()} nào.` : 'Không có VĐV nào ở mức trình này.'}
+              {cuaGioi.length === 0
+                ? `Chưa có ${khu.tieuDe.toLowerCase()} nào.`
+                : q
+                  ? `Không tìm thấy VĐV nào khớp “${tim.trim()}”.`
+                  : 'Không có VĐV nào ở mức trình này.'}
             </p>
           ) : (
             /* Cột "Vận động viên" đứng đầu để trên điện thoại nó thành tiêu đề thẻ,
