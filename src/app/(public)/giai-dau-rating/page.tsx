@@ -20,9 +20,9 @@ export default function RatingHomePage() {
   return (
     <>
       <PageHero
-        label="Giải đấu phân trình độ"
-        title="CLB Cầu Lông Song Thạch"
-        description="Hệ thống điểm trình A100–A500. Ghép cặp theo tổng điểm để mọi trận cân sức. Điểm chỉ tăng, lịch sử công khai."
+        label="CLB Cầu Lông Song Thạch"
+        title="RALLY GRAND PRIX"
+        description="“Keep the Rally Alive” — Hệ thống điểm trình A100–A500. Ghép cặp theo tổng điểm để mọi trận cân sức. Điểm chỉ tăng, lịch sử công khai."
         cta={{ label: 'Xem bảng xếp hạng', href: '/giai-dau-rating/bang-xep-hang' }}
       />
 

@@ -12,7 +12,7 @@ import { Button } from '@/components/ui';
 const ZONE_LINKS = [
   { label: 'Sân Bóng Đá',     href: '/sports/football' },
   { label: 'Sân Cầu Lông',    href: '/sports/badminton' },
-  { label: 'Giải đấu Rating', href: '/giai-dau-rating' },
+  { label: 'Rally Grand Prix', href: '/giai-dau-rating' },
   { label: 'Tiệc Cưới',       href: '/wedding' },
   { label: 'Lavie en Rose',   href: '/cafe' },
 ];

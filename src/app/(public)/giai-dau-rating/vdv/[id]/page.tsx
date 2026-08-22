@@ -51,7 +51,7 @@ export default function PlayerProfilePage() {
         <Breadcrumb
           items={[
             { label: 'Trang chủ',       href: '/' },
-            { label: 'Giải đấu Rating', href: '/giai-dau-rating' },
+            { label: 'Rally Grand Prix', href: '/giai-dau-rating' },
             { label: 'Bảng xếp hạng',   href: '/giai-dau-rating/bang-xep-hang' },
             { label: player.nickname || player.full_name },
           ]}

@@ -79,7 +79,7 @@ export default function LeaderboardPage() {
   return (
     <>
       <PageHero
-        label="CLB Song Thạch"
+        label="Rally Grand Prix · Keep the Rally Alive"
         title="Bảng xếp hạng"
         description="Xếp theo điểm hiệu dụng. Đủ 100 điểm tiến độ thì lên hạng. Điểm chỉ tăng, lịch sử công khai."
       />

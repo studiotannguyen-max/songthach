@@ -1,7 +1,7 @@
 import { PageHero, Card, CardBody, Breadcrumb } from '@/components/ui';
 
 // Mẫu "%s | Song Thạch" ở layout gốc tự nối tên tổ hợp, đừng viết lại trong tiêu đề trang.
-export const metadata = { title: 'Thể lệ · Giải đấu phân trình độ' };
+export const metadata = { title: 'Thể lệ · Rally Grand Prix' };
 
 const SECTIONS: { h: string; body: string; bullets?: string[] }[] = [
   { h: '5 mức trình A100–A500', body: 'Từ thấp lên cao: A100, A200, A300, A400, A500. Mức trình ban đầu do BTC chấm sau buổi test thực tế tại sân để tránh khai gian.' },
@@ -33,7 +33,7 @@ export default function TheLePage() {
   return (
     <>
       <PageHero
-        label="Giải đấu phân trình độ"
+        label="Rally Grand Prix · Keep the Rally Alive"
         title="Thể lệ hệ thống điểm trình"
         description="Cách tính điểm, ghép cặp và điều kiện thăng hạng của CLB Cầu Lông Song Thạch."
       />
@@ -43,7 +43,7 @@ export default function TheLePage() {
           <Breadcrumb
             items={[
               { label: 'Trang chủ',      href: '/' },
-              { label: 'Giải đấu Rating', href: '/giai-dau-rating' },
+              { label: 'Rally Grand Prix', href: '/giai-dau-rating' },
               { label: 'Thể lệ' },
             ]}
           />
